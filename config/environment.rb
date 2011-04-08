@@ -4,6 +4,7 @@
 RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
+require 'thread'
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
@@ -20,7 +21,7 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "fastercsv"
-  
+  config.gem "will_paginate"  
   config.gem "apn_on_rails"
   # config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
 
@@ -44,8 +45,17 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-require "will_paginate"
-require 'apn_on_rails'
+begin
+  require "will_paginate"
+rescue MissingSourceFile => e
+  puts e.message
+end
+
+begin
+  require 'apn_on_rails'
+rescue MissingSourceFile => e
+  puts e.message
+end
 
 DB_STRING_MAX_LENGTH = 255
 DB_TEXT_MAX_LENGTH = 40000
