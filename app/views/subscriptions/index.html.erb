@@ -1,0 +1,28 @@
+<h1>Listing subscriptions</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Token</th>
+    <th>Badge</th>
+    <th>Service request level</th>
+    <th>Note added</th>
+  </tr>
+
+<% @subscriptions.each do |subscription| %>
+  <tr>
+    <td><%=h subscription.user_id %></td>
+    <td><%=h subscription.token %></td>
+    <td><%=h subscription.badge %></td>
+    <td><%=h subscription.service_request_level %></td>
+    <td><%=h subscription.note_added %></td>
+    <td><%= link_to 'Show', subscription %></td>
+    <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
+    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New subscription', new_subscription_path %>

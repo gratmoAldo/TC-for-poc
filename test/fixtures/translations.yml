@@ -1,0 +1,19 @@
+one:
+  asset_id: 1
+  locale: MyString
+  title: MyString
+  short_title: MyString
+  abstract: MyText
+  thumbnail_s: MyString
+  thumbnail_m: MyString
+  thumbnail_l: MyString
+
+two:
+  asset_id: 1
+  locale: MyString
+  title: MyString
+  short_title: MyString
+  abstract: MyText
+  thumbnail_s: MyString
+  thumbnail_m: MyString
+  thumbnail_l: MyString

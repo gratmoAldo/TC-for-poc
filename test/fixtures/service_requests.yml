@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  sr_number: 1
+  title: MyString
+  severity: 1
+  status: MyString
+  product: MyString
+  description: MyText
+  next_action_at: 2011-03-23 22:40:02
+  site_id: 1
+  contact_id: 1
+  escalation_id: 1
+  owner_id: 1
+
+two:
+  sr_number: 1
+  title: MyString
+  severity: 1
+  status: MyString
+  product: MyString
+  description: MyText
+  next_action_at: 2011-03-23 22:40:02
+  site_id: 1
+  contact_id: 1
+  escalation_id: 1
+  owner_id: 1

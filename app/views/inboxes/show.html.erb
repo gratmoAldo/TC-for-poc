@@ -1,0 +1,13 @@
+<p>
+  <b>Name:</b>
+  <%=h @inbox.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%=h @inbox.owner_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_inbox_path(@inbox) %> |
+<%= link_to 'Back', inboxes_path %>

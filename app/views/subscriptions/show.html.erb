@@ -1,0 +1,28 @@
+<p>
+  <b>User:</b>
+  <%=h @subscription.user_id %>
+</p>
+
+<p>
+  <b>Token:</b>
+  <%=h @subscription.token %>
+</p>
+
+<p>
+  <b>Badge:</b>
+  <%=h @subscription.badge %>
+</p>
+
+<p>
+  <b>Service request level:</b>
+  <%=h @subscription.service_request_level %>
+</p>
+
+<p>
+  <b>Note added:</b>
+  <%=h @subscription.note_added %>
+</p>
+
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

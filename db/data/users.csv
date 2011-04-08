@@ -1,0 +1,8 @@
+username,firstname,lastname,email,is_admin,is_deleted,access_level,locale,reputation
+admin1,Admin,One,admin1@nowhere.com,TRUE,FALSE,99,en_US,0
+admin2,Admin,Two,admin2@nowhere.com,TRUE,FALSE,50,en_US,15
+admin3,Admin,Three,admin3@nowhere.com,TRUE,FALSE,10,fr_FR,20
+joe,Joe,Tester,joe@xyz.com,FALSE,FALSE,,,
+admin,Admin,Istrator,admin@xyz.com,TRUE,FALSE,50,en_US,1
+u10,Yu,Ten,yu.ten@xyz.com,FALSE,FALSE,10,zh_CN,1
+ghost,Phantom,Menace,ghost@xyz.com,TRUE,TRUE,50,en_US,1

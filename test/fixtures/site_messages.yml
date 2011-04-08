@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  site_id: 1
+  expires_at: 2011-03-23 23:02:25
+  created_by: 1
+  body: MyText
+  status: MyString
+  message_function: MyString
+
+two:
+  site_id: 1
+  expires_at: 2011-03-23 23:02:25
+  created_by: 1
+  body: MyText
+  status: MyString
+  message_function: MyString

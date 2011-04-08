@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  sr_id: 1
+  created_by: 1
+  visibility: MyString
+  effort_minutes: 1
+  note_type: MyString
+  body: MyText
+
+two:
+  sr_id: 1
+  created_by: 1
+  visibility: MyString
+  effort_minutes: 1
+  note_type: MyString
+  body: MyText

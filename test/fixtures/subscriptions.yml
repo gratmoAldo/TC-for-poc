@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  token: MyString
+  badge: 1
+  service_request_level: 1
+  note_added: false
+
+two:
+  user_id: 1
+  token: MyString
+  badge: 1
+  service_request_level: 1
+  note_added: false

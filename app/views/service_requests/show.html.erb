@@ -1,0 +1,58 @@
+<p>
+  <b>Sr number:</b>
+  <%=h @service_request.sr_number %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @service_request.title %>
+</p>
+
+<p>
+  <b>Severity:</b>
+  <%=h @service_request.severity %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @service_request.status %>
+</p>
+
+<p>
+  <b>Product:</b>
+  <%=h @service_request.product %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @service_request.description %>
+</p>
+
+<p>
+  <b>Next action at:</b>
+  <%=h @service_request.next_action_at %>
+</p>
+
+<p>
+  <b>Site:</b>
+  <%=h @service_request.site_id %>
+</p>
+
+<p>
+  <b>Contact:</b>
+  <%=h @service_request.contact_id %>
+</p>
+
+<p>
+  <b>Escalation:</b>
+  <%=h @service_request.escalation_id %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%=h @service_request.owner_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_service_request_path(@service_request) %> |
+<%= link_to 'Back', service_requests_path %>
