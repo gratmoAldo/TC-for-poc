@@ -31,8 +31,8 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     desc "Restart Application and daemons"
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-    run "#{File.join(current_path,'script','daemons')} restart"
+    # run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    # run "#{File.join(current_path,'script','daemons')} restart"
   end
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"

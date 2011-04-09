@@ -67,7 +67,7 @@ class SubscriptionsController < ApplicationController
 
       # Sanitize the form
       form = (params[:subscription] || {}).reverse_merge!(
-      :service_request_level => 1, 
+      :sr_severity => 1, 
       :note_added => true
       )
 
@@ -83,9 +83,9 @@ class SubscriptionsController < ApplicationController
         @subscription = Subscription.new(form)
       end
 
-      logger.info "Gone fishing..."
-      sleep 5
-      logger.info "I'm back!"
+      # logger.info "Gone fishing..."
+      # sleep 5
+      # logger.info "I'm back!"
 
       logger.info "Subscription before save = #{@subscription.inspect}"
     end
