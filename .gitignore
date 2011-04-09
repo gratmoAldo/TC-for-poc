@@ -2,6 +2,5 @@
 log/*.log
 tmp/**/*
 config/database.yml
-db/*.sqlite3
 config/*.pem
 config/keys/*
