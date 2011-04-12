@@ -32,14 +32,14 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     desc "Restart Application and daemons"
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-    # run "#{File.join(current_path,'script','daemons')} restart"
+    run "#{File.join(current_path,'script','daemons')} restart"
   end
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/apple_push_notification_development.pem #{release_path}/config/apple_push_notification_development.pem"
   end
   task :seed, :roles => :app, :except => { :no_release => true } do
-    run "export RAILS_ENV=production;cd #{current_path}; rake db:seed --trace"
+    run "export RAILS_ENV=development;cd #{current_path}; rake db:seed --trace"
     # run "export RAILS_ENV=production;cd #{current_path};echo $RAILS_ENV >env.txt"
   end
 end

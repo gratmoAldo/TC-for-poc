@@ -28,7 +28,7 @@ class ServiceRequest < ActiveRecord::Base
           priority += "/E#{escalation.level}" unless escalation.nil?
           notification = {:device => device, 
             :badge=>subscription.badge,
-            :sound=>true, 
+            :sound=>'toy.caf', 
             :alert=>"Service Request #{sr_number} (#{priority}) was just updated",
             :custom_properties => {:sr_number => sr_number}
           }
