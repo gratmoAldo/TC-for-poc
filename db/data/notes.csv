@@ -1,0 +1,43 @@
+sr_id,created_by,visibility,effort_minutes,note_type,created_at,body
+1,1,Public,1,Web Update,"April 12, 2011 1:46 PM","***SERVICE REQUEST OPENED Tuesday Apr 12 04:46:22 EDT 2011***
+CONTACT INFORMATION
+
+------------------------------------
+
+<<Service Request Contact>>
+Name: Francisco Leverett
+Email: fleverett@dsi.com
+Primary Phone: 7325904985
+Alternate Phone: 8622156778
+Alternate Email: contentmanagement@dsi.com; mbhandarkar@dsi.com; isaez-pujol@dsi.com
+
+
+Contact Method: Email"
+1,1,Public,1,Problem Description,"April 12, 2011 1:46 PM","PROBLEM DESCRIPTION:
+------------------------------------
+When users in our Tokyo office attempt to access data in Nayworker, they receive a 'Message Viewer: Nayviewer succeeded' screen, but are never able to open the document. Users are able to successfully export and view documents, the issue only arises when attempting to open the document from the application.
+
+BUSINESS IMPACT: 
+------------------------------------
+Nayworker operating from on Windows Server 2003. The local client machine is operating Windows XP with Japanese set as the primary language. 
+
+ENVIRONMENT INFORMATION
+------------------------------------
+<<Product Information>>
+Product: Nayworker
+Version: 5.3 SP2"
+1,1,Public,1,Administrative,"April 12, 2011 1:47 PM","Entitlement | SW_Entitlement_Passed_Rule | SW_Entitlement_Rules | SW Entitlement PassedProduct | IIG_Web_Software_Rules | Select_SW_Product_Ruleset | IIG_Web_Software_RulesKeyword | getMatchResultRule | keyword_Ruleset | no keyword match result is returned for IIG_Web probably because no keywords are defined.Product | Default_IIG_Web_Rule | Select_SW_Product_Ruleset | nothing was found in the product specific rules default to the following queue:100063461Entitlement | SW_Entitlement_Passed_Rule | SW_Entitlement_Rules | SW Entitlement PassedProduct | IIG_Web_Software_Rules | Select_SW_Product_Ruleset | IIG_Web_Software_RulesKeyword | getMatchResultRule | keyword_Ruleset | no keyword match result is returned for IIG_Web probably because no keywords are defined.Product | Default_IIG_Web_Rule | Select_SW_Product_Ruleset | nothing was found in the product specific rules default to the following queue:100063461"
+1,1,Public,1,Notification Sent,"April 12, 2011 1:48 PM","Notification Sent: Service Request # 40289104: 'Users unable to access documents in Nayworker 2.3 ' has been opened against Site # 4230212 by Francisco Murretti.
+Please click "here" to view the case details in CME Web Support.
+Thank you,
+CME Customer Service
+CME Web Support - the fastest and easiest way to get solutions and answers http://www.cme.com/support
+Contact CME: http://www.cme.com/contact
+Privacy Policy: http://www.cme.com/site/privacy
+Do not Reply to this E-mail
+Recipients: ,fmurretti@gosolar.com"
+1,4,Public,6,Initial Response,"April 12, 2011 1:58 PM","Hello Francisco,
+We are in the receipt of your service request. Please confirm the version of Nayworker that you are using.
+
+Thanks,
+Sameer Vidal"

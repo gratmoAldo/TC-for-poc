@@ -1,4 +1,8 @@
 class ServiceRequestsController < ApplicationController
+
+  before_filter :login_required
+  skip_before_filter :verify_authenticity_token
+
   # GET /service_requests
   # GET /service_requests.xml
   def index
@@ -14,6 +18,7 @@ class ServiceRequestsController < ApplicationController
   # GET /service_requests/1.xml
   def show
     @service_request = ServiceRequest.find(params[:id])
+    @watchers = User.watching_sr @service_request.id
 
     respond_to do |format|
       format.html # show.html.erb

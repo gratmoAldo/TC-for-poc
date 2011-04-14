@@ -18,9 +18,16 @@ class User < ActiveRecord::Base
   named_scope :active_normal, {:conditions => ["users.is_admin=? and users.is_deleted=?", false, false]}
   named_scope :only_ids, {:select => "DISTINCT users.id"}
   named_scope :limit, lambda { |limit| {:limit => limit} unless limit.nil? or limit < 1}
-  
-  
+    
   has_many :bookmarks
+  # has_many :inboxes, :foreign_key => :owner_id
+  has_one :inbox, :foreign_key => :owner_id
+  
+  def self.watching_sr(sr_id)
+    User.find_by_sql(
+      "SELECT DISTINCT users.* FROM 'users' INNER JOIN inboxes i ON i.owner_id = users.id " \
+      "INNER JOIN inbox_srs isr ON isr.inbox_id = i.id AND isr.service_request_id = #{sr_id.to_i}")
+  end
   
   def fullname
     [firstname,lastname].join(' ')

@@ -1,13 +1,15 @@
-<p>
-  <b>Name:</b>
-  <%=h @inbox.name %>
-</p>
-
+<% title "Listing inboxes" %>
+<div class='first-pane'>
+<h1><%=h @inbox.name %></h1>
+</div>	
+<div class='pane'>
 <p>
   <b>Owner:</b>
-  <%=h @inbox.owner_id %>
+  <%=h @inbox.owner.fullname %>
 </p>
-
+<% @inbox.service_requests.each do |service_request| %>
+	<p><%= service_request.sr_number %> - <%= link_to service_request.title, service_request_path(service_request) %></p>
+<% end %>
 
 <%= link_to 'Edit', edit_inbox_path(@inbox) %> |
 <%= link_to 'Back', inboxes_path %>

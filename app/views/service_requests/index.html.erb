@@ -1,40 +1,46 @@
-<h1>Listing service_requests</h1>
+<% title "Listing Service Requests" %>
+<div class='first-pane'>
+	<h1>All Service Requests</h1>
+</div>	
+<div class='pane'>
+	<table>
+	  <tr>
+	    <th>Sr number</th>
+	    <th>Title</th>
+	    <th>Severity</th>
+	    <th>Status</th>
+	    <th>Product</th>
+	    <th>Description</th>
+	    <th>Next action at</th>
+	    <th>Site</th>
+	    <th>Contact</th>
+	    <th>Escalation</th>
+	    <th>Owner</th>
+	  </tr>
 
-<table>
-  <tr>
-    <th>Sr number</th>
-    <th>Title</th>
-    <th>Severity</th>
-    <th>Status</th>
-    <th>Product</th>
-    <th>Description</th>
-    <th>Next action at</th>
-    <th>Site</th>
-    <th>Contact</th>
-    <th>Escalation</th>
-    <th>Owner</th>
-  </tr>
+	<% @service_requests.each do |service_request| %>
+	  <tr>
+	    <td><%=h service_request.sr_number %></td>
+	    <td><%=h service_request.title %></td>
+	    <td><%=h service_request.severity %></td>
+	    <td><%=h service_request.status %></td>
+	    <td><%=h service_request.product %></td>
+	    <td><%=h service_request.description %></td>
+	    <td><%=h service_request.next_action_at %></td>
+	    <td><%=h service_request.site_id %></td>
+	    <td><%=h service_request.contact_id %></td>
+	    <td><%=h service_request.escalation_id %></td>
+	    <td><%=h service_request.owner_id %></td>
+	    <td><%= link_to 'Show', service_request %></td>
+	    <td><%= link_to 'Edit', edit_service_request_path(service_request) %></td>
+	    <td><%= link_to 'Destroy', service_request, :confirm => 'Are you sure?', :method => :delete %></td>
+	  </tr>
+	<% end %>
+	</table>
 
-<% @service_requests.each do |service_request| %>
-  <tr>
-    <td><%=h service_request.sr_number %></td>
-    <td><%=h service_request.title %></td>
-    <td><%=h service_request.severity %></td>
-    <td><%=h service_request.status %></td>
-    <td><%=h service_request.product %></td>
-    <td><%=h service_request.description %></td>
-    <td><%=h service_request.next_action_at %></td>
-    <td><%=h service_request.site_id %></td>
-    <td><%=h service_request.contact_id %></td>
-    <td><%=h service_request.escalation_id %></td>
-    <td><%=h service_request.owner_id %></td>
-    <td><%= link_to 'Show', service_request %></td>
-    <td><%= link_to 'Edit', edit_service_request_path(service_request) %></td>
-    <td><%= link_to 'Destroy', service_request, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+	<br />
 
-<br />
+	<%= link_to 'New service_request', new_service_request_path %>
+</div>
+<%= render '/utils/debug' %>
 
-<%= link_to 'New service_request', new_service_request_path %>

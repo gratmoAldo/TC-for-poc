@@ -117,6 +117,7 @@ module Seeding
     puts "Loading Users..."
 
     # User.destroy_all
+    Inbox.destroy_all
 
     header=nil
     FasterCSV.foreach(file) do |row|
@@ -135,6 +136,7 @@ module Seeding
           user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
         end
         user.save
+        Inbox.create :name => "#{user.firstname}'s inbox", :owner => user
         # puts "user = #{user.inspect}"
       end
     end
@@ -254,7 +256,7 @@ module Seeding
 
     @user = User.find_by_username "admin1"
     if @user.nil? then
-      puts "User admin1 not found"
+      puts "Username admin1 not found"
       exit
     end
 
@@ -265,6 +267,67 @@ module Seeding
     end
   end
 
+def self.load_notes(file)
+  puts "Loading Notes..."
+
+  Note.destroy_all
+
+  header=nil
+  FasterCSV.foreach(file) do |row|
+    if header.nil?
+      header = row 
+    else
+      new_note_attr = {}
+      header.each_with_index do |h,i|
+        new_note_attr[h.to_sym] = row[i] unless row[i].nil?
+      end
+      note = Note.create! new_note_attr
+
+      # handle attributes blocked from mass-assignment
+      # %w( reputation is_admin access_level is_deleted ).each do |attr|
+      #   user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
+      # end
+      begin
+        note.save
+      rescue
+        puts "Exception! note=#{row.inspect}"
+        puts "All error messages: #{note.errors.full_messages.join(', ')}" unless note.nil?
+      end
+      # puts "user = #{user.inspect}"
+    end
+  end
+end
+
+def self.load_sites(file)
+  puts "Loading Sites..."
+
+  Site.destroy_all
+
+  header=nil
+  FasterCSV.foreach(file) do |row|
+    if header.nil?
+      header = row 
+    else
+      new_note_attr = {}
+      header.each_with_index do |h,i|
+        new_note_attr[h.to_sym] = row[i] unless row[i].nil?
+      end
+      site = Site.create! new_note_attr
+
+      # handle attributes blocked from mass-assignment
+      # %w( reputation is_admin access_level is_deleted ).each do |attr|
+      #   user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
+      # end
+      begin
+        site.save
+      rescue
+        puts "Exception! site=#{row.inspect}"
+        puts "All error messages: #{site.errors.full_messages.join(', ')}" unless site.nil?
+      end
+      # puts "user = #{user.inspect}"
+    end
+  end
+end
 =begin
       0:  [Language Code                    ] = en_US
       1:  [Sid                              ] = 300-006-401_a02_elccnt_0.pdf
@@ -607,16 +670,18 @@ module Seeding
 end
 
 
-User.destroy_all
-Tag.destroy_all
-Asset.destroy_all
-TopTag.destroy_all
-Bookmark.destroy_all
+# User.destroy_all
+# Tag.destroy_all
+# Asset.destroy_all
+# TopTag.destroy_all
+# Bookmark.destroy_all
 
-Seeding.load_users "db/data/users.csv"
-Seeding.load_tags "db/data/tags.csv"
-Seeding.load_docs "db/data/nayworker.csv"
-Seeding.load_bookmarks "db/data/bookmarks.csv"
+# Seeding.load_users "db/data/users.csv"
+# Seeding.load_tags "db/data/tags.csv"
+# Seeding.load_docs "db/data/nayworker.csv"
+# Seeding.load_bookmarks "db/data/bookmarks.csv"
+# Seeding.load_notes "db/data/notes.csv"
+Seeding.load_sites "db/data/sites.csv"
 
 
 

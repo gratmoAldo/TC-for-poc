@@ -18,8 +18,8 @@
 			<div id='util'>
 				<% if logged_in? %>
 				Welcome <strong><%=h current_user.firstname %></strong>!
-				(<%= [("admin" if current_user.is_admin?), "level=#{current_user.access_level}",
-					"l=#{current_user.locale}", "Rep.=#{current_user.reputation}"].compact.join(', ') %>)
+				<!-- (<%= [("admin" if current_user.is_admin?), "level=#{current_user.access_level}",
+					"l=#{current_user.locale}", "Rep.=#{current_user.reputation}"].compact.join(', ') %>) -->
 					<span class='details'>Not you? <%= link_to "Log out", logout_path %></span>
 					<% else %>
 					<%= link_to "Sign up", signup_path %> or
@@ -54,6 +54,9 @@
 					</li>
 					<li>
 						<%= link_to_unless_current "Inboxes", inboxes_path %>
+					</li>
+					<li>
+						<%= link_to_unless_current "Service Requests", service_requests_path %>
 					</li>
 					<% end %>
 				</ul>

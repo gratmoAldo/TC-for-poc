@@ -1,13 +1,8 @@
-<p>
-  <b>Sr number:</b>
-  <%=h @service_request.sr_number %>
-</p>
-
-<p>
-  <b>Title:</b>
-  <%=h @service_request.title %>
-</p>
-
+<% title "SR #{@service_request.sr_number} - #{@service_request.title}" %>
+<div class='first-pane'>
+<h1>SR #<%= @service_request.sr_number %> - <%=h @service_request.title %></h1>
+</div>
+<div class='pane'>
 <p>
   <b>Severity:</b>
   <%=h @service_request.severity %>
@@ -39,20 +34,26 @@
 </p>
 
 <p>
-  <b>Contact:</b>
-  <%=h @service_request.contact_id %>
-</p>
-
-<p>
   <b>Escalation:</b>
   <%=h @service_request.escalation_id %>
 </p>
 
 <p>
-  <b>Owner:</b>
-  <%=h @service_request.owner_id %>
+  <b>Contact:</b>
+  <%=h @service_request.contact.fullname %>
 </p>
 
+<p>
+  <b>Owner:</b>
+  <%=h @service_request.owner.fullname %>
+</p>
 
+<p><b>Watchers:</b> 
+<% @watchers.each do |user| %>
+/ <%= link_to user.fullname, inbox_path(user.inbox) %>
+<% end %>	
+</p>
 <%= link_to 'Edit', edit_service_request_path(@service_request) %> |
-<%= link_to 'Back', service_requests_path %>
+<%= link_to 'View all', service_requests_path %>
+<%= render '/utils/debug' %>
+</div>

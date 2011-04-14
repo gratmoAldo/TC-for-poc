@@ -26,11 +26,11 @@ while($running) do
   
   # Replace this with your code
 
-  ping_site("http://localhost/product_hub_v1/login")
+  # ping_site("http://localhost/product_hub_v1/login")
   ping_site("http://localhost/content_hub_v2/login")
-  ping_site("http://localhost/bank")
-  ping_site("http://localhost/page_hub")
-  ping_site("http://localhost/products/login")
+  # ping_site("http://localhost/bank")
+  # ping_site("http://localhost/page_hub")
+  # ping_site("http://localhost/products/login")
   
   ActiveRecord::Base.logger.info "#{Time.now} Pausing for #{sleep_time} seconds...\n"
 
