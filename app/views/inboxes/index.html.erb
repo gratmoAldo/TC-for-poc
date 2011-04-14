@@ -1,27 +1,12 @@
 <% title "Listing inboxes" %>
 <div class='first-pane'>
-<h1>Listing inboxes</h1>
+	<h1>Listing inboxes</h1>
 </div>	
 <div class='pane'>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Owner</th>
-  </tr>
-
-<% @inboxes.each do |inbox| %>
-  <tr>
-    <td><%=h inbox.name %></td>
-    <td><%=h inbox.owner_id %></td>
-    <td><%= link_to 'Show', inbox %></td>
-    <td><%= link_to 'Edit', edit_inbox_path(inbox) %></td>
-    <td><%= link_to 'Destroy', inbox, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New inbox', new_inbox_path %>
+<ul>
+	<% @inboxes.each do |inbox| %>
+	<li><%= link_to inbox.name, inbox %></li>
+	<% end %>
+</ul>
 </div>
 <%= render '/utils/debug' %>

@@ -10,12 +10,11 @@
 	    <th>Severity</th>
 	    <th>Status</th>
 	    <th>Product</th>
-	    <th>Description</th>
 	    <th>Next action at</th>
 	    <th>Site</th>
 	    <th>Contact</th>
-	    <th>Escalation</th>
 	    <th>Owner</th>
+	    <th>Escalation</th>
 	  </tr>
 
 	<% @service_requests.each do |service_request| %>
@@ -25,12 +24,11 @@
 	    <td><%=h service_request.severity %></td>
 	    <td><%=h service_request.status %></td>
 	    <td><%=h service_request.product %></td>
-	    <td><%=h service_request.description %></td>
 	    <td><%=h service_request.next_action_at %></td>
-	    <td><%=h service_request.site_id %></td>
-	    <td><%=h service_request.contact_id %></td>
+	    <td><%=h service_request.site.name %></td>
+	    <td><%=h service_request.contact.fullname %></td>
+	    <td><%=h service_request.owner.fullname %></td>
 	    <td><%=h service_request.escalation_id %></td>
-	    <td><%=h service_request.owner_id %></td>
 	    <td><%= link_to 'Show', service_request %></td>
 	    <td><%= link_to 'Edit', edit_service_request_path(service_request) %></td>
 	    <td><%= link_to 'Destroy', service_request, :confirm => 'Are you sure?', :method => :delete %></td>

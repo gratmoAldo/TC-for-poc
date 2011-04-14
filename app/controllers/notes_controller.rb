@@ -1,4 +1,6 @@
 class NotesController < ApplicationController
+  before_filter :admin_only
+  skip_before_filter :verify_authenticity_token
   # GET /notes
   # GET /notes.xml
   def index

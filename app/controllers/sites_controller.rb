@@ -1,4 +1,6 @@
 class SitesController < ApplicationController
+  before_filter :admin_only
+  skip_before_filter :verify_authenticity_token
   # GET /sites
   # GET /sites.xml
   def index

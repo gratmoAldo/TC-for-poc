@@ -1,4 +1,5 @@
 class EscalationsController < ApplicationController
+  before_filter :admin_only
   # GET /escalations
   # GET /escalations.xml
   def index

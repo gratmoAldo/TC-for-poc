@@ -1,5 +1,7 @@
 class InboxesController < ApplicationController
 
+  before_filter :login_required
+  skip_before_filter :verify_authenticity_token
   # before_filter :admin_only
   
   # GET /inboxes
@@ -37,81 +39,52 @@ class InboxesController < ApplicationController
   # GET /inboxes/1
   # GET /inboxes/1.xml
   def show
-    @inbox = Inbox.find(params[:id])
+    @inbox = Inbox.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @inbox }
-      format.json  { 
-        render :json => { :meta => inbox_to_hash(@inbox),
-           :service_requests => @inbox.service_requests.map{  |sr| service_request_to_hash(sr) }
-           }
-      }
-    end
-  end
+    if @inbox.nil? then
+      respond_to do |format|
+        headers["Status"] = "404 Not Found"
+        format.html {
+          flash[:error] = "Inbox ID #{params[:id]} not found"
+          redirect_to inboxes_url
+        }
+        format.xml {
+          render :text  => "<error>Not Found</error>", :status => "404 Not Found"
+        }
+        format.json {
+          render :text  => "{\"error\":\"Not Found\"}", :status => "404 Not Found"
+        }
+      end
+    else
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @inboxes }
+        format.json  {
+          # render :json => {:inboxes => serialize(@inboxes)} 
 
-  # GET /inboxes/new
-  # GET /inboxes/new.xml
-  def new
-    @inbox = Inbox.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @inbox }
-    end
-  end
-
-  # GET /inboxes/1/edit
-  def edit
-    @inbox = Inbox.find(params[:id])
-  end
-
-  # POST /inboxes
-  # POST /inboxes.xml
-  def create
-    @inbox = Inbox.new(params[:inbox])
-
-    respond_to do |format|
-      if @inbox.save
-        flash[:notice] = 'Inbox was successfully created.'
-        format.html { redirect_to(@inbox) }
-        format.xml  { render :xml => @inbox, :status => :created, :location => @inbox }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @inbox.errors, :status => :unprocessable_entity }
+          # headers["Content-Type"] = "text/javascript;"
+          res = {
+            :inboxes => @inboxes.map{  |inbox| inbox_to_hash(inbox) }, 
+            :meta => {
+              :page => @page,
+              :per_page => @per_page
+            }
+          }                            
+          render :json => res
+        }
       end
     end
+
+    # respond_to do |format|
+    #   format.html # show.html.erb
+    #   format.xml  { render :xml => @inbox }
+    #   format.json  { 
+    #     render :json => { :meta => inbox_to_hash(@inbox),
+    #        :service_requests => @inbox.service_requests.map{  |sr| service_request_to_hash(sr) }
+    #        }
+    #   }
+    # end
   end
-
-  # PUT /inboxes/1
-  # PUT /inboxes/1.xml
-  def update
-    @inbox = Inbox.find(params[:id])
-
-    respond_to do |format|
-      if @inbox.update_attributes(params[:inbox])
-        flash[:notice] = 'Inbox was successfully updated.'
-        format.html { redirect_to(@inbox) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @inbox.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /inboxes/1
-  # DELETE /inboxes/1.xml
-  def destroy
-    @inbox = Inbox.find(params[:id])
-    @inbox.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(inboxes_url) }
-      format.xml  { head :ok }
-    end
-  end
-  
 
   private
 

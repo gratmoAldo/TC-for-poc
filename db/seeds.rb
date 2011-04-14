@@ -129,6 +129,7 @@ module Seeding
           new_user_attr[h.to_sym] = row[i] unless row[i].nil?
         end
         new_user_attr[:password] = "#{new_user_attr[:username]}123"
+        # puts "loading user #{new_user_attr.inspect}"
         user = User.create! new_user_attr
 
         # handle attributes blocked from mass-assignment
@@ -147,7 +148,7 @@ module Seeding
       puts "Loading Documents..."
       # Asset.destroy_all
 
-      @user = User.find_by_username "admin1"
+      @user = User.find_by_username "system"
 
       # all_products_by_pid = DocumentationsController::LONG_PRODUCT_MAPPING
       all_products_by_name  = {}
@@ -254,9 +255,9 @@ module Seeding
 
     # Tag.destroy_all
 
-    @user = User.find_by_username "admin1"
+    @user = User.find_by_username "system"
     if @user.nil? then
-      puts "Username admin1 not found"
+      puts "Username system not found"
       exit
     end
 
@@ -404,9 +405,9 @@ end
 
     puts "Creating #{options[:size]} dummy assets"
 
-    @user = User.find_by_username "admin1"
+    @user = User.find_by_username "system"
     if @user.nil? then
-      puts "User admin1 not found"
+      puts "User system not found"
       exit
     end
     options[:size].times { |i|
@@ -540,9 +541,9 @@ end
 
     puts "Tagging assets..."
 
-    @user = User.find_by_username "admin1"
+    @user = User.find_by_username "system"
     if @user.nil? then
-      puts "User admin1 not found"
+      puts "User system not found"
       exit
     end
 
@@ -682,6 +683,11 @@ Seeding.load_docs "db/data/nayworker.csv"
 Seeding.load_bookmarks "db/data/bookmarks.csv"
 Seeding.load_notes "db/data/notes.csv"
 Seeding.load_sites "db/data/sites.csv"
+
+site = Site.first
+ServiceRequest.find(:all).each do |s|
+  s.update_attribute :site, site
+end
 
 
 

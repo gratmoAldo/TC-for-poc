@@ -10,6 +10,7 @@ class ServiceRequest < ActiveRecord::Base
            :source => :inbox,
            :select => "distinct inboxes.owner_id"
 
+  belongs_to :site
   belongs_to :escalation
   after_save :notify_owner
   
@@ -64,16 +65,24 @@ class ServiceRequest < ActiveRecord::Base
           end
         end
 
+        
+        sound_filename ='new_note.caf'
+        
+        logger.info "escalation=#{escalation_id}; sound_filename =  #{sound_filename}"
         logger.info "devices are  #{devices.inspect}"
 
         unless devices.empty?
           devices.each do |device|
             link = {:sr_number => sr_number}
             priority = "S#{severity}"
-            priority += "/E#{escalation.level}" unless escalation.nil?
+
+            if escalation_id.to_i > 0
+              sound_filename = 'escalation.caf'
+              priority += "/E#{escalation_id}"
+            end
             notification = {:device => device, 
               :badge=>subscription.badge,
-              :sound=>'new_note.caf', 
+              :sound=>sound_filename, 
               :alert=>"Service Request #{sr_number} (#{priority}) was just updated",
               :custom_properties => {:sr_number => sr_number}
             }

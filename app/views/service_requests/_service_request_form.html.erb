@@ -10,20 +10,20 @@
     <%= f.text_field :title %>
   </p>
   <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
     <%= f.label :severity %><br />
-    <%= f.text_field :severity %>
+    <%= f.select :severity, [['S1',1],['S2',2],['S3',3],['S4',4],['S5',5]] %>
   </p>
   <p>
     <%= f.label :status %><br />
-    <%= f.text_field :status %>
+    <%= f.select :status, ['Open - Customer Action Required', 'Open - Support Researching', 'Closed'] %>
   </p>
   <p>
     <%= f.label :product %><br />
-    <%= f.text_field :product %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.select :product, ['Nayworker 2.3', 'Nayworker 2.4', 'Nayworker 2.5'] %>
   </p>
   <p>
     <%= f.label :next_action_at %><br />
@@ -31,7 +31,7 @@
   </p>
   <p>
     <%= f.label :site_id %><br />
-    <%= f.text_field :site_id %>
+    <%= f.select :site_id, Site.all.collect{|s| [ s.name, s.id] } %>
   </p>
   <p>
     <%= f.label :contact_id %><br />
@@ -39,7 +39,7 @@
   </p>
   <p>
     <%= f.label :escalation_id %><br />
-    <%= f.text_field :escalation_id %>
+    <%= f.select :escalation_id, [['not escalated',0],['E1',1],['E2',2],['E3',3],['E4',4],['E5',5]] %>
   </p>
   <p>
     <%= f.label :owner_id %><br />

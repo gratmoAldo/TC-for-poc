@@ -322,5 +322,5 @@ INNER JOIN taggings taggings_1 ON taggings_1.asset_id = assets.id INNER JOIN tag
 
 
   # asset={:popularity=>59, :xid=>"doc40000", :da_type=>"Documentation", :sid=>"doc40000", 
-  #   :published_at=>Sun, 01 Oct 2006, :da_subtype=>"Manual and Guides", :source=>"admin1", 
+  #   :published_at=>Sun, 01 Oct 2006, :da_subtype=>"Manual and Guides", :source=>"publisher", 
   #   :expire_at=>Sat, 01 Oct 2016, :entitlement_model=>1, :is_deleted=>false, :entitlement_value=>10}

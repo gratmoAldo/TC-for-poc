@@ -27,7 +27,7 @@ ENVIRONMENT INFORMATION
 Product: Nayworker
 Version: 5.3 SP2"
 1,1,Public,1,Administrative,"April 12, 2011 1:47 PM","Entitlement | SW_Entitlement_Passed_Rule | SW_Entitlement_Rules | SW Entitlement PassedProduct | IIG_Web_Software_Rules | Select_SW_Product_Ruleset | IIG_Web_Software_RulesKeyword | getMatchResultRule | keyword_Ruleset | no keyword match result is returned for IIG_Web probably because no keywords are defined.Product | Default_IIG_Web_Rule | Select_SW_Product_Ruleset | nothing was found in the product specific rules default to the following queue:100063461Entitlement | SW_Entitlement_Passed_Rule | SW_Entitlement_Rules | SW Entitlement PassedProduct | IIG_Web_Software_Rules | Select_SW_Product_Ruleset | IIG_Web_Software_RulesKeyword | getMatchResultRule | keyword_Ruleset | no keyword match result is returned for IIG_Web probably because no keywords are defined.Product | Default_IIG_Web_Rule | Select_SW_Product_Ruleset | nothing was found in the product specific rules default to the following queue:100063461"
-1,1,Public,1,Notification Sent,"April 12, 2011 1:48 PM","Notification Sent: Service Request # 40289104: 'Users unable to access documents in Nayworker 2.3 ' has been opened against Site # 4230212 by Francisco Murretti.
+1,1,Public,1,Notification Sent,"April 12, 2011 1:48 PM","Notification Sent: Service Request # 40289104: 'Users unable to access documents in Nayworker 2.3' has been opened against Site # 4230212 by Francisco Murretti.
 Please click "here" to view the case details in CME Web Support.
 Thank you,
 CME Customer Service
