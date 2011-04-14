@@ -670,17 +670,17 @@ end
 end
 
 
-# User.destroy_all
-# Tag.destroy_all
-# Asset.destroy_all
-# TopTag.destroy_all
-# Bookmark.destroy_all
+User.destroy_all
+Tag.destroy_all
+Asset.destroy_all
+TopTag.destroy_all
+Bookmark.destroy_all
 
-# Seeding.load_users "db/data/users.csv"
-# Seeding.load_tags "db/data/tags.csv"
-# Seeding.load_docs "db/data/nayworker.csv"
-# Seeding.load_bookmarks "db/data/bookmarks.csv"
-# Seeding.load_notes "db/data/notes.csv"
+Seeding.load_users "db/data/users.csv"
+Seeding.load_tags "db/data/tags.csv"
+Seeding.load_docs "db/data/nayworker.csv"
+Seeding.load_bookmarks "db/data/bookmarks.csv"
+Seeding.load_notes "db/data/notes.csv"
 Seeding.load_sites "db/data/sites.csv"
 
 
