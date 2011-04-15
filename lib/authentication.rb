@@ -36,15 +36,15 @@ module Authentication
 
   def authenticate_from_request!
     # logger.info "inside authenticate_from_request! with request.format=#{request.format}"
-    logger.info "inside authenticate_from_request! with request=#{request.inspect}"
+    # logger.info "inside authenticate_from_request! with request=#{request.inspect}"
     case request.format
     when Mime::XML, Mime::JSON
-      logger.info "format is xml or json"
+      # logger.info "format is xml or json"
       set_session_for_user authenticate_with_http_basic { |u, p| 
-        logger.info "u=#{u} / p=#{p}"
+        # logger.info "u=#{u} / p=#{p}"
         User.authenticate(u,p) }
     else      
-      logger.info "format is something else"
+      # logger.info "format is something else"
       set_session_for_user User.authenticate(params[:login], params[:password]) if params[:login]
     end
   end
@@ -95,7 +95,7 @@ module Authentication
   def login_required
     authenticate_from_request!
     unless logged_in?
-      logger.info "login_required() - YOU ARE NOT LOGGED IN!"
+      # logger.info "login_required() - YOU ARE NOT LOGGED IN!"
       respond_to do |format|
         format.html {
           flash[:error] = "You must first log in or sign up before accessing this page."

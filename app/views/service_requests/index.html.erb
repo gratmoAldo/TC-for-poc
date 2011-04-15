@@ -1,44 +1,9 @@
-<% title "Listing Service Requests" %>
+<% title "Service Requests" %>
 <div class='first-pane'>
-	<h1>All Service Requests</h1>
-</div>	
-<div class='pane'>
-	<table>
-	  <tr>
-	    <th>Sr number</th>
-	    <th>Title</th>
-	    <th>Severity</th>
-	    <th>Status</th>
-	    <th>Product</th>
-	    <th>Next action at</th>
-	    <th>Site</th>
-	    <th>Contact</th>
-	    <th>Owner</th>
-	    <th>Escalation</th>
-	  </tr>
-
-	<% @service_requests.each do |service_request| %>
-	  <tr>
-	    <td><%=h service_request.sr_number %></td>
-	    <td><%=h service_request.title %></td>
-	    <td><%=h service_request.severity %></td>
-	    <td><%=h service_request.status %></td>
-	    <td><%=h service_request.product %></td>
-	    <td><%=h service_request.next_action_at %></td>
-	    <td><%=h service_request.site.name %></td>
-	    <td><%=h service_request.contact.fullname %></td>
-	    <td><%=h service_request.owner.fullname %></td>
-	    <td><%=h service_request.escalation_id %></td>
-	    <td><%= link_to 'Show', service_request %></td>
-	    <td><%= link_to 'Edit', edit_service_request_path(service_request) %></td>
-	    <td><%= link_to 'Destroy', service_request, :confirm => 'Are you sure?', :method => :delete %></td>
-	  </tr>
-	<% end %>
-	</table>
-
-	<br />
-
-	<%= link_to 'New service_request', new_service_request_path %>
+	<div id="service-requests">
+		<div id="assets">
+	<%= render 'service_requests' %>
+	</div>
+	</div>
 </div>
 <%= render '/utils/debug' %>
-

@@ -6,7 +6,15 @@ class ServiceRequestsController < ApplicationController
   # GET /service_requests
   # GET /service_requests.xml
   def index
-    @service_requests = ServiceRequest.all
+    @service_requests = nil
+    @keywords = (params[:search]||'').split(' ')
+
+    conditions = {}
+    # conditions[:sid]=params[:i].split(',') if params[:i]
+    
+    @service_requests = ServiceRequest.with_fulltext(@keywords).paginate :conditions => conditions, :page => params[:page], :per_page=>5#, :include => :tags
+
+    logger.info "Found #{@service_requests.count} service_requests"
 
     respond_to do |format|
       format.html # index.html.erb

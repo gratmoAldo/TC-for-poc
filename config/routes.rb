@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :subscriptions
+  map.resources :myinbox
 
   # Service Center
   map.resources :inboxes

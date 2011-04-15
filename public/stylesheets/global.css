@@ -620,6 +620,16 @@ li.asset:hover {
 	margin: 10px 5px;
 }
 
+li.service-request {
+	padding: 4px 8px 2px;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+li.service-request:hover {
+    background-color: #FEFADE;
+}
+
+
 #search {
     padding: 0px;
     margin: 0px;

@@ -9,7 +9,7 @@ class Inbox < ActiveRecord::Base
 
   named_scope :distinct, {:select => "DISTINCT inboxes.*"}
   named_scope :only_ids, {:select => "DISTINCT inboxes.id"}
-  named_scope :for_owners, lambda { |ids| {:conditions => {"inboxes.owner_id" => ids}}}
+  named_scope :owned_by, lambda { |ids| {:conditions => {"inboxes.owner_id" => ids}}}
   named_scope :containing_sr_ids, lambda { |ids| { :include => :inbox_srs, :conditions => { :inbox_srs => {"inbox_srs.service_request_id" => ids}}}}
   # def to_json(noarg=nil)
     # {:name => name, :owner_name => owner.fullname, :owner_id => owner.id}.to_json

@@ -14,6 +14,14 @@ class ServiceRequest < ActiveRecord::Base
   belongs_to :escalation
   after_save :notify_owner
   
+  named_scope :with_fulltext, lambda { |keywords| # keywords is an array of keywords
+    {:conditions => [Array.new(keywords.length){"(service_requests.title like ? or service_requests.description like ? or service_requests.product like ?)"}.join(" and ") +
+                     " or service_requests.sr_number in (?)"] +
+                     keywords.collect{|k| ["%#{k}%","%#{k}%","%#{k}%"]}.flatten +
+                     [keywords]
+    } unless keywords.blank?
+  }
+  
   
   def queue(q)
     
@@ -23,11 +31,11 @@ class ServiceRequest < ActiveRecord::Base
     logger.info("inside update_watcher")
 #    users => their inboxes => inbox that don't include that sr
  
-    # logger.info("inboxes for contact and owner = #{Inbox.for_owners([self.contact_id, self.owner_id]).inspect}")
+    # logger.info("inboxes for contact and owner = #{Inbox.owned_by([self.contact_id, self.owner_id]).inspect}")
     
     watchers = [self.owner_id, self.contact_id]
     a = Inbox.containing_sr_ids(self.id).only_ids.collect &:id
-    b = Inbox.for_owners(watchers).collect &:id
+    b = Inbox.owned_by(watchers).collect &:id
     inbox_to_be_touched = b-a
     inbox_to_be_touched.each do |inbox_id|
       inbox = Inbox.find inbox_id
@@ -35,9 +43,11 @@ class ServiceRequest < ActiveRecord::Base
       inbox.service_requests << self
     end
 #    find inboxes that do not include this service request amongst 
-    
-    
-    
+  end
+
+  def clean_description
+    # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
+    description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*/i,'').strip    
   end
   
   def notify_owner
@@ -65,7 +75,6 @@ class ServiceRequest < ActiveRecord::Base
           end
         end
 
-        
         sound_filename ='new_note.caf'
         
         logger.info "escalation=#{escalation_id}; sound_filename =  #{sound_filename}"

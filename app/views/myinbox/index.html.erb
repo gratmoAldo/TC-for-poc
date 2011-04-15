@@ -1,0 +1,9 @@
+<% title "My Inbox" %>
+<div class='first-pane'>
+<h1>My Inbox</h1>
+</div>
+<div class='pane'>
+<p><%=h @myinbox.inspect %></p>
+<p><%=h @service_requests.inspect %></p>
+</div>
+<%= render '/utils/debug' %>

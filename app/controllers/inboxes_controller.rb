@@ -113,26 +113,4 @@ class InboxesController < ApplicationController
     }
   end
 
-  def service_request_to_hash(sr,options={})
-    options.reverse_merge! :locale => @locale, :keywords => []
-    # { :access_level => asset.access_level, 
-    #   :locale => options[:locale],
-    #   :da_type => asset.da_type,
-    #   :da_subtype => asset.da_subtype,
-    #   :published_at => asset.published_at.to_i,
-    #   :expire_at => asset.expire_at.to_i,        
-    #   :xid => asset.xid,
-    #   :title => asset.title(options[:locale]),
-    #   :abstract => asset.abstract(options[:locale]),
-    #   :hxid => highlight(asset.xid,options[:keywords]),
-    #   :htitle => highlight(asset.title(options[:locale]),options[:keywords]),
-    #   :habstract => highlight(asset.abstract(options[:locale]),options[:keywords]),
-    #   :short_title => asset.short_title(options[:locale]),
-    #   :link => asset_url("#{asset.sid}_#{url_friendly(asset.title(@locale))}")
-    #    }
-    {
-      :title => sr.title
-    }
-  end
-
 end
