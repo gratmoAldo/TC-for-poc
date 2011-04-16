@@ -8,8 +8,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notes
   map.resources :escalations
   map.resources :sites
-  map.resources :service_requests
-
+  map.resources :service_requests do |service_requests|
+    service_requests.resources :notes
+  end
+  #   map.resources :products do |products|
+  #     products.resources :comments
+  #     products.resources :sales, :collection => { :recent => :get }
+  #   end
+  
   # Content Hub
   map.resources :top_tags
   map.resources :bookmarks

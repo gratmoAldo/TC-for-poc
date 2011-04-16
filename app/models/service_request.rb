@@ -54,6 +54,7 @@ class ServiceRequest < ActiveRecord::Base
     update_watcher
     logger.info("inside notify_owner")
 
+    return if severity > 1
 # TODO should look at all users who have the SR in their inbox
     logger.info "watchers = #{self.watchers.inspect}"
 
