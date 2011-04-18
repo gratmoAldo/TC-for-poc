@@ -35,6 +35,7 @@ class MyinboxController < ApplicationController
           res = {
             :myinbox => @service_requests.map{  |sr| service_request_to_hash(sr) }, 
             :meta => {
+              :user => current_user,
               :page => @page,
               :per_page => @per_page
             }
