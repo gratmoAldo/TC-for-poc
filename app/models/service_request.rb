@@ -14,6 +14,8 @@ class ServiceRequest < ActiveRecord::Base
   belongs_to :escalation
   after_save :notify_owner
   
+  named_scope :sort_by_sr_number, {:order => "service_requests.sr_number"}
+  
   named_scope :with_fulltext, lambda { |keywords| # keywords is an array of keywords
     {:conditions => [Array.new(keywords.length){"(service_requests.title like ? or service_requests.description like ? or service_requests.product like ?)"}.join(" and ") +
                      " or service_requests.sr_number in (?)"] +

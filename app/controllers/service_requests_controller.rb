@@ -12,7 +12,7 @@ class ServiceRequestsController < ApplicationController
     conditions = {}
     # conditions[:sid]=params[:i].split(',') if params[:i]
     
-    @service_requests = ServiceRequest.with_fulltext(@keywords).paginate :conditions => conditions, :page => params[:page], :per_page=>5#, :include => :tags
+    @service_requests = ServiceRequest.with_fulltext(@keywords).sort_by_sr_number.paginate :conditions => conditions, :page => params[:page], :per_page=>5#, :include => :tags
 
     logger.info "Found #{@service_requests.count} service_requests"
 
