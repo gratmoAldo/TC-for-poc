@@ -1,6 +1,6 @@
 <% title "SR #{@service_request.sr_number} - #{@service_request.title}" %>
 <div class='first-pane'>
-<h1>SR #<%= @service_request.sr_number %> - <%=h @service_request.title %></h1>
+	<p class='title_img'>SR #<%= @service_request.sr_number %> - <%=h @service_request.title %></p>
 </div>
 <div class='pane'>
 <p>
@@ -20,7 +20,7 @@
 
 <p>
   <b>Description:</b>
-  <%=h @service_request.clean_description %>
+  <%= format_comment(h @service_request.clean_description) %>
 </p>
 
 <p>
@@ -30,7 +30,7 @@
 
 <p>
   <b>Site:</b>
-  <%=h @service_request.site_id %>
+  <%=h @service_request.site.name %>
 </p>
 
 <p>

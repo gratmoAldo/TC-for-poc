@@ -939,3 +939,12 @@ text-shadow:1px 1px 0 #000000;
 	color: #bbb;
 }
 
+.title_img {
+	    color: #454545;
+	    font-size: 18px;
+	    font-weight: normal;
+		background:url("../images/sr.gif") no-repeat scroll 0 0 transparent;
+  	    line-height: 46px;
+		margin: 0;
+		padding-left: 58px;
+}
