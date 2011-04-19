@@ -44,5 +44,5 @@ namespace :deploy do
   end
 end
 
-
+after "deploy", "deploy:cleanup" # keeps only last 5 releases
 after 'deploy:update_code', "deploy:symlink_shared"
