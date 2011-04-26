@@ -5,7 +5,7 @@
 		<p><%= highlight(truncate(format_comment(service_request_row.clean_description), :length => 272), @keywords) %></p>
 		<p class='details'>
 		<%= service_request_row.status %> | 
-		<%= service_request_row.severity %> / <%= service_request_row.escalation_id %> | 
+		<%= service_request_row.severity_display %> / <%= service_request_row.escalation_display %> | 
 		<%= highlight(service_request_row.product, @keywords) %>
 		</p>
 	</div>

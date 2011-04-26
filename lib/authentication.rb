@@ -64,7 +64,8 @@ module Authentication
   end
   
   def admin?
-    !(current_user && current_user.is_admin).nil?  # nil? to avoid empty result. expecting true or false
+    # return false if current_user.nil?
+    (current_user && current_user.is_admin)||false  # nil? to avoid empty result. expecting true or false
   end
   
   def admin_only

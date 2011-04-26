@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   
-  before_filter :admin_only
+  before_filter :login_required
   skip_before_filter :verify_authenticity_token
 
   # GET /subscriptions

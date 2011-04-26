@@ -1,0 +1,74 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	color: #484849;
+	background: #fff;
+	font: 13px Arial,Helvetica,Verdana,"Trebuchet MS",sans-serif;
+	padding: 3px;
+}
+
+a {
+  color: #007FC0;
+  text-decoration: none;
+}
+
+a:hover {
+	color: #549DD0;
+  text-decoration: underline;
+}
+
+a:active {
+	color: red;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+p {
+	margin: 2px 0px 5px;
+}
+h1 {
+	font-size: 18px;
+	font-weight: normal;
+	color: #454545; 
+}
+
+ul {
+	list-style: none;
+}
+
+.disabled {
+    color: #999;
+}
+
+.current {
+	background-color:#688DD9;
+	color:#FFFFFF;
+	font-weight:bold;
+	padding:2px 4px;
+	text-decoration:none;
+}
+
+td {
+	color: #585E65;
+}
+
+.left {
+	float: left;
+} 
+.right {
+	float: right;
+} 
+
+.label {
+	padding: 3px 5px 3px 0px;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+	white-space: nowrap;
+	color: #404040;
+}

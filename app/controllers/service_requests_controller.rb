@@ -25,13 +25,23 @@ class ServiceRequestsController < ApplicationController
   # GET /service_requests/1
   # GET /service_requests/1.xml
   def show
-    @service_request = ServiceRequest.find(params[:id])
-    @watchers = User.watching_sr @service_request.id
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @service_request }
+    @service_request = ServiceRequest.lookup(params[:id])
+    
+    if @service_request.nil? then
+      headers["Status"] = "404 Not Found"
+      flash[:error]="Service Request #{params[:id]} not found"
+      redirect_to inboxes_url
+    else
+      @watchers = User.watching_sr @service_request.id
+      respond_to do |format|
+        # format.html { render :text => request.user_agent }
+        format.html # show.html.erb
+        format.mobile #{ render :text => request.user_agent }
+        format.xml  { render :xml => @service_request }
+      end
     end
+
+
   end
 
   # GET /service_requests/new

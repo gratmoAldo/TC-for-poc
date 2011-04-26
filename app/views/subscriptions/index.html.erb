@@ -1,28 +1,33 @@
-<h1>Listing subscriptions</h1>
+<% title "Subscriptions" %>
+<div class='first-pane'>
+	<p class='title_img'>Subscriptions</p>
+</div>
+<div class='pane'>
+	<div id="subscriptions">
+		<div id="assets">
 
-<table>
-  <tr>
-    <th>User</th>
-    <th>Token</th>
-    <th>Badge</th>
-    <th>Service request level</th>
-    <th>Note added</th>
-  </tr>
+			<table>
+			  <tr>
+			    <th>User</th>
+			    <th>Token</th>
+			    <th>Badge</th>
+			    <th>Service request level</th>
+			    <th>Note added</th>
+			  </tr>
 
-<% @subscriptions.each do |subscription| %>
-  <tr>
-    <td><%=h subscription.user_id %></td>
-    <td><%=h subscription.token %></td>
-    <td><%=h subscription.badge %></td>
-    <td><%=h subscription.sr_severity %></td>
-    <td><%=h subscription.note_added %></td>
-    <td><%= link_to 'Show', subscription %></td>
-    <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
-    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+			<% @subscriptions.each do |subscription| %>
+			  <tr>
+			    <td><%=h subscription.user_id %></td>
+			    <td><%=h subscription.token %></td>
+			    <td><%=h subscription.badge %></td>
+			    <td><%=h subscription.sr_severity %></td>
+			    <td><%=h subscription.note_added %></td>
+			    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
+			  </tr>
+			<% end %>
+			</table>
 
-<br />
-
-<%= link_to 'New subscription', new_subscription_path %>
+	</div>
+	</div>
+</div>
+<%= render '/utils/debug' %>

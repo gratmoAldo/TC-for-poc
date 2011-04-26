@@ -1,42 +1,86 @@
 <% title "SR #{@service_request.sr_number} - #{@service_request.title}" %>
+<% in_page_title "Service Request Management ##{@service_request.sr_number}" %>
 <div class='first-pane'>
-	<p class='title_img'>SR #<%= @service_request.sr_number %> - <%=h @service_request.title %></p>
+	<p class='sr_title'><%=h @service_request.title %></p>
 </div>
 <div class='pane'>
-<p>
-  <b>Severity:</b>
-  <%=h @service_request.severity %>
-</p>
-
-<p>
-  <b>Status:</b>
-  <%=h @service_request.status %>
-</p>
-
-<p>
-  <b>Product:</b>
-  <%=h @service_request.product %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= format_comment(h @service_request.clean_description) %>
-</p>
-
-<p>
-  <b>Next action at:</b>
-  <%=h @service_request.next_action_at %>
-</p>
-
-<p>
-  <b>Site:</b>
-  <%=h @service_request.site.name %>
-</p>
-
-<p>
-  <b>Escalation:</b>
-  <%=h @service_request.escalation_id %>
-</p>
+	<div class='sr-details'>
+	  <div class='sr-line1'>
+		<span class='site-id'><b>Site ID: <%= @service_request.site.site_id %></b></span>
+		<span class='site-name'><b>Site Name: <%= @service_request.site.name %></b></span>
+		<span class='created-at'>Created On: <%= @service_request.created_at %></span>
+	  </div>	
+	  <div class='sr-line2'>
+		<%= image_tag 'sr/buttons' %>
+	  </div>	
+	  <div class='sr-line3'>
+		<div class='col1'>
+			<table>
+				<tr>
+					<td align='right' width='120px'>
+						Severity:
+					</td>
+					<td>
+						<div class='sr-col1-value'><%= @service_request.severity_display %></div>
+					</td>
+				</tr>
+				<tr>
+					<td align='right' width='120px'>
+						Escalation:
+					</td>
+					<td>
+						<div class='sr-col1-value'><%= @service_request.escalation_display %></div>
+					</td>
+				</tr>
+				<tr>
+					<td align='right' width='120px'>
+						Status:
+					</td>
+					<td>
+						<div class='sr-col1-value'><%= @service_request.status %></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class='col2'>
+			<table>
+				<tr>
+					<td align='right' width='170px'>
+						Product:
+					</td>
+					<td align='left' width='250px'>
+						<div class='sr-col2-value'><%= @service_request.product %></div>
+					</td>
+				</tr>
+				<tr>
+					<td align='right' width='120px' valign='top'>
+						Problem Description:
+					</td>
+					<td>
+						<div class='sr-col2-value'><%= truncate format_comment(h @service_request.clean_description), 128 %></div>
+					</td>
+				</tr>
+				<tr>
+					<td align='right' width='120px'>
+						Last Updated Date:
+					</td>
+					<td>
+						<div class='sr-col2-value'><%= @service_request.updated_at %></div>
+					</td>
+				</tr>
+				<tr>
+					<td align='right' width='120px'>
+						Next Action Date:
+					</td>
+					<td>
+						<div class='sr-col2-value red'><%= @service_request.next_action_at %></div>
+					</td>
+				</tr>
+			</table>
+	    </div>	
+		<div class='clear'></div>	
+	  </div>	
+</div>
 
 <p>
   <b>Contact:</b>
@@ -49,9 +93,7 @@
 </p>
 
 <p><b>Watchers:</b> 
-<% @watchers.each do |user| %>
-/ <%= link_to user.fullname, inbox_path(user.inbox) %>
-<% end %>	
+<%= @watchers.collect { |user| link_to user.fullname, inbox_path(user.inbox) }.join(' / ') %>
 </p>
 <%= link_to 'Edit', edit_service_request_path(@service_request) %> |
 <%= link_to 'View all', service_requests_path %>

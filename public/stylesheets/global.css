@@ -939,7 +939,7 @@ text-shadow:1px 1px 0 #000000;
 	color: #bbb;
 }
 
-.title_img {
+.sr_title {
 	    color: #454545;
 	    font-size: 18px;
 	    font-weight: normal;
@@ -947,4 +947,77 @@ text-shadow:1px 1px 0 #000000;
   	    line-height: 46px;
 		margin: 0;
 		padding-left: 58px;
+}
+.sr-details {
+	margin: 5px;
+}
+.sr-line1 {
+	border-bottom: 1px solid #ccc;
+    font-size: 0.95em;
+    line-height: 1.5em;
+    padding-bottom: 8px;
+}
+.sr-line2 {
+	border-bottom: 1px solid #ccc;
+    font-size: 0.95em;
+    line-height: 1.5em;
+    padding: 8px 0px 2px;
+}
+.sr-line3 {
+	border-bottom: 1px solid #ccc;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    padding: 14px 0px 16px;
+}
+.site-id {
+}	
+.site-name {
+	padding-left: 50px;
+}	
+.created-at {
+	float: right;
+	font-size: .88em;
+}
+.sr-field {
+	color:red;
+}
+.sr-details .col1 {
+	float: left;
+	width: 504px;
+	height: 150px;
+	padding: 5px 10px;
+	background-color:#E7E4E0;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.col1 tr, .col2 tr {
+	height: 27px;
+}
+.sr-details .col2 {
+	float: left;
+	width: 406px;
+	padding: 5px 10px;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.sr-col1-value {
+	height: 1.2em;
+	margin-left: 7px;
+	width:357px;
+	border: 1px solid #ccc;
+	padding: 3px 3px;
+	font-size:1em;
+	font-weight: normal;
+	background-color:#fff;
+}
+.sr-col2-value {
+	margin-left: 7px;
+	padding: 0px 3px;
+	font-size:1em;
+	font-weight: normal;
+	background-color:#fff;
+}
+.sr-details .red {
+	font-weight: bold;
+	color: red;
 }

@@ -7,7 +7,7 @@ class InboxesController < ApplicationController
   # GET /inboxes
   # GET /inboxes.xml
   def index
-    @inboxes = Inbox.all
+    @inboxes = Inbox.active
     
     # logger.info "Gone finshing..."
     # sleep 3

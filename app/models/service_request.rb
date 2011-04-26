@@ -24,7 +24,34 @@ class ServiceRequest < ActiveRecord::Base
     } unless keywords.blank?
   }
   
+
+  def self.lookup(id)
+    logger.info "Looking up SR #{id}"
+    ServiceRequest.find :first, {:conditions => ["id=? or sr_number=?",id,id]}    
+  end
   
+  def next_action_in_seconds
+    return (Time.now - next_action_at).to_i
+  end
+
+  def severity_image
+    "sr/S#{severity}"
+  end  
+
+  def severity_display
+    "S#{severity}"
+  end  
+  
+  def escalation_image
+    return 'sr/1x1.gif' unless escalation_id > 0
+    "sr/E#{escalation_id}"
+  end  
+
+  def escalation_display
+    return nil unless escalation_id > 0
+    "E#{escalation_id}" # TODO should look into related object instead of using the id
+  end
+
   def queue(q)
     
   end

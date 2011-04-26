@@ -33,6 +33,12 @@
 					<li>
 						<%= link_to_unless_current "Assets", assets_path %>
 					</li>
+					<li>
+						<%= link_to_unless_current "Inboxes", inboxes_path %>
+					</li>
+					<li>
+						<%= link_to_unless_current "Service Requests", service_requests_path %>
+					</li>
 					<% if admin? %>
 					<li>
 						<%= link_to_unless_current "Tags", tags_path %>
@@ -50,13 +56,7 @@
 						<%= link_to_unless_current "Bookmarks", bookmarks_path %>
 					</li>
 					<li>
-						<%= link_to_unless_current "TopTags", top_tags_path %>
-					</li>
-					<li>
-						<%= link_to_unless_current "Inboxes", inboxes_path %>
-					</li>
-					<li>
-						<%= link_to_unless_current "Service Requests", service_requests_path %>
+						<%= link_to_unless_current "Subscriptions", subscriptions_path %>
 					</li>
 					<% end %>
 				</ul>
@@ -67,7 +67,7 @@
 				<% flash.each do |key, msg| %>
 				<%= content_tag :div, msg, :id => key %>
 				<%- end -%>
-				<div id='main-header'><%= h(yield :in_title) %></div>
+				<div id='main-header'><%= h(yield :in_page_title) %></div>		        
 				<div id='main-top'></div>
 				<div id='main-body'><%= yield %></div>
 

@@ -1,0 +1,47 @@
+<% title "SR #{@service_request.sr_number} - #{@service_request.title}" %>
+<div class='left' style='width:36px;'>
+<%= image_tag @service_request.severity_image %>
+<%= image_tag @service_request.escalation_image %>
+</div>
+<div>
+	<h3><%=h @service_request.title %></h3>
+</div>
+
+<p>
+  <b>Status:</b>
+  <%=h @service_request.status %>
+</p>
+
+<p>
+  <b>Product:</b>
+  <%=h @service_request.product %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= format_comment(h @service_request.clean_description) %>
+</p>
+
+<p>
+  <b>Next action at:</b>
+  <%=h @service_request.next_action_at %>
+</p>
+
+<p>
+  <b>Site:</b>
+  <%=h @service_request.site.name %>
+</p>
+
+<p>
+  <b>Contact:</b>
+  <%=h @service_request.contact.fullname %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%=h @service_request.owner.fullname %>
+</p>
+
+<p><b>Watchers:</b> 
+<%= @watchers.collect(&:fullname).join(' / ') %>
+</p>

@@ -25,6 +25,7 @@ class MyinboxController < ApplicationController
       end
     else
       @service_requests = @myinbox.service_requests
+      
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @service_requests }
@@ -35,6 +36,7 @@ class MyinboxController < ApplicationController
           res = {
             :myinbox => @service_requests.map{  |sr| service_request_to_hash(sr) }, 
             :meta => {
+              :server_name => request.server_name,
               :user => current_user,
               :page => @page,
               :per_page => @per_page
@@ -56,6 +58,7 @@ class MyinboxController < ApplicationController
       :escalation => sr.escalation_id,
       :customer => sr.site.name,
       :next_action_at => sr.next_action_at,
+      :next_action_in_seconds => sr.next_action_in_seconds,
       :product => sr.product,
       :nb_notes => 1+rand(30)
     }
