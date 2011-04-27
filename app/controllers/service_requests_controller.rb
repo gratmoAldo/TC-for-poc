@@ -28,9 +28,18 @@ class ServiceRequestsController < ApplicationController
     @service_request = ServiceRequest.lookup(params[:id])
     
     if @service_request.nil? then
-      headers["Status"] = "404 Not Found"
-      flash[:error]="Service Request #{params[:id]} not found"
-      redirect_to inboxes_url
+      respond_to do |format|
+        # format.html { render :text => request.user_agent }
+        format.html {
+          flash[:error]="Service Request #{params[:id]} not found"
+          redirect_to inboxes_url
+        }
+        format.mobile {
+          headers["Status"] = "404 Not Found"
+          render :nothing => true
+        }
+        format.xml  { render :xml => @service_request }
+      end
     else
       @watchers = User.watching_sr @service_request.id
       respond_to do |format|
@@ -57,7 +66,7 @@ class ServiceRequestsController < ApplicationController
 
   # GET /service_requests/1/edit
   def edit
-    @service_request = ServiceRequest.find(params[:id])
+    @service_request = ServiceRequest.lookup(params[:id])
   end
 
   # POST /service_requests
@@ -80,7 +89,7 @@ class ServiceRequestsController < ApplicationController
   # PUT /service_requests/1
   # PUT /service_requests/1.xml
   def update
-    @service_request = ServiceRequest.find(params[:id])
+    @service_request = ServiceRequest.lookup(params[:id])
 
     respond_to do |format|
       if @service_request.update_attributes(params[:service_request])
@@ -97,7 +106,7 @@ class ServiceRequestsController < ApplicationController
   # DELETE /service_requests/1
   # DELETE /service_requests/1.xml
   def destroy
-    @service_request = ServiceRequest.find(params[:id])
+    @service_request = ServiceRequest.lookup(params[:id])
     @service_request.destroy
 
     respond_to do |format|

@@ -1021,3 +1021,27 @@ text-shadow:1px 1px 0 #000000;
 	font-weight: bold;
 	color: red;
 }
+
+.subscriptions-section {
+	border-bottom: 1px solid #ccc;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    padding: 0px 0px 1px;
+	margin-bottom: 5px;
+}
+
+.subscriptions-section table {
+	border-spacing:0;
+}
+
+.subscriptions-section td {
+	padding: 2px 7px;	
+	color: #888889;
+}
+.subscriptions-section th
+{
+	padding: 2px 7px 0px;
+    font-size: .9em;
+	color: #484849;
+	border-bottom: 1px solid #686869;
+}

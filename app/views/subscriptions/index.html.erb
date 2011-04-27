@@ -1,33 +1,82 @@
 <% title "Subscriptions" %>
-<div class='first-pane'>
-	<p class='title_img'>Subscriptions</p>
-</div>
-<div class='pane'>
-	<div id="subscriptions">
-		<div id="assets">
 
+<div class='first-pane'>
+	<div class="subscriptions-section">
+		<h2>Subscribers</h2>
 			<table>
 			  <tr>
-			    <th>User</th>
-			    <th>Token</th>
-			    <th>Badge</th>
-			    <th>Service request level</th>
-			    <th>Note added</th>
+			    <th align='center'>User</th>
+			    <th align='center'>iPhone Token</th>
+			    <th align='center'>Badge</th>
+			    <th align='center'>Service request level</th>
+			    <th align='center'>Note added</th>
+			    <th align='center'>Created</th>
+			    <th align='center'>Updated</th>
 			  </tr>
 
 			<% @subscriptions.each do |subscription| %>
 			  <tr>
-			    <td><%=h subscription.user_id %></td>
+			    <td><%=h subscription.user.fullname %></td>
 			    <td><%=h subscription.token %></td>
-			    <td><%=h subscription.badge %></td>
-			    <td><%=h subscription.sr_severity %></td>
-			    <td><%=h subscription.note_added %></td>
+			    <td align='center'><%=h subscription.badge %></td>
+			    <td align='center'><%=h subscription.sr_severity %></td>
+			    <td align='center'><%=h subscription.note_added %></td>
+			    <td><%=h subscription.created_at %></td>
+			    <td><%=h subscription.updated_at %></td>
 			    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
 			  </tr>
 			<% end %>
 			</table>
-
 	</div>
+</div>
+<div class='pane'>
+	
+	<div class="subscriptions-section">
+		<h2>Recent Notifications</h2>
+		<table>
+		  <tr>
+		    <th align='center'>Message</th>
+		    <th align='center'>Custom Data</th>
+		    <th align='center'>Device</th>
+		    <th align='center'>Sounds</th>
+		    <th align='center'>Created</th>
+		    <th align='center'>Sent</th>
+		  </tr>
+
+		<% @last_notifications.each do |notification| %>
+		  <tr>
+		    <td><%=h notification.alert %></td>
+		    <td><%=h notification.custom_properties %></td>
+		    <td align='center'><%=h notification.device_id %></td>
+		    <td><%=h notification.sound %></td>
+		    <td><%=h notification.created_at %></td>
+		    <td><%=h notification.sent_at %></td>
+		  </tr>
+		<% end %>
+		</table>
+	</div>
+</div>
+<div class='pane'>
+	
+	<div class="subscriptions-section">
+		<h2>Recent Devices</h2>
+		<table>
+		  <tr>
+		    <th align='center'>ID</th>
+		    <th align='center'>Token</th>
+		    <th align='center'>Created</th>
+		    <th align='center'>Updated</th>
+		  </tr>
+
+		<% @devices.each do |device| %>
+		  <tr>
+		    <td align='center'><%=h device.id %></td>
+		    <td><%=h device.token %></td>
+		    <td><%=h device.created_at %></td>
+		    <td><%=h device.updated_at %></td>
+		  </tr>
+		<% end %>
+		</table>
 	</div>
 </div>
 <%= render '/utils/debug' %>
