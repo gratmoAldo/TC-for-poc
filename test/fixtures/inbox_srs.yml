@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  inbox_id: 1
-  service_request_id: 1
-
-two:
-  inbox_id: 1
-  service_request_id: 1

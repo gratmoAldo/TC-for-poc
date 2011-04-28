@@ -3,6 +3,7 @@ system,System,User,webmaster@nowhere.com,TRUE,FALSE,99,en_US,0
 herve,Herve,L.,herve.l@cme.com,FALSE,FALSE,99,fr_FR,20
 mark,Mark,A.,admin3@cme.com,FALSE,FALSE,10,en_US,20
 byron,Byron,S.,byron.s@cme.com,FALSE,FALSE,50,en_US,1
+alex,Alex,L.,alex.l@cme.com,FALSE,FALSE,50,en_US,1
 francisco,Francisco,Murretti,fmurretti@gosolar.com,FALSE,FALSE,20,it_IT,1
 emily,Emily,Mortimer,emily.mortimer@jappie.com,FALSE,FALSE,50,en_US,1
 charlie,Charlie,Sheen,charlie.sheen@cbs.com,FALSE,FALSE,10,en_US,1

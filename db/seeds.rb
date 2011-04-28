@@ -116,7 +116,7 @@ module Seeding
   def self.load_users(file)
     puts "Loading Users..."
 
-    # User.destroy_all
+    Subscription.destroy_all
     Inbox.destroy_all
 
     header=nil
@@ -143,9 +143,9 @@ module Seeding
     end
   end
 
-  def self.load_docs(file)
+  def self.load_assets(file)
 
-      puts "Loading Documents..."
+      puts "Loading Assets..."
       # Asset.destroy_all
 
       @user = User.find_by_username "system"
@@ -268,10 +268,68 @@ module Seeding
     end
   end
 
+  def self.load_service_requests(file)
+    puts "Loading Service Requests..."
+
+
+    header=nil
+    FasterCSV.foreach(file) do |row|
+      if header.nil?
+        header = row 
+      else
+        new_service_request_attr = {}
+        header.each_with_index do |h,i|
+
+
+          case h
+          when "owner"
+            user = User.find_by_username(row[i])
+            if user
+              new_service_request_attr["owner_id"] = user.id
+            else
+              puts "** Skipping service request for owner #{row[i]}: User not found"
+            end
+          when "contact"
+            user = User.find_by_username(row[i])
+            if user
+              new_service_request_attr["contact_id"] = user.id
+            else
+              puts "** Skipping service request for contact #{row[i]}: User not found"
+            end
+          when "site"
+            site = Site.find_by_site_id(row[i])
+            if site
+              new_service_request_attr["site_id"] = site.id
+            else
+              puts "** Skipping service request for site #{row[i]}: Site not found"
+            end
+          else
+            new_service_request_attr[h.to_sym] = row[i] unless row[i].nil?
+          end
+
+
+
+        end
+        service_request = ServiceRequest.create! new_service_request_attr
+
+        # handle attributes blocked from mass-assignment
+        # %w( reputation is_admin access_level is_deleted ).each do |attr|
+        #   user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
+        # end
+        begin
+          service_request.save
+        rescue
+          puts "Exception! service_request=#{row.inspect}"
+          puts "All error messages: #{service_request.errors.full_messages.join(', ')}" unless service_request.nil?
+        end
+        # puts "user = #{user.inspect}"
+      end
+    end
+  end
+  
+
 def self.load_notes(file)
   puts "Loading Notes..."
-
-  Note.destroy_all
 
   header=nil
   FasterCSV.foreach(file) do |row|
@@ -280,7 +338,18 @@ def self.load_notes(file)
     else
       new_note_attr = {}
       header.each_with_index do |h,i|
-        new_note_attr[h.to_sym] = row[i] unless row[i].nil?
+        
+        case h
+        when "sr_number"
+          service_request = ServiceRequest.find_by_sr_number(row[i])
+          if service_request
+            new_note_attr["sr_id"] = service_request.id
+          else
+            puts "** Skipping note for sr_number #{row[i]}: Service Request not found"
+          end
+        else
+          new_note_attr[h.to_sym] = row[i] unless row[i].nil?
+        end
       end
       note = Note.create! new_note_attr
 
@@ -301,8 +370,6 @@ end
 
 def self.load_sites(file)
   puts "Loading Sites..."
-
-  Site.destroy_all
 
   header=nil
   FasterCSV.foreach(file) do |row|
@@ -671,18 +738,22 @@ end
 end
 
 
-# User.destroy_all
-# Tag.destroy_all
-# Asset.destroy_all
-# TopTag.destroy_all
-# Bookmark.destroy_all
-# 
-# Seeding.load_users "db/data/users.csv"
-# Seeding.load_tags "db/data/tags.csv"
-# Seeding.load_docs "db/data/nayworker.csv"
-# Seeding.load_bookmarks "db/data/bookmarks.csv"
-# Seeding.load_notes "db/data/notes.csv"
-# Seeding.load_sites "db/data/sites.csv"
+User.destroy_all
+Tag.destroy_all
+Asset.destroy_all
+TopTag.destroy_all
+Bookmark.destroy_all
+Site.destroy_all
+ServiceRequest.destroy_all
+Note.destroy_all
+
+Seeding.load_users "db/data/users.csv"
+Seeding.load_tags "db/data/tags.csv"
+Seeding.load_assets "db/data/assets.csv"
+Seeding.load_bookmarks "db/data/bookmarks.csv"
+Seeding.load_sites "db/data/sites.csv"
+Seeding.load_service_requests "db/data/service_requests.csv"
+Seeding.load_notes "db/data/notes.csv"
 
 
 

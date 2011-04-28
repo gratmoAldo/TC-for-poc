@@ -37,9 +37,7 @@ class MyinboxController < ApplicationController
             :myinbox => @service_requests.map{  |sr| service_request_to_hash(sr) }, 
             :meta => {
               :server_name => request.server_name,
-              :user => current_user,
-              :page => @page,
-              :per_page => @per_page
+              :user => current_user.fullname
             }
           }                            
           render :json => res

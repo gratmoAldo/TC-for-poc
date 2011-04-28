@@ -95,7 +95,6 @@
 <p><b>Watchers:</b> 
 <%= @watchers.collect { |user| link_to user.fullname, inbox_path(user.inbox) }.join(' / ') %>
 </p>
-<%= link_to 'Edit', edit_service_request_path(@service_request) %> |
-<%= link_to 'View all', service_requests_path %>
-<%= render '/utils/debug' %>
+<%= link_to 'Edit', edit_service_request_path(@service_request) %>
 </div>
+<%= render '/utils/debug' %>

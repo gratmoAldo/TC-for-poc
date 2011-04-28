@@ -21,6 +21,7 @@ module Authentication
   end
 
   def set_session_for_user(user)
+    # logger.info "inside set_session_for_user with user=#{user.inspect}"
     if user
       session[:locale] = user.locale
       session[:access_level] = user.access_level
@@ -35,16 +36,25 @@ module Authentication
 
 
   def authenticate_from_request!
-    # logger.info "inside authenticate_from_request! with request.format=#{request.format}"
-    # logger.info "inside authenticate_from_request! with request=#{request.inspect}"
+    logger.info "inside authenticate_from_request! with request=#{request.inspect}"
     case request.format
     when Mime::XML, Mime::JSON
-      # logger.info "format is xml or json"
-      set_session_for_user authenticate_with_http_basic { |u, p| 
-        # logger.info "u=#{u} / p=#{p}"
-        User.authenticate(u,p) }
+      logger.info "format is xml or json"
+      logger.info "current user is #{current_user.inspect}"
+      # if current_user.nil?
+        username, passwd = authenticate_with_http_basic { |u, p| 
+          logger.info "u=#{u} / p=#{p}"
+          # User.authenticate(u,p)
+          [u,p]
+        }
+        
+        # Validate and set new user if you find new credentials
+        # invalid credentials will clear the current user
+        set_session_for_user User.authenticate(username,passwd) unless username.nil?
+        
+      # end
     else      
-      # logger.info "format is something else"
+      logger.info "format is something else"
       set_session_for_user User.authenticate(params[:login], params[:password]) if params[:login]
     end
   end

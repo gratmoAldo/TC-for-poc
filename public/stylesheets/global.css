@@ -534,7 +534,16 @@ legend {
 	color: #858585;
 	font-size: 0.85em;
 }
+.strong {
+	font-size: 1em;
+	font-weight: bold;
+	color: #454545;
+}
 
+.small-print {
+	color: #989899;
+	font-size: 0.7em;
+}
 
 #assets h1 {
 	font-size: 1.1em;
@@ -1034,6 +1043,12 @@ text-shadow:1px 1px 0 #000000;
 	border-spacing:0;
 }
 
+.subscriptions-section h2 {
+	margin-bottom: 5px;
+	font-size: 1.4em;
+	color: #7E7E7E;
+}
+
 .subscriptions-section td {
 	padding: 2px 7px;	
 	color: #888889;
@@ -1041,7 +1056,7 @@ text-shadow:1px 1px 0 #000000;
 .subscriptions-section th
 {
 	padding: 2px 7px 0px;
-    font-size: .9em;
+    font-size: 1.1em;
 	color: #484849;
 	border-bottom: 1px solid #686869;
 }

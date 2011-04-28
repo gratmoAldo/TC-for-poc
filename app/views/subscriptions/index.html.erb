@@ -3,54 +3,63 @@
 <div class='first-pane'>
 	<div class="subscriptions-section">
 		<h2>Subscribers</h2>
-			<table>
+			<table width='100%'>
 			  <tr>
-			    <th align='center'>User</th>
-			    <th align='center'>iPhone Token</th>
+			    <th>User</th>
+			    <th width='25%'>iPhone ID / Token</th>
 			    <th align='center'>Badge</th>
 			    <th align='center'>Service request level</th>
 			    <th align='center'>Note added</th>
-			    <th align='center'>Created</th>
-			    <th align='center'>Updated</th>
+			    <th>Created *</th>
+			    <th>Updated *</th>
+			    <th></th>
 			  </tr>
 
 			<% @subscriptions.each do |subscription| %>
 			  <tr>
-			    <td><%=h subscription.user.fullname %></td>
-			    <td><%=h subscription.token %></td>
+			    <td><label class='strong'><%=h subscription.user.fullname %></label></td>
+			    <td><label class='strong'><%= subscription.device_id %></label> / <%=h subscription.token %></td>
 			    <td align='center'><%=h subscription.badge %></td>
 			    <td align='center'><%=h subscription.sr_severity %></td>
 			    <td align='center'><%=h subscription.note_added %></td>
-			    <td><%=h subscription.created_at %></td>
-			    <td><%=h subscription.updated_at %></td>
+			    <td><label class='strong'><%= time_ago_in_words subscription.created_at %> ago</label><br><%=h subscription.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
+			    <td><label class='strong'><%= time_ago_in_words subscription.updated_at %> ago</label><br><%=h subscription.updated_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
 			    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
 			  </tr>
 			<% end %>
 			</table>
 	</div>
+	
 </div>
 <div class='pane'>
 	
 	<div class="subscriptions-section">
 		<h2>Recent Notifications</h2>
-		<table>
+		<table width='100%'>
 		  <tr>
-		    <th align='center'>Message</th>
-		    <th align='center'>Custom Data</th>
+		    <th>Message</th>
+		    <th>Custom Data</th>
 		    <th align='center'>Device</th>
-		    <th align='center'>Sounds</th>
-		    <th align='center'>Created</th>
-		    <th align='center'>Sent</th>
+		    <th>Sounds</th>
+		    <th>Created *</th>
+		    <th>Sent *</th>
 		  </tr>
 
 		<% @last_notifications.each do |notification| %>
 		  <tr>
-		    <td><%=h notification.alert %></td>
-		    <td><%=h notification.custom_properties %></td>
+		    <td><label class='strong'><%=h notification.alert %></label></td>
+		    <td><%=h notification.custom_properties.inspect %></td>
 		    <td align='center'><%=h notification.device_id %></td>
 		    <td><%=h notification.sound %></td>
-		    <td><%=h notification.created_at %></td>
-		    <td><%=h notification.sent_at %></td>
+		    <td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br><%=h notification.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
+		    <td>
+<% if !notification.sent_at.nil? %>
+<label class='strong'><%= time_ago_in_words notification.sent_at %> ago</label><br>
+			<%=h notification.sent_at.strftime("%m/%d/%Y %H:%M:%S") %>
+			<% else %>
+			pending...
+			<% end %>
+			</td>
 		  </tr>
 		<% end %>
 		</table>
@@ -60,23 +69,24 @@
 	
 	<div class="subscriptions-section">
 		<h2>Recent Devices</h2>
-		<table>
+		<table width='100%'>
 		  <tr>
 		    <th align='center'>ID</th>
-		    <th align='center'>Token</th>
-		    <th align='center'>Created</th>
-		    <th align='center'>Updated</th>
+		    <th>Token</th>
+		    <th>Created *</th>
+		    <th>Updated *</th>
 		  </tr>
 
 		<% @devices.each do |device| %>
 		  <tr>
-		    <td align='center'><%=h device.id %></td>
+		    <td align='center'><label class='strong'><%=h device.id %></label></td>
 		    <td><%=h device.token %></td>
-		    <td><%=h device.created_at %></td>
-		    <td><%=h device.updated_at %></td>
+		    <td><label class='strong'><%= time_ago_in_words device.created_at %> ago</label><br><%=h device.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
+		    <td><label class='strong'><%= time_ago_in_words device.updated_at %> ago</label><br><%=h device.updated_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
 		  </tr>
 		<% end %>
 		</table>
+		<p class='small-print'>* <%= Time.zone.name %></p>
 	</div>
 </div>
 <%= render '/utils/debug' %>

@@ -107,22 +107,23 @@ class ServiceRequest < ActiveRecord::Base
 
         sound_filename ='new_note.caf'
         
-        logger.info "escalation=#{escalation_id}; sound_filename =  #{sound_filename}"
-        logger.info "devices are  #{devices.inspect}"
+        # logger.info "escalation=#{escalation_id}; sound_filename =  #{sound_filename}"
+        # logger.info "devices are  #{devices.inspect}"
 
         unless devices.empty?
           devices.each do |device|
             link = {:sr_number => sr_number}
             priority = "S#{severity}"
-
+            message = "SR ##{sr_number} (#{priority}) was just updated"
             if escalation_id.to_i > 0
               sound_filename = 'escalation.caf'
-              priority += "/E#{escalation_id}"
+              priority += " / E#{escalation_id}"
+              message = "SR ##{sr_number} just got escalated to #{priority}"
             end
             notification = {:device => device, 
               :badge=>subscription.badge,
               :sound=>sound_filename, 
-              :alert=>"Service Request #{sr_number} (#{priority}) was just updated",
+              :alert=>message,
               :custom_properties => {:sr_number => sr_number}
             }
             logger.info "notify_owner with  #{notification.inspect}"
