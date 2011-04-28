@@ -10,7 +10,7 @@ set :scm, :git
 set :repository,  "git://github.com/hervenln/TC-for-poc.git"
 set :branch, "master"
 set :checkout, "export"
-set :rails_env, :development
+set :rails_env, :production
 # set :svn_username, "jim"
 # set :svn_password, "password"
 
@@ -36,7 +36,8 @@ namespace :deploy do
   end
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "ln -nfs #{shared_path}/config/apple_push_notification_development.pem #{release_path}/config/apple_push_notification_development.pem"
+#    run "ln -nfs #{shared_path}/config/apple_push_notification_development.pem #{release_path}/config/apple_push_notification_development.pem"
+    run "ln -nfs #{shared_path}/config/apple_push_notification_production.pem #{release_path}/config/apple_push_notification_production.pem"
   end
   task :seed, :roles => :app, :except => { :no_release => true } do
     run "export RAILS_ENV=development;cd #{current_path}; rake db:seed --trace"
