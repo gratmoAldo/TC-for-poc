@@ -36,11 +36,11 @@ module Authentication
 
 
   def authenticate_from_request!
-    logger.info "inside authenticate_from_request! with request=#{request.inspect}"
+    # logger.info "inside authenticate_from_request! with request=#{request.inspect}"
     case request.format
     when Mime::XML, Mime::JSON
-      logger.info "format is xml or json"
-      logger.info "current user is #{current_user.inspect}"
+      # logger.info "format is xml or json"
+      # logger.info "current user is #{current_user.inspect}"
       # if current_user.nil?
         username, passwd = authenticate_with_http_basic { |u, p| 
           logger.info "u=#{u} / p=#{p}"
