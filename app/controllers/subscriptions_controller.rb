@@ -59,7 +59,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(subscriptions_url) }
+      format.html { redirect_to(console_url) }
       format.xml  { head :ok }
     end
   end
