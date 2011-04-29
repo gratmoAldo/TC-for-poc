@@ -82,7 +82,6 @@ module Authentication
     # logger.info "inside admin_only"
     authenticate_from_request!
     unless admin?
-      logout
       respond_to do |format|
         format.html {
           flash[:error] = "Sorry, you are not authorized for this action."

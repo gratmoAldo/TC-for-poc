@@ -29,12 +29,14 @@
 
 <p>
   <b>Site:</b>
-  <%=h @service_request.site.name %>
+  <%=h @service_request.site.name %><br>
+  <%=h @service_request.site.address %><br>
 </p>
 
 <p>
   <b>Contact:</b>
-  <%=h @service_request.contact.fullname %>
+  <%=h @service_request.contact.fullname %><br>
+  Phone: <%= @service_request.contact.phone1 %>
 </p>
 
 <p>

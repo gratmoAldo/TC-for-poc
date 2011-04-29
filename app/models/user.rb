@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   
   COMPANY_EMAIL_DOMAIN = "cme.com"
   # new columns need to be added here to be writable through mass assignment
-  attr_accessible :username, :email, :firstname, :lastname, :locale, :password, :password_confirmation
+  attr_accessible :username, :email, :firstname, :lastname, :phone1, :locale, :password, :password_confirmation
   
   attr_accessor :password
   before_save :prepare_password

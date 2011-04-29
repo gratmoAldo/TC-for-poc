@@ -1,5 +1,5 @@
 <% content_for :debug do %>
-<% if ENV["RAILS_ENV"] == "development" %>
+<% if ENV["RAILS_ENV"] == "development" || admin? %>
 <div id="debug">
 	<span><strong>Debugging Information</strong></span>	
 	<a href="#" onclick="$('#params_debug_info').toggle();return false">Params</a> |

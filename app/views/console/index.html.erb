@@ -1,4 +1,4 @@
-<% title "Subscriptions" %>
+<% title "Console" %>
 
 <div class='first-pane'>
 	<div class="subscriptions-section">
@@ -65,8 +65,7 @@
 		</table>
 	</div>
 </div>
-<div class='pane'>
-	
+<div class='pane'>	
 	<div class="subscriptions-section">
 		<h2>Recent Devices</h2>
 		<table width='100%'>
@@ -86,7 +85,7 @@
 		  </tr>
 		<% end %>
 		</table>
-		<p class='small-print'>* <%= Time.zone.name %></p>
 	</div>
+	<p class='small-print'>* <%= Time.zone.name %></p>
 </div>
 <%= render '/utils/debug' %>

@@ -2,21 +2,8 @@ class SubscriptionsController < ApplicationController
   
   before_filter :login_required, :only => :update
   before_filter :admin_only, :except => :update
+
   skip_before_filter :verify_authenticity_token
-
-  # GET /subscriptions
-  # GET /subscriptions.xml
-  def index
-    @subscriptions = Subscription.all
-    @last_notifications = APN::Notification.find :all, :order => 'apn_notifications.created_at DESC', :limit => 10
-    @devices = APN::Device.find :all, :order => 'apn_devices.created_at DESC', :limit => 10
-
-    respond_to do |format|
-      format.html # index.html.erb
-      # format.xml  { render :xml => @subscriptions }
-      # format.json  { render :json => @subscriptions }
-    end
-  end
 
   # PUT /subscriptions/1
   # PUT /subscriptions/1.xml
@@ -53,7 +40,7 @@ class SubscriptionsController < ApplicationController
         format.xml  { head :ok }
         format.json  { 
           # logger.info "format = #{request.inspect}"
-          render :json => {:subscription => "confirmed"}
+          render :json => {:last_subscribed_at => Time.now.strftime("%m/%d/%Y %H:%M:%S %Z")}
         }
       else
         format.html { render :action => "edit" }

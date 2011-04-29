@@ -1,10 +1,10 @@
-username,firstname,lastname,email,is_admin,is_deleted,access_level,locale,reputation
-system,System,User,webmaster@nowhere.com,TRUE,FALSE,99,en_US,0
-herve,Herve,L.,herve.l@cme.com,FALSE,FALSE,99,fr_FR,20
-mark,Mark,A.,admin3@cme.com,FALSE,FALSE,10,en_US,20
-byron,Byron,S.,byron.s@cme.com,FALSE,FALSE,50,en_US,1
-alex,Alex,L.,alex.l@cme.com,FALSE,FALSE,50,en_US,1
-francisco,Francisco,Murretti,fmurretti@gosolar.com,FALSE,FALSE,20,it_IT,1
-emily,Emily,Mortimer,emily.mortimer@jappie.com,FALSE,FALSE,50,en_US,1
-charlie,Charlie,Sheen,charlie.sheen@cbs.com,FALSE,FALSE,10,en_US,1
-markz,Mark,Zuckerberg,markz@facebook.com,TRUE,TRUE,50,en_US,1
+username,firstname,lastname,email,phone1,is_admin,is_deleted,access_level,locale,reputation
+system,System,User,webmaster@nowhere.com,000-000-0000,TRUE,FALSE,99,en_US,0
+herve,Herve,L.,herve.l@cme.com,999-555-1234,FALSE,FALSE,99,fr_FR,20
+mark,Mark,A.,admin3@cme.com,999-555-1001,FALSE,FALSE,10,en_US,20
+byron,Byron,S.,byron.s@cme.com,999-555-1002,FALSE,FALSE,50,en_US,1
+alex,Alex,L.,alex.l@cme.com,999-555-1003,FALSE,FALSE,50,en_US,1
+francisco,Francisco,Murretti,fmurretti@gosolar.com,+31 1-22-33-44-55,FALSE,FALSE,20,it_IT,1
+emily,Emily,Mortimer,emily.mortimer@jappie.com,731-111-3333,FALSE,FALSE,50,en_US,1
+charlie,Charlie,Sheen,charlie.sheen@cbs.com,234-567-4444,FALSE,FALSE,10,en_US,1
+markz,Mark,Zuckerberg,markz@facebook.com,000-000-0000,TRUE,TRUE,50,en_US,1

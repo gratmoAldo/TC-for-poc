@@ -76,7 +76,7 @@ class ServiceRequest < ActiveRecord::Base
 
   def clean_description
     # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
-    description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*/i,'').strip    
+    description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
   end
   
   def notify_owner
