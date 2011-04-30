@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   
-  COMPANY_EMAIL_DOMAIN = "cme.com"
+  COMPANY_EMAIL_DOMAIN = 'cme.com'
+  SYSTEM_USER = 'system'
   # new columns need to be added here to be writable through mass assignment
   attr_accessible :username, :email, :firstname, :lastname, :phone1, :locale, :password, :password_confirmation
   
@@ -16,8 +17,11 @@ class User < ActiveRecord::Base
   validates_length_of :password, :minimum => 4, :allow_blank => true
   
   # named_scope :customers, {:conditions => {"users.is_deleted" => false}, :order => "users.firstname, users.lastname"}
-  named_scope :customers, {:conditions => ["users.email not like ? and users.username <> ?","%@#{COMPANY_EMAIL_DOMAIN}","system"]}
-  named_scope :engineers, {:conditions => ["users.email like ? and users.username <> ?","%@#{COMPANY_EMAIL_DOMAIN}","system"]}
+  # named_scope :engineers, {:conditions => ["users.email like ? and users.username <> ?","%@#{COMPANY_EMAIL_DOMAIN}","system"]}
+  named_scope :employees, {:conditions => ["users.role=1 and users.username <> ?",SYSTEM_USER]}
+  named_scope :partners,  {:conditions => ["users.role=2 and users.username <> ?",SYSTEM_USER]}
+  named_scope :customers, {:conditions => ["users.role=3 and users.username <> ?",SYSTEM_USER]}
+  named_scope :friends,   {:conditions => ["users.role=4 and users.username <> ?",SYSTEM_USER]}
   named_scope :active, {:conditions => {"users.is_deleted" => false}, :order => "users.firstname, users.lastname"}
   named_scope :active_admin, {:conditions => ["users.is_admin=? and users.is_deleted=?", true, false]}
   named_scope :active_normal, {:conditions => ["users.is_admin=? and users.is_deleted=?", false, false]}

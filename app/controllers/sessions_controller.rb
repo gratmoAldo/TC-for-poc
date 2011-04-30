@@ -1,7 +1,9 @@
 class SessionsController < ApplicationController
   def new
-    @active_admins = User.active_admin
-    @active_users = User.active_normal.paginate :per_page => params[:per_page]||50, :page => params[:page], :order => 'users.username'
+    @administrators = User.active_admin :order => 'users.username'
+    @employees      = User.active_normal.employees :order => 'users.username'
+    @partners       = User.active_normal.partners :order => 'users.username'
+    @customers      = User.active_normal.customers :order => 'users.username'
   end
   
   def create

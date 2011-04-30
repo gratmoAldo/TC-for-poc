@@ -5,11 +5,18 @@
 <div class='pane'>
 	<div id="assets">
 	<%= render 'assets' %>
+	</div>
 	<div><p>
 	<%= link_to "Expire Cache", expire_path %> |
 	<%= link_to "Nayworker Documentation", documentation_path("Nayworker") %>
+	<% if admin? %>
+		| <%= link_to_unless_current "Tags", tags_path %> |
+		<%= link_to_unless_current "Taggings", taggings_path %> |
+		<%= link_to_unless_current "Translations", translations_path %> |
+		<%= link_to_unless_current "Links", links_path %> |
+		<%= link_to_unless_current "Bookmarks", bookmarks_path %>	
+	<% end %>
 	</p></div>
-</div>
 </div>
 <%= render '/utils/debug' %>
 <% javascript "assets" %>

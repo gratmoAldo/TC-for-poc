@@ -19,21 +19,19 @@
 </div>
 </center></div>
 <div class='pane'>
-<% unless @active_admins.blank? %>
-<h2>Administrators</h2>
-<p>
-	| <% for user in @active_admins %>
-	<%= link_to_function user.username, "populate_login(this);" %> <span class='details'>(<%=h user.locale %>)</span> |
-	<% end %> 
-</p>
-<% end %>
-<% unless @active_users.blank? %>
-<p>
-	<h2>Active Users</h2>
-	| <% for user in @active_users %>
-	<%= link_to_function user.username, "populate_login(this);" %> <span class='details'>(<%=h user.locale %>)</span> |
-	<% end %>
-</p>
-<% end %>
-<%= will_paginate @active_users %>
+	<div class='users'>
+		<% if ENV["RAILS_ENV"] == "development" %>
+			<h3>Administrators</h3>
+			<p><%= render :partial => 'user_link', :collection => @administrators %></p>
+		<% end %>
+		<h3>Employees</h3>
+		<p><%= render :partial => 'user_link', :collection => @employees %></p>
+
+	    <h3>Partners</h3>
+		<p><%= render :partial => 'user_link', :collection => @partners %></p>
+
+	    <h3>Customers</h3>
+		<p><%= render :partial => 'user_link', :collection => @customers %></p>
+		</p>
+	</div>
 </div>

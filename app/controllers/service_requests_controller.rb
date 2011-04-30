@@ -101,10 +101,15 @@ class ServiceRequestsController < ApplicationController
           redirect_to inboxes_url
         }
         format.mobile {
-          headers["Status"] = "404 Not Found"
-          render :nothing => true
+          # headers["Status"] = "404 Not Found"
+          render :nothing => true, :status => "404 Not Found"
         }
-        format.xml  { render :xml => @service_request }
+        format.xml {
+          render :text  => "<error>Not Found</error>", :status => "404 Not Found"
+        }
+        format.json {
+          render :text  => "{\"error\":\"Not Found\"}", :status => "404 Not Found"
+        }
       end
     else
       @watchers = User.watching_sr @service_request.id
@@ -115,8 +120,6 @@ class ServiceRequestsController < ApplicationController
         format.xml  { render :xml => @service_request }
       end
     end
-
-
   end
 
   # GET /service_requests/new
@@ -133,6 +136,23 @@ class ServiceRequestsController < ApplicationController
   # GET /service_requests/1/edit
   def edit
     @service_request = ServiceRequest.lookup(params[:id])
+
+    if @service_request.nil? then
+      respond_to do |format|
+        format.html {
+          flash[:error]="Service Request ##{params[:id]} not found"
+          redirect_to service_requests_url
+        }
+      end
+    else
+      @watchers = User.watching_sr @service_request.id
+      respond_to do |format|
+        # format.html { render :text => request.user_agent }
+        format.html # show.html.erb
+        format.mobile #{ render :text => request.user_agent }
+        format.xml  { render :xml => @service_request }
+      end
+    end
   end
 
   # POST /service_requests

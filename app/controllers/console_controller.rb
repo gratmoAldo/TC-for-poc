@@ -3,8 +3,6 @@ class ConsoleController < ApplicationController
   before_filter :admin_only
   # skip_before_filter :verify_authenticity_token
 
-  # GET /subscriptions
-  # GET /subscriptions.xml
   def index
     @subscriptions = Subscription.all
     @last_notifications = APN::Notification.find :all, :order => 'apn_notifications.created_at DESC', :limit => 10

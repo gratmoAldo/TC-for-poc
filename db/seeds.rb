@@ -131,9 +131,9 @@ module Seeding
         new_user_attr[:password] = "#{new_user_attr[:username]}123"
         # puts "loading user #{new_user_attr.inspect}"
         user = User.create! new_user_attr
-
+        
         # handle attributes blocked from mass-assignment
-        %w( reputation is_admin access_level is_deleted ).each do |attr|
+        %w( role reputation is_admin access_level is_deleted ).each do |attr|
           user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
         end
         user.save
@@ -755,7 +755,12 @@ Seeding.load_sites "db/data/sites.csv"
 Seeding.load_service_requests "db/data/service_requests.csv"
 Seeding.load_notes "db/data/notes.csv"
 
-
+# BEFORE DROPPING TABLES, RETAIN APP DEFINITION
+# -- open ./script/console
+# a=APN::App.first
+# -- then recreate the schema
+# reload!
+# b=APN::App.new;b.apn_dev_cert=a.apn_dev_cert;b.apn_prod_cert=a.apn_prod_cert;b.save
 
 
 # Seeding.create_dummy_users :size => 200, :start_index => 100000

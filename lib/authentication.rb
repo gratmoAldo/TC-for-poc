@@ -43,7 +43,7 @@ module Authentication
       # logger.info "current user is #{current_user.inspect}"
       # if current_user.nil?
         username, passwd = authenticate_with_http_basic { |u, p| 
-          logger.info "u=#{u} / p=#{p}"
+          # logger.info "u=#{u} / p=#{p}"
           # User.authenticate(u,p)
           [u,p]
         }
@@ -54,7 +54,7 @@ module Authentication
         
       # end
     else      
-      logger.info "format is something else"
+      # logger.info "format is something else"
       set_session_for_user User.authenticate(params[:login], params[:password]) if params[:login]
     end
   end

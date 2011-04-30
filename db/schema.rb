@@ -267,12 +267,13 @@ ActiveRecord::Schema.define(:version => 20110328181017) do
 
   create_table "users", :force => true do |t|
     t.string   "username"
+    t.integer  "role",          :default => 4
     t.string   "firstname"
     t.string   "lastname"
     t.string   "email"
     t.string   "phone1"
     t.string   "phone2"
-    t.string   "timezone"
+    t.string   "timezone",      :default => "Pacific Time (US & Canada)"
     t.string   "password_hash"
     t.string   "password_salt"
     t.integer  "reputation",    :default => 1
