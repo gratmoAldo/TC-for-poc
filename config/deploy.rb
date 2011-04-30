@@ -1,3 +1,10 @@
+# --- Clean up data before deployment
+# APN::Device.destroy_all
+# APN::Notification.destroy_all
+# Subscription.destroy_all
+
+
+
 set :application, "content_hub_v2"
 set :user, "ubuntu"
 set :deploy_to, "/home/ubuntu/rails/#{application}"
@@ -35,6 +42,7 @@ namespace :deploy do
     run "export RAILS_ENV=production;#{File.join(current_path,'script','daemons')} restart"
   end
   task :symlink_shared do
+    desc "Link shared files to current version"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
 #    run "ln -nfs #{shared_path}/config/apple_push_notification_development.pem #{release_path}/config/apple_push_notification_development.pem"
     run "ln -nfs #{shared_path}/config/apple_push_notification_production.pem #{release_path}/config/apple_push_notification_production.pem"
