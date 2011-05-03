@@ -128,7 +128,16 @@ module Seeding
         header.each_with_index do |h,i|
           new_user_attr[h.to_sym] = row[i] unless row[i].nil?
         end
-        new_user_attr[:password] = "#{new_user_attr[:username]}123"
+
+
+        if new_user_attr[:username]=='system'
+          puts "Enter System's password:"  
+          STDOUT.flush  
+          new_user_attr[:password] = STDIN.gets.chomp
+        else
+          new_user_attr[:password] = "#{new_user_attr[:username]}123"
+        end
+        
         # puts "loading user #{new_user_attr.inspect}"
         user = User.create! new_user_attr
         
@@ -136,6 +145,7 @@ module Seeding
         %w( role reputation is_admin access_level is_deleted ).each do |attr|
           user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
         end
+        
         user.save
         Inbox.create :name => "#{user.firstname}'s inbox", :owner => user
         # puts "user = #{user.inspect}"
@@ -343,7 +353,7 @@ def self.load_notes(file)
         when "sr_number"
           service_request = ServiceRequest.find_by_sr_number(row[i])
           if service_request
-            new_note_attr["sr_id"] = service_request.id
+            new_note_attr["service_request_id"] = service_request.id
           else
             puts "** Skipping note for sr_number #{row[i]}: Service Request not found"
           end

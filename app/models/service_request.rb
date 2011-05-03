@@ -2,6 +2,7 @@ class ServiceRequest < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   belongs_to :contact, :class_name => 'User', :foreign_key => 'contact_id'
 
+  has_many :notes, :dependent => :destroy
   has_many :inbox_srs, :dependent => :destroy
   has_many :inboxes, 
            :through => :inbox_srs
@@ -29,6 +30,17 @@ class ServiceRequest < ActiveRecord::Base
     logger.info "Looking up SR #{id}"
     ServiceRequest.find :first, {:conditions => ["id=? or sr_number=?",id,id]}    
   end
+
+  def last_updated_at
+    last_note = self.notes.last
+    return self.updated_at if last_note.nil?
+    return last_note.created_at
+  end
+  
+  def last_updated_in_seconds
+    return (Time.now - last_updated_at).to_i
+  end
+
   
   def next_action_in_seconds
     return (Time.now - next_action_at).to_i

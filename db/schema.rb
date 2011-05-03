@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(:version => 20110328181017) do
   end
 
   create_table "notes", :force => true do |t|
-    t.integer  "sr_id"
+    t.integer  "service_request_id"
     t.integer  "created_by"
     t.string   "visibility"
     t.integer  "effort_minutes"

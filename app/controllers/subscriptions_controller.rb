@@ -19,12 +19,18 @@ class SubscriptionsController < ApplicationController
       form[:token] = (params[:id] || "").gsub('-', ' ')      
       form[:badge] = 0 # initially, there is no notification
       
-      @subscription = Subscription.find(:first, :conditions => ["token = ?", form[:token]])      
-      if @subscription
-        @subscription.update_attributes(form)
+      env = params[:env]
+      logger.info "env=#{env}"
+      if env == ENV["RAILS_ENV"]
+        @subscription = Subscription.find(:first, :conditions => ["token = ?", form[:token]])      
+        if @subscription
+          @subscription.update_attributes(form)
+        else
+          @subscription = Subscription.new(form)
+        end
       else
-        @subscription = Subscription.new(form)
-      end
+        errors = "Invalid environment"
+      end if
 
       # logger.info "Gone fishing..."
       # sleep 5
@@ -36,16 +42,16 @@ class SubscriptionsController < ApplicationController
     respond_to do |format|
       if @subscription && @subscription.save
         flash[:notice] = 'Subscription was successfully created.'
-        format.html { redirect_to subscription_path }
         format.xml  { head :ok }
         format.json  { 
           # logger.info "format = #{request.inspect}"
           render :json => {:last_subscribed_at => Time.now.strftime("%m/%d/%Y %H:%M:%S %Z")}
         }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
-        format.json  { render :json => @subscription.errors, :status => :unprocessable_entity }
+        errors ||= "unprocessable entity"
+        errors ||= @subscription.errors if @subscription
+        format.xml  { render :xml => errors, :status => :unprocessable_entity }
+        format.json  { render :json => errors, :status => :unprocessable_entity }
       end
     end
 

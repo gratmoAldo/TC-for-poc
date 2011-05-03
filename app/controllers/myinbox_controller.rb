@@ -36,8 +36,10 @@ class MyinboxController < ApplicationController
           res = {
             :myinbox => @service_requests.map{  |sr| service_request_to_hash(sr) }, 
             :meta => {
+              :created_at => Time.now,
               :server_name => request.server_name,
-              :user => current_user.fullname
+              :user => current_user.fullname,
+              :environment => ENV["RAILS_ENV"]
             }
           }                            
           render :json => res
@@ -57,8 +59,11 @@ class MyinboxController < ApplicationController
       :customer => sr.site.name,
       :next_action_at => sr.next_action_at,
       :next_action_in_seconds => sr.next_action_in_seconds,
+      :last_updated_at => sr.last_updated_at,
+      :last_updated_in_seconds => sr.last_updated_in_seconds,
+      :last_updated_in_words => "#{1+rand(12)} hours ago",
       :product => sr.product,
-      :nb_notes => 1+rand(30)
+      :nb_notes => sr.notes.count
     }
   end
   

@@ -1,5 +1,5 @@
 id,sr_number,title,severity,status,product,description,created_at,updated_at,next_action_at,site,contact,escalation_id,owner
-"1","40320146","Mysterious mc_deleted_8101becea8005b503 mc_user","1","Open - Customer Action Required","Connect Server 5.3 SP4","PROBLEM DESCRIPTION:
+"1","40320146","Mysterious mc_deleted_8101becea8005b503 mc_user","2","Open - Customer Action Required","Connect Server 5.3 SP4","PROBLEM DESCRIPTION:
 ------------------------------------
 Our connect checker picked up several names and locations that point to a user called...
 mc_deleted_8101becea8005b503   (among others)
@@ -37,8 +37,8 @@ ENVIRONMENT INFORMATION
 ------------------------------------
 >
 Product: Connect Server
-Version: 5.3 SP4","2011-04-10 21:21:47","2011-04-27 15:39:40","2011-04-10 21:17:00","3322","charlie","0","herve"
-"2","38318446","Authentication against LDAP Directory failure","1","Open - Customer Action Required","Connect Server 5.3 SP3","PROBLEM DESCRIPTION:
+Version: 5.3 SP4","2011-04-10 21:21:47","2011-04-27 15:39:40","2011-04-10 21:17:00","3322","charlie","0","radjesh"
+"2","38318446","Authentication against LDAP Directory failure","2","Open - Customer Action Required","Connect Server 5.3 SP3","PROBLEM DESCRIPTION:
 ------------------------------------
 We have deployed an application were all users validate against LDAP Server (Sun Java System Directory Server 5.2). We have synchronized the users into the connect server.
 There is a 25-40% ""Authentication Failed"" responses.
@@ -66,7 +66,7 @@ Database: ORACLE
 Database Version: 10.2.0.4
 Web Server: 0
 Application Server: BEAWL
-Client UI: 0","2011-04-13 14:58:24","2011-04-27 15:38:07","2011-04-13 14:57:00","3322","charlie","2","herve"
+Client UI: 0","2011-04-13 14:58:24","2011-04-27 15:38:07","2011-04-13 14:57:00","3322","charlie","0","herve"
 "3","40289104","Users unable to access documents in Nayworker 2.3 ","3","Open - Customer Action Required","Nayworker 2.3","PROBLEM DESCRIPTION:
 ------------------------------------
 When users in our Tokyo office attempt to access data in Nayworker, they receive a 'Message Viewer: Nayviewer succeeded' screen, but are never able to open the document. Users are able to successfully export and view documents, the issue only arises when attempting to open the document from the application.
@@ -81,7 +81,7 @@ ENVIRONMENT INFORMATION
 Product: Nayworker
 Version: 5.3 SP2
 ","2011-04-13 22:49:21","2011-04-18 20:21:57","2011-04-13 22:45:00","123","francisco","0","mark"
-"4","40987654","How to disable caching in development server?","2","Open - Customer Action Required","Connect Server 5.3 SP4","PROBLEM DESCRIPTION:
+"4","40987654","How to disable caching in development server?","3","Open - Customer Action Required","Connect Server 5.3 SP4","PROBLEM DESCRIPTION:
 ------------------------------------
 We are testing custom workflow and would like to disable the global cache. There is no such option in the Administrator or any mention in the documentation.
 
@@ -94,10 +94,10 @@ ENVIRONMENT INFORMATION
 >
 Product: Connect Server
 Version: 5.3 SP4
-","2011-04-14 11:17:00","2011-04-27 15:34:34","2011-04-14 11:16:00","3322","charlie","0","herve"
-"5","40987655","I have a question","1","Open - Support Researching","Nayworker 2.5","Need help! No rush
+","2011-04-14 11:17:00","2011-04-27 15:34:34","2011-04-14 11:16:00","3322","charlie","0","radjesh"
+"5","40987655","I have a question","3","Open - Support Researching","Nayworker 2.5","Need help! No rush
 ","2011-04-14 11:18:05","2011-04-26 22:58:19","2011-04-14 11:17:00","123","francisco","0","herve"
-"6","40987661","Product not working","4","Open - Support Researching","Nayworker 2.5","Need to recover from situation within next 2 hours.","2011-04-14 11:19:23","2011-04-25 17:03:04","2011-04-14 11:18:00","3322","charlie","0","mark"
+"6","40987661","Product not working","4","Open - Support Researching","Nayworker 2.5","Need to recover from situation within next 2 hours.","2011-04-14 11:19:23","2011-04-25 17:03:04","2011-04-14 11:18:00","3322","charlie","0","radjesh"
 "7","40387219","Some batches are still pending for export","4","Open - Support Researching","Accelor 1.3 SP1","PROBLEM DESCRIPTION:
 ------------------------------------
 Some batches are still pending for export.
