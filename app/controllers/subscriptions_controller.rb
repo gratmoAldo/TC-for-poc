@@ -19,18 +19,18 @@ class SubscriptionsController < ApplicationController
       form[:token] = (params[:id] || "").gsub('-', ' ')      
       form[:badge] = 0 # initially, there is no notification
       
-      env = params[:env]
-      logger.info "env=#{env}"
-      if env == ENV["RAILS_ENV"]
+      # env = params[:env]
+      # logger.info "env=#{env}"
+      # if env == ENV["RAILS_ENV"]
         @subscription = Subscription.find(:first, :conditions => ["token = ?", form[:token]])      
         if @subscription
           @subscription.update_attributes(form)
         else
           @subscription = Subscription.new(form)
         end
-      else
-        errors = "Invalid environment"
-      end if
+      # else
+      #   errors = "Invalid environment"
+      # end if
 
       # logger.info "Gone fishing..."
       # sleep 5
