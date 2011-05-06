@@ -124,7 +124,7 @@ class ServiceRequest < ActiveRecord::Base
 
         unless devices.empty?
           devices.each do |device|
-            link = {:sr_number => sr_number}
+            # link = {:sr_number => sr_number}
             priority = "S#{severity}"
             message = "SR ##{sr_number} (#{priority}) was just updated"
             if escalation_id.to_i > 0

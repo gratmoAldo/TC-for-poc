@@ -54,7 +54,10 @@ class User < ActiveRecord::Base
 
   # login can be either username or email address
   def self.authenticate(login, pass)
+    sleep 1
+    # logger.info("---")
     # logger.info("Authenticating with login=#{login} & pass=#{pass}")
+    # logger.info("---")
     user = active.find_by_username(login.downcase) || find_by_email(login)
     # logger.info("Found user #{user.inspect}") if user
     return user if user && user.matching_password?(pass)

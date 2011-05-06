@@ -112,6 +112,9 @@ module Authentication
           store_target_location
           redirect_to login_url
         }
+        format.mobile {
+          render :text => "", :status => "401 Unauthorized"
+        }
         format.xml {
           render :text  => "<error>Unauthorized Access</error>", :status => "401 Unauthorized"
         }
