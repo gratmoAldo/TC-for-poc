@@ -44,6 +44,7 @@ namespace :deploy do
   task :symlink_shared do
     desc "Link shared files to current version"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/c2dm.yml #{release_path}/config/c2dm.yml"
 #    run "ln -nfs #{shared_path}/config/apple_push_notification_development.pem #{release_path}/config/apple_push_notification_development.pem"
     run "ln -nfs #{shared_path}/config/apple_push_notification_production.pem #{release_path}/config/apple_push_notification_production.pem"
   end

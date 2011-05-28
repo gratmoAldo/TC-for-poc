@@ -1,14 +1,14 @@
 class MyinboxController < ApplicationController
   before_filter :login_required
-  
+
   def index
-    logger.info "inside MyinboxController/show"
+    logger.info "inside MyinboxController/index - format = #{request[:format]}"
     @myinbox = Inbox.owned_by(current_user).first    
 
     # logger.info "Gone fishing..."
     # sleep 5
     # logger.info "Back"
-    
+
     if @myinbox.nil? then
       respond_to do |format|
         headers["Status"] = "404 Not Found"
@@ -25,7 +25,7 @@ class MyinboxController < ApplicationController
       end
     else
       @service_requests = @myinbox.service_requests
-      
+
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @service_requests }
@@ -41,21 +41,24 @@ class MyinboxController < ApplicationController
               :user => current_user.fullname,
               :environment => ENV["RAILS_ENV"]
             }
-          }                            
+          }
+          logger.info "returning JSON response #{res}"
           render :json => res
         }
       end
     end
 
   end
-  
+
+  private
+
   def service_request_to_hash(sr,options={})
     options.reverse_merge! :locale => @locale, :keywords => []
     {
       :sr_number => sr.sr_number,
       :title => sr.title,
       :severity => sr.severity,
-      :escalation => sr.escalation_id,
+      :escalation => sr.escalation,
       :customer => sr.site.name,
       :next_action_at => sr.next_action_at,
       :next_action_in_seconds => sr.next_action_in_seconds,
@@ -66,5 +69,5 @@ class MyinboxController < ApplicationController
       :nb_notes => sr.notes.count
     }
   end
-  
+
 end

@@ -2,13 +2,13 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  include Authentication
+  include Authentication, Notification
   
   before_filter :prepare_for_mobile
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  helper_method :url_friendly, :highlight
+  helper_method :url_friendly, :highlight, :mid_truncate
 
   def url_friendly(name='')
     name.downcase.gsub(/[^0-9a-z]+/, ' ').strip.gsub(' ', '-')
@@ -20,6 +20,17 @@ class ApplicationController < ActionController::Base
     keywords.empty? ? txt : txt.gsub(/(#{keywords.join('|')})/i, '<label class=\'highlight\'>\1</label>')
   end
     
+  SEP = ' ... '
+  def mid_truncate(txt, truncation=40)
+      sep_length = SEP.length
+      return txt[0..truncation-1] if truncation < (sep_length + 2)
+      return txt if txt.length <= truncation
+      first_chunk = ((truncation - sep_length) / 2).to_i
+      second_chunk = truncation - sep_length - first_chunk
+      # puts "first_chunk = #{first_chunk}"
+      txt.gsub(/^(.{#{first_chunk}})(.*)$/,'\1')+SEP+txt.gsub(/^(.*)(.{#{second_chunk}})$/,'\2')
+  end  
+  
   def if_found(obj)
     if obj
       yield 

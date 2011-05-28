@@ -10,7 +10,7 @@ class CreateServiceRequests < ActiveRecord::Migration
       t.datetime :next_action_at
       t.integer :site_id
       t.integer :contact_id
-      t.integer :escalation_id
+      t.integer :escalation
       t.integer :owner_id
 
       t.timestamps

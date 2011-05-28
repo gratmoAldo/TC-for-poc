@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
     user = login params[:login], params[:password]
     if user
       flash[:notice] = "Logged in successfully."
-      redirect_to_target_or_default(root_url)
+      if admin?
+        redirect_to_target_or_default(root_url)
+      else
+        redirect_to_target_or_default(myinbox_url)
+      end
     else
       flash[:error] = "Invalid login or password."
       redirect_to login_path

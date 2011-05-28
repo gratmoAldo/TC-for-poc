@@ -12,8 +12,8 @@ class ServiceRequest < ActiveRecord::Base
            :select => "distinct inboxes.owner_id"
 
   belongs_to :site
-  belongs_to :escalation
-  after_save :notify_owner
+  # belongs_to :escalation
+  # after_save :notify_watchers
   
   named_scope :sort_by_sr_number, {:order => "service_requests.sr_number"}
   
@@ -25,6 +25,9 @@ class ServiceRequest < ActiveRecord::Base
     } unless keywords.blank?
   }
   
+  def to_param
+    sr_number.to_s
+  end
 
   def self.lookup(id)
     logger.info "Looking up SR #{id}"
@@ -55,13 +58,13 @@ class ServiceRequest < ActiveRecord::Base
   end  
   
   def escalation_image
-    return 'sr/1x1.gif' unless escalation_id > 0
-    "sr/E#{escalation_id}"
+    return 'sr/1x1.gif' unless escalation > 0
+    "sr/E#{escalation}"
   end  
 
   def escalation_display
-    return nil unless escalation_id > 0
-    "E#{escalation_id}" # TODO should look into related object instead of using the id
+    return nil unless escalation > 0
+    "E#{escalation}" # TODO should look into related object instead of using the id
   end
 
   def queue(q)
@@ -91,7 +94,8 @@ class ServiceRequest < ActiveRecord::Base
     description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
   end
   
-  def notify_owner
+  def notify_watchers
+    
     update_watcher
     logger.info("inside notify_owner")
 
@@ -109,27 +113,27 @@ class ServiceRequest < ActiveRecord::Base
     subscriptions.each do |subscription|
     # subscription = subscription.first
       if subscription
-        devices = APN::Device.find(:all, :conditions => ["token=?", subscription.token])
+        devices = APN::Device.find(:all, :conditions => ["token=?", subscription.display_id])
         if devices.empty?
           app = APN::App.first ## TODO should look up be name
           if app
-            devices = [APN::Device.create(:token => subscription.token,:app => app)]
+            devices = [APN::Device.create(:token => subscription.display_id,:app => app)]
           end
         end
 
-        sound_filename ='new_note.caf'
+        sound_filename ='startrek_new-note.caf'
         
-        # logger.info "escalation=#{escalation_id}; sound_filename =  #{sound_filename}"
+        # logger.info "escalation=#{escalation}; sound_filename =  #{sound_filename}"
         # logger.info "devices are  #{devices.inspect}"
 
         unless devices.empty?
           devices.each do |device|
             # link = {:sr_number => sr_number}
-            priority = "S#{severity}"
+            priority = severity_display
             message = "SR ##{sr_number} (#{priority}) was just updated"
-            if escalation_id.to_i > 0
-              sound_filename = 'escalation.caf'
-              priority += " / E#{escalation_id}"
+            if escalation > 0
+              sound_filename = 'startrek_escalation.caf'
+              priority += " / #{escalation_display}"
               message = "SR ##{sr_number} just got escalated to #{priority}"
             end
             notification = {:device => device, 
@@ -144,6 +148,13 @@ class ServiceRequest < ActiveRecord::Base
         end
       end
     end
+  end
+  
+  #       iOS token =~ /^[0-9a-f\-]{71}$/
+  #       Android token =~ /^[\-\_0-9a-z]{119}$/i
+  
+  def create_ios_notification(payload={})
+    
   end
     
 end

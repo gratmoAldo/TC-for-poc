@@ -11,7 +11,7 @@ Signal.trap("TERM") do
   $running = false
 end
 
-sleep_time = 300 # seconds
+sleep_time = 62 # seconds
 
 def ping_site(url)
   begin

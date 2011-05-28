@@ -131,7 +131,7 @@ module Seeding
 
 
         if new_user_attr[:username]=='system'
-          puts "Enter System's password:"  
+          puts "Choose a password for user 'system':"  
           STDOUT.flush  
           new_user_attr[:password] = STDIN.gets.chomp
         else
@@ -328,6 +328,7 @@ module Seeding
         # end
         begin
           service_request.save
+          service_request.update_watcher
         rescue
           puts "Exception! service_request=#{row.inspect}"
           puts "All error messages: #{service_request.errors.full_messages.join(', ')}" unless service_request.nil?

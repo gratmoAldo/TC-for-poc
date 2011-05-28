@@ -20,16 +20,22 @@ module Authentication
     controller.filter_parameter_logging :password
   end
 
+  def same_username(username)
+    return username && session[:username]==username
+  end
+
   def set_session_for_user(user)
     # logger.info "inside set_session_for_user with user=#{user.inspect}"
     if user
       session[:locale] = user.locale
       session[:access_level] = user.access_level
       session[:user_id] = user.id
+      session[:username] = user.username
     else
       session[:locale] = nil
       session[:access_level] = nil
       session[:user_id] = nil
+      session[:username] = nil
     end
     user
   end
@@ -41,18 +47,16 @@ module Authentication
     when Mime::XML, Mime::JSON
       # logger.info "format is xml or json"
       # logger.info "current user is #{current_user.inspect}"
-      # if current_user.nil?
         username, passwd = authenticate_with_http_basic { |u, p| 
-          # logger.info "u=#{u} / p=#{p}"
+          logger.info "u=#{u} / p=#{p}"
           # User.authenticate(u,p)
           [u,p]
         }
-        
+        if !same_username(username)
         # Validate and set new user if you find new credentials
         # invalid credentials will clear the current user
-        set_session_for_user User.authenticate(username,passwd) unless username.nil?
-        
-      # end
+          set_session_for_user User.authenticate(username,passwd) unless username.nil?
+        end
     else      
       # logger.info "format is something else"
       set_session_for_user User.authenticate(params[:login], params[:password]) if params[:login]
@@ -105,7 +109,7 @@ module Authentication
   def login_required
     authenticate_from_request!
     unless logged_in?
-      # logger.info "login_required() - YOU ARE NOT LOGGED IN!"
+      logger.info "login_required() - YOU ARE NOT LOGGED IN!"
       respond_to do |format|
         format.html {
           flash[:error] = "You must first log in or sign up before accessing this page."

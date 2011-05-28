@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login 'login', :controller => 'sessions', :action => 'new'
   map.resources :sessions
   map.console 'console', :controller => 'console', :action => 'index'
+  map.myinbox 'myinbox', :controller => 'myinbox', :action => 'index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -70,7 +71,7 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
   # map.home '', :controller => "assets"
-  map.root :controller => "inboxes"
+  map.root :controller => "service_requests"
 
   # See how all your routes lay out with "rake routes"
 

@@ -1,4 +1,4 @@
-id,sr_number,title,severity,status,product,description,created_at,updated_at,next_action_at,site,contact,escalation_id,owner
+id,sr_number,title,severity,status,product,description,created_at,updated_at,next_action_at,site,contact,escalation,owner
 "1","40320146","Mysterious mc_deleted_8101becea8005b503 mc_user","2","Open - Customer Action Required","Connect Server 5.3 SP4","PROBLEM DESCRIPTION:
 ------------------------------------
 Our connect checker picked up several names and locations that point to a user called...

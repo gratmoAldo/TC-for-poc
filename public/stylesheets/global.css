@@ -1072,6 +1072,10 @@ text-shadow:1px 1px 0 #000000;
 	color: #484849;
 	border-bottom: 1px solid #686869;
 }
+.display_id {
+	font-family: 'courier';
+/*	font-size: .8em;*/
+}
 .users p {
 	margin: 0 0 12px 10px;
 }

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110328181017) do
+ActiveRecord::Schema.define(:version => 20110510225250) do
 
   create_table "admins", :force => true do |t|
     t.string   "key"
@@ -119,6 +119,27 @@ ActiveRecord::Schema.define(:version => 20110328181017) do
     t.datetime "updated_at"
   end
 
+  create_table "c2dm_devices", :force => true do |t|
+    t.string   "registration_id",    :null => false
+    t.datetime "last_registered_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "c2dm_devices", ["registration_id"], :name => "index_c2dm_devices_on_registration_id", :unique => true
+
+  create_table "c2dm_notifications", :force => true do |t|
+    t.integer  "device_id",        :null => false
+    t.string   "collapse_key",     :null => false
+    t.text     "data"
+    t.boolean  "delay_while_idle"
+    t.datetime "sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "c2dm_notifications", ["device_id"], :name => "index_c2dm_notifications_on_device_id"
+
   create_table "escalations", :force => true do |t|
     t.integer  "level"
     t.string   "business_impact"
@@ -171,7 +192,7 @@ ActiveRecord::Schema.define(:version => 20110328181017) do
     t.datetime "next_action_at"
     t.integer  "site_id"
     t.integer  "contact_id"
-    t.integer  "escalation_id"
+    t.integer  "escalation"
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -200,10 +221,10 @@ ActiveRecord::Schema.define(:version => 20110328181017) do
 
   create_table "subscriptions", :force => true do |t|
     t.integer  "user_id"
-    t.string   "token"
+    t.string   "display_id"
+    t.string   "notification_method"
     t.integer  "badge"
     t.integer  "sr_severity"
-    t.boolean  "note_added"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

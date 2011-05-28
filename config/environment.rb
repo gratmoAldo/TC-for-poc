@@ -7,6 +7,8 @@ RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 require 'thread'
 require File.join(File.dirname(__FILE__), 'boot')
 
+
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -23,6 +25,8 @@ Rails::Initializer.run do |config|
   config.gem "fastercsv"
   config.gem "will_paginate"  
   config.gem "apn_on_rails"
+  config.gem "gdata"
+  config.gem "c2dm_on_rails"
   # config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
@@ -56,6 +60,14 @@ begin
 rescue MissingSourceFile => e
   puts e.message
 end
+
+
+begin
+  require 'c2dm_on_rails'
+rescue MissingSourceFile => e
+  puts e.message
+end
+
 
 DB_STRING_MAX_LENGTH = 255
 DB_TEXT_MAX_LENGTH = 40000
