@@ -1,8 +1,24 @@
 class Subscription < ActiveRecord::Base
+
+  VALID_NOTIFICATION_METHODS = ["apn","c2dm"]  
+
   belongs_to :user
-  validates_uniqueness_of :display_id
+  validates_uniqueness_of :display_id, :token
+  belongs_to :service_request
+  belongs_to :owner, :class_name => 'User', :foreign_key => 'created_by'
+  validates_inclusion_of :notification_method, 
+                          :in => VALID_NOTIFICATION_METHODS,
+                          :allow_nil => false,
+                          :message => "must be valid notification method"
+
+  
+  # before_save :validate_display_id
   
   named_scope :for_watchers, lambda { |ids| {:conditions => {"user_id" => ids}}}
+
+# def validate_display_id
+#   false
+# end
 
   def device
     default_device = {:id=>nil}

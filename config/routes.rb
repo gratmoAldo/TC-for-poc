@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :myinbox
 
   # Service Center
+  map.resources :inbox_srs
   map.resources :inboxes
   map.resources :site_messages
   map.resources :notes

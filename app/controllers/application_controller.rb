@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  helper_method :url_friendly, :highlight, :mid_truncate
+  helper_method :url_friendly, :highlight, :mid_truncate, :mobile_device?, :development?
 
   def url_friendly(name='')
     name.downcase.gsub(/[^0-9a-z]+/, ' ').strip.gsub(' ', '-')
@@ -43,14 +43,21 @@ class ApplicationController < ActionController::Base
   private
 
   def mobile_device?
+    # logger.info "$$$$$$$$$$$$$ inside mobile_device"
+    # logger.info "request = #{request.inspect}"
     if session[:mobile_param]
+      # logger.info "session[:mobile_param] = #{session[:mobile_param]}"
       session[:mobile_param] == "1"
     else
+      # logger.info "request.user_agent = #{request.user_agent} (#{request.user_agent =~ /Mobile|webOS/})"
       request.user_agent =~ /Mobile|webOS/
     end
   end
-  helper_method :mobile_device?
 
+  def development?
+    ENV["RAILS_ENV"] == "development"
+  end
+  
   def prepare_for_mobile
     session[:mobile_param] = params[:mobile] if params[:mobile]
     request.format = :mobile if mobile_device?

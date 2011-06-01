@@ -31,8 +31,6 @@ module Notification
     data = opt[:data]
     case opt[:event]
     when :sr_escalated
-      # sr_number
-      # esscalation level
       sr = data[:service_request]
       message = "SR ##{sr.sr_number} just got escalated to #{sr.severity_display} / #{sr.escalation_display}"
       logger.info "message = #{message}"
@@ -92,12 +90,76 @@ module Notification
           subscription.destroy
         end
       end
+
+
+
+
+
     when :sr_note_added
       # sr_number
       # note id
       # note body
-      #
       logger.info "Note added to SR #{opt[:service_request].inspect}"
+      note = data[:note]
+      sr = note.service_request
+      message = "SR ##{sr.sr_number} has a new note: #{note.body[0..92]}"
+      logger.info "message = #{message}"
+
+      subscriptions = Subscription.for_watchers(opt[:user_ids])
+
+      logger.info "subscriptions = #{subscriptions.inspect}"
+      # find(:all, # TODO should handle multiple devices
+      # :conditions => ["user_id=? and sr_severity>=?", self.watchers.collect(&:owner_id), severity])
+
+      subscriptions.each do |subscription|
+        # subscription = subscription.first
+        case subscription.notification_method.to_sym
+        when :c2dm
+          logger.info "@@@@@@@@@@@@@@@ creating C2DM notification for #{subscription.user.fullname}"
+          devices = C2dm::Device.find(:all, :conditions => ["registration_id=?", subscription.display_id])
+          if devices.empty?
+            devices = [C2dm::Device.create(:registration_id => subscription.display_id)]
+          end
+
+          unless devices.empty?
+            devices.each do |device|
+              notification = { :device=>device, :collapse_key=>"emc_support", 
+                :delay_while_idle => true, 
+                :data => {"badge" => "0", "sound" => 'startrek_new-note', 
+                  "message" => message, "event" => 'sr_note_added', "sr_number" => sr.sr_number.to_s
+                }
+              }
+              logger.info "C2dm::Notification created with #{notification.inspect}"
+              C2dm::Notification.create notification
+            end
+          end
+        when :apn
+          logger.info "@@@@@@@@@@@@@@@ creating APN notification for #{subscription.user.fullname}"
+          devices = APN::Device.find(:all, :conditions => ["token=?", subscription.display_id])
+          if devices.empty?
+            app = APN::App.first ## TODO should look up be name
+            if app
+              devices = [APN::Device.create(:token => subscription.display_id,:app => app)]
+            end
+          end
+
+          unless devices.empty?
+            devices.each do |device|
+              notification = {:device => device, 
+                :badge => 0,
+                :sound => 'startrek_new-note.caf', 
+                :alert => message,
+                :custom_properties => {:sr_number => sr.sr_number, :event => 'sr_note_added'}
+              }
+              logger.info "notify_owner with  #{notification.inspect}"
+              APN::Notification.create notification
+            end
+          end
+        else
+          logger.info "Notification method #{subscription.notification_method} is not supported"
+          subscription.destroy
+        end
+      end
     end
     return
 

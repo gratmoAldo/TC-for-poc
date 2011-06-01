@@ -5,7 +5,6 @@
 </div>
 <div class='pane'>
 
-
 <% form_for(@service_request) do |f| %>
 	<div class='sr-details'>
 	  <div class='sr-line1'>
@@ -99,11 +98,55 @@
 		  </div>		
 	  </div>	
   </div>
-  <div>
+<% end %>
 
+<% form_for(@inbox_sr) do |f| %>
+  <div>
     <p><strong>Watchers:</strong> <%= @watchers.collect { |user| link_to user.fullname, inbox_path(user.inbox) }.join(' / ') %>
+	
   </div>
 <% end %>
+
+</div>
+<div class='pane'>
+	<div class='notes'>
+		<div class='sr-line1'>
+			<strong>Notes (<%= @service_request.notes.count %>)</strong>
+		</div>
+		<div class='new-note'>
+			<%= render 'notes/note_form', :object => @new_note %>
+		</div>
+		<ul>
+		<% for note in @notes %>
+		<li class='one-note'>
+			<div class='col1'>
+				<table>
+					<tr>
+						<td align='right' width='120px' class='note-key'>Date:</td>
+						<td align='left' width='140px' class='note-value'><%= note.updated_at.strftime("%m/%d/%Y %H:%M:%S %Z") %></td>
+					</tr>
+					<tr>
+						<td align='right' class='note-key'>Added By:</td>
+						<td align='left' class='note-value'><%= note.owner.fullname %></td>
+					</tr>
+					<tr>
+						<td align='right' class='note-key'>Visibility:</td>
+						<td align='left' class='note-value'><%= note.visibility %></td>
+					</tr>
+					<tr>
+						<td align='right' class='note-key'>Note Type:</td>
+						<td align='left' class='note-value'><%= note.note_type %></td>
+					</tr>
+					</table>
+			</div>
+			<div class='col2'>
+				<p><%= format_comment(h note.body) %></p>  
+			</div>
+			<div class='clear'></div>	
+		</li>  
+		<% end %>
+	</ul>
+	</div>
 
 </div>
 <%= render '/utils/debug' %>

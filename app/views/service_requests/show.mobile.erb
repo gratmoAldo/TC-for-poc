@@ -47,3 +47,8 @@
 <p><b>Watchers:</b> 
 <%= @watchers.collect(&:fullname).join(' / ') %>
 </p>
+
+<hr />
+<% for note in Note.recent(@service_request.id) %>
+<%=format_comment(h note.body) %><hr />
+<% end %>

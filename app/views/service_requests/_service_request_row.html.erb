@@ -10,11 +10,11 @@
 		</p>
 	</div>
 	<div class='col2'>
-		<p><%= service_request_row.contact.fullname %></p>
+		<p><%= link_to_if admin?, highlight(service_request_row.contact.fullname, @keywords), inbox_path(service_request_row.contact.inbox) %></p>
 		<p class='details'><%= service_request_row.site.name %></p>
 	</div>
 	<div class='col3'>
-		<p><%= link_to highlight(service_request_row.owner.fullname, @keywords), inbox_path(service_request_row.owner.inbox) %></p>
+		<p><%= link_to_if admin?, highlight(service_request_row.owner.fullname, @keywords), inbox_path(service_request_row.owner.inbox) %></p>
 		<p class='details'><%= service_request_row.next_action_at %></p>
 	</div>
 	<div class='view-actions'>

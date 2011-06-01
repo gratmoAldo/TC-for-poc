@@ -25,7 +25,7 @@ class MyinboxController < ApplicationController
       end
     else
       @service_requests = @myinbox.service_requests
-
+      
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @service_requests }
@@ -48,6 +48,14 @@ class MyinboxController < ApplicationController
       end
     end
 
+  end
+  
+  def update
+    logger.info "inside myinbox.update"
+  end
+
+  def destroy
+    logger.info "inside myinbox.destroy"
   end
 
   private

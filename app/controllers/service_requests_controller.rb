@@ -114,6 +114,12 @@ class ServiceRequestsController < ApplicationController
       end
     else
       @watchers = User.watching_sr @service_request.id
+
+      @inbox_sr = InboxSr.new :service_request_id => @service_request.id, :inbox_id => Inbox.owned_by(current_user).first
+      # <label class='right'><button class="submit" type="submit"><span>Watch</span></button></label>
+      
+      @notes = Note.recent(@service_request.id)
+      @new_note = Note.new :service_request_id => @service_request.id, :created_by => current_user.id
       respond_to do |format|
         # format.html { render :text => request.user_agent }
         format.html # show.html.erb

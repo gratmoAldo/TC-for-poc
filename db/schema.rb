@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(:version => 20110510225250) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "user_id"
     t.string   "display_id"
+    t.string   "token"
     t.string   "notification_method"
     t.integer  "badge"
     t.integer  "sr_severity"

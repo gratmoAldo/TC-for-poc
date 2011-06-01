@@ -35,7 +35,7 @@ class Tag < ActiveRecord::Base
   end
 
   def display_name=(val=nil)
-    puts "Setting display_name=#{val}"
+    # puts "Setting display_name=#{val}"
     self[:display_name] = val # this syntax will avoid infinite loop!
     self.name = val.downcase
     if Tag.machine_tag? name

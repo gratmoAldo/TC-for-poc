@@ -12,7 +12,7 @@
 
 <% @notes.each do |note| %>
   <tr>
-    <td><%=h note.sr_id %></td>
+    <td><%=h note.service_request_id %></td>
     <td><%=h note.created_by %></td>
     <td><%=h note.visibility %></td>
     <td><%=h note.effort_minutes %></td>
@@ -27,4 +27,4 @@
 
 <br />
 
-<%= link_to 'New note', new_note_path %>
+<%= link_to 'New note', new_note_path %> | <%= link_to 'Home', root_path %> 

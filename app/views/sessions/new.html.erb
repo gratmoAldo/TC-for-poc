@@ -1,7 +1,7 @@
 <% title "Log in" %>
 <div class='first-pane'>
-<center><div id='login_form'><% form_tag sessions_path do %>
-	<table cellspacing=5>
+<center><div class='login_form'><% form_tag sessions_path do %>
+	<table cellspacing=8>
 		<tr>
 			<td><strong><%= label_tag :login, "Username or Email Address" %></strong></td>
 			<td><%= text_field_tag :login, params[:login], :size => 35, :maxlength => 128 %></td>
@@ -20,7 +20,7 @@
 </center></div>
 <div class='pane'>
 	<div class='users'>
-		<% if ENV["RAILS_ENV"] == "development" %>
+		<% if development? %>
 			<h3>Administrators</h3>
 			<p><%= render :partial => 'user_link', :collection => @administrators %></p>
 		<% end %>

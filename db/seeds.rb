@@ -237,7 +237,7 @@ module Seeding
             a                           = Asset.find_and_update_or_create_by_sid asset_attr
             a.save
 
-            puts "New Asset saved: #{a.inspect}"
+            # puts "New Asset saved: #{a.inspect}"
 
             # a.tag_names               = tags.join(' ')
             # puts "a.tag_names         = #{a.tag_names}"
@@ -288,9 +288,10 @@ module Seeding
         header = row 
       else
         new_service_request_attr = {}
+        invalid_record = false
+
         header.each_with_index do |h,i|
-
-
+          
           case h
           when "owner"
             user = User.find_by_username(row[i])
@@ -298,6 +299,7 @@ module Seeding
               new_service_request_attr["owner_id"] = user.id
             else
               puts "** Skipping service request for owner #{row[i]}: User not found"
+              invalid_record = true
             end
           when "contact"
             user = User.find_by_username(row[i])
@@ -305,6 +307,7 @@ module Seeding
               new_service_request_attr["contact_id"] = user.id
             else
               puts "** Skipping service request for contact #{row[i]}: User not found"
+              invalid_record = true
             end
           when "site"
             site = Site.find_by_site_id(row[i])
@@ -312,15 +315,14 @@ module Seeding
               new_service_request_attr["site_id"] = site.id
             else
               puts "** Skipping service request for site #{row[i]}: Site not found"
+              invalid_record = true
             end
           else
             new_service_request_attr[h.to_sym] = row[i] unless row[i].nil?
           end
-
-
-
         end
-        service_request = ServiceRequest.create! new_service_request_attr
+
+        service_request = ServiceRequest.create! new_service_request_attr unless invalid_record
 
         # handle attributes blocked from mass-assignment
         # %w( reputation is_admin access_level is_deleted ).each do |attr|
@@ -348,22 +350,36 @@ def self.load_notes(file)
       header = row 
     else
       new_note_attr = {}
+      invalid_record = false
+
       header.each_with_index do |h,i|
         
         case h
+        when "created_by"
+          user = User.find_by_username(row[i])
+          if user
+            new_note_attr["created_by"] = user.id
+          else
+            puts "** Skipping note created by #{row[i]}: User not found"
+            invalid_record = true
+          end
         when "sr_number"
           service_request = ServiceRequest.find_by_sr_number(row[i])
           if service_request
             new_note_attr["service_request_id"] = service_request.id
           else
             puts "** Skipping note for sr_number #{row[i]}: Service Request not found"
+            invalid_record = true
           end
+        when "created_at"
+          new_note_attr["updated_at"] = row[i]
         else
           new_note_attr[h.to_sym] = row[i] unless row[i].nil?
         end
       end
-      note = Note.create! new_note_attr
 
+      note = Note.create! new_note_attr unless invalid_record
+      
       # handle attributes blocked from mass-assignment
       # %w( reputation is_admin access_level is_deleted ).each do |attr|
       #   user[attr.to_sym] = new_user_attr[attr.to_sym] unless new_user_attr[attr.to_sym].nil?
@@ -640,7 +656,7 @@ end
     uindexes << options[:size]
     uindexes.sort!
 
-    puts "uindexes=#{uindexes.inspect}"
+    # puts "uindexes=#{uindexes.inspect}"
 
     start_uindex=1
     total=0
@@ -664,7 +680,7 @@ end
 
         begin
           a = Asset.find all_assets[para_random(all_assets.size)]
-          puts "Tagging asset #{a.id} with [#{tags.join(' ')}]"
+          # puts "Tagging asset #{a.id} with [#{tags.join(' ')}]"
           new_attr = {}
           new_attr["user_id"] = uid
           new_attr["asset_id"] = a.id
@@ -725,7 +741,7 @@ end
           # puts "h=#{h.inspect}; row=#{row.inspect}"
         end
         if new_attr["asset_id"]
-          puts "new_attr=#{new_attr.inspect}"
+          # puts "new_attr=#{new_attr.inspect}"
           begin
             bookmark = Bookmark.find_by_user_id_and_asset_id new_attr["user_id"], new_attr["asset_id"]
             if bookmark.nil?

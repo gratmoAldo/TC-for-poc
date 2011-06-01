@@ -48,7 +48,7 @@ module Authentication
       # logger.info "format is xml or json"
       # logger.info "current user is #{current_user.inspect}"
         username, passwd = authenticate_with_http_basic { |u, p| 
-          logger.info "u=#{u} / p=#{p}"
+          # logger.info "u=#{u} / p=#{p}"
           # User.authenticate(u,p)
           [u,p]
         }
@@ -59,6 +59,7 @@ module Authentication
         end
     else      
       # logger.info "format is something else"
+      # logger.info "params[:login]=#{params[:login]} / params[:password]=#{params[:password]}"
       set_session_for_user User.authenticate(params[:login], params[:password]) if params[:login]
     end
   end
@@ -92,10 +93,10 @@ module Authentication
           redirect_to assets_url
         }
         format.xml {
-          render :text  => "<error>Unauthorized Access</error>", :status => "401 Unauthorized"
+          render :status => "401 Unauthorized", :text  => "<error>Unauthorized Access</error>"
         }
         format.json {
-          render :text  => "{\"error\":\"Unauthorized Access\"}", :status => "401 Unauthorized"
+          render :status => "401 Unauthorized", :text  => "{\"error\":\"Unauthorized Access\"}"
         }
       end
 
@@ -109,7 +110,8 @@ module Authentication
   def login_required
     authenticate_from_request!
     unless logged_in?
-      logger.info "login_required() - YOU ARE NOT LOGGED IN!"
+      logger.info "login_required() - 401 Unauthorized"
+      logout # clears current user credentials if any since they are incorrect
       respond_to do |format|
         format.html {
           flash[:error] = "You must first log in or sign up before accessing this page."
@@ -117,13 +119,13 @@ module Authentication
           redirect_to login_url
         }
         format.mobile {
-          render :text => "", :status => "401 Unauthorized"
+          render :status => "401 Unauthorized", :text => (ENV["RAILS_ENV"] == 'production' ? '' : '401: Unauthorized')
         }
         format.xml {
-          render :text  => "<error>Unauthorized Access</error>", :status => "401 Unauthorized"
+          render :status => "401 Unauthorized", :text  => "<error>Unauthorized Access</error>"
         }
         format.json {
-          render :text  => "{\"error\":\"Unauthorized Access\"}", :status => "401 Unauthorized"
+          render :status => "401 Unauthorized", :text  => "{\"error\":\"Unauthorized Access\"}"
         }
       end
     end

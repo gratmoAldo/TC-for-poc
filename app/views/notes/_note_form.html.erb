@@ -1,0 +1,21 @@
+<% form_for(note_form) do |f| %>
+<%= f.error_messages %>
+<%= f.hidden_field :created_by %>
+<%= f.hidden_field :service_request_id %>
+<div class='new-note'>
+	<div class='form'>
+		<p>
+			<label>Note Type:</label><%= f.select :note_type, note_form.valid_user_note_types %>
+			<label>Visibility:</label><%= f.select :visibility, Note::VALID_VISIBILITY_VALUES %>
+			<label>Effort (minutes):</label><%= f.text_field :effort_minutes, :size=>6 %>	
+		</p>
+		<p>
+			<label>Note:</label>
+			<%= f.text_area :body, :rows => 6, :cols => 92 %>
+		</p>
+		<p>
+			<button class="submit" type="submit"><span>Save Note</span></button>
+		</p>
+	</div>
+</div>
+<% end %>

@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  before_filter :admin_only
+  before_filter :login_required
   skip_before_filter :verify_authenticity_token
   # GET /notes
   # GET /notes.xml
@@ -46,9 +46,14 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
+
+        # TODO need to remove myself from list of watchers
+        send_notifications :event => :sr_note_added, :data => {:note => @note},
+          :user_ids => @note.service_request.watchers.collect(&:owner_id)
+        
         flash[:notice] = 'Note was successfully created.'
-        format.html { redirect_to(@note) }
-        format.xml  { render :xml => @note, :status => :created, :location => @note }
+        format.html { redirect_to(@note.service_request) }
+        format.xml  { render :xml => @note, :status => :created, :location => @note }        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @note.errors, :status => :unprocessable_entity }

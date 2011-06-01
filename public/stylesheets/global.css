@@ -520,14 +520,23 @@ legend {
 
 
 
-#login_form {
+.login_form {
 	background-color: #ECF0F7;
     border:8px solid #65686C;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
-	padding: 5px 5px 5px 10px;
-	margin: 10px 5px;
-	width: 449px;
+	padding: 5px;
+	margin: 10px 5px 0 0;
+	width: 459px;
+}
+
+.login_form input {
+	font-size: 1.1em;
+	line-height: 1.5em;
+}
+
+.login_form label {
+	padding: 0 8px;
 }
 
 .details {
@@ -1002,7 +1011,7 @@ text-shadow:1px 1px 0 #000000;
 	font-size: 1.1em;
 	font-weight: bold;
 }
-.col1 tr, .col2 tr {
+.sr-details .col1 tr, .sr-details .col2 tr {
 	height: 27px;
 }
 .sr-details .col2 {
@@ -1086,4 +1095,59 @@ text-shadow:1px 1px 0 #000000;
 	margin-right: 7px;
 	padding: 1px 5px;
 	background-color: #E8EDF8;
+}
+.notes {
+	padding: 0 10px;
+}
+.one-note {
+	margin:  0 0 10px;
+	padding: 0 25px;
+	font-size: .9em;
+	border: 1px solid #D9D9D9;
+}
+li.one-note:hover {
+	background-color: #E9FCCE;
+}
+
+.one-note .col1 {
+	float: left;
+	width: 300px;
+/*	height: 150px;*/
+	padding: 13px 0 0;
+}
+.one-note .col2 {
+	float: left;
+	width: 500px;
+	padding: 13px 10px;
+}
+.one-note .col2 p {
+	margin: 0;
+}
+.one-note table {
+	border-spacing:0;
+}
+.one-note td {
+	padding: 0 5px 13px 10px;
+}
+.one-note .note-key {
+	font-weight: bold;
+}
+.one-note .note-value {
+}
+.new-note {
+	font-size: 0.9em;
+	margin: 10px 0 0;
+	background-color: #ECF0F7;
+}
+.new-note .form {
+	margin: 10px;
+	padding: 10px;
+	text-align: right;
+}
+.new-note p {
+	margin: 5px 0;
+}
+.new-note label {
+	font-weight: bold;
+	margin: 0 6px 0 18px;
 }

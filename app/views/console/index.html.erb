@@ -73,9 +73,7 @@
 		<table width='100%'>
 		  <tr>
 		    <th>Message</th>
-		    <th>Collapse Key</th>
 		    <th align='center'>Device</th>
-		    <th>Delay</th>
 		    <th>Created *</th>
 		    <th>Sent *</th>
 		  </tr>
@@ -83,9 +81,7 @@
 		<% @last_android_notifications.each do |notification| %>
 		  <tr>
 		    <td><label class='strong'><%=h notification.data.inspect %></label></td>
-		    <td><%=h notification.collapse_key %></td>
 		    <td align='center'><%=h notification.device_id %></td>
-		    <td><%=h notification.delay_while_idle %></td>
 		    <td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br><%=h notification.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
 		    <td>
 <% if !notification.sent_at.nil? %>
@@ -122,7 +118,6 @@
 		<% end %>
 		</table>
 	</div>
-	<p class='small-print'>* <%= Time.zone.name %></p>
 </div>
 
 <div class='pane'>	
