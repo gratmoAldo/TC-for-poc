@@ -64,7 +64,7 @@ class SubscriptionsController < ApplicationController
         format.xml  { head :ok }
         format.json  { 
           # logger.info "format = #{request.inspect}"
-          render :json => {:last_subscribed_at => Time.now.strftime("%m/%d/%Y %H:%M:%S %Z")}
+          render :json => {:last_subscribed_at => json_date(Time.now)}
         }
       else
         errors ||= "unprocessable entity"

@@ -1004,8 +1004,8 @@ text-shadow:1px 1px 0 #000000;
 }
 .sr-details .col1 {
 	float: left;
-	width: 504px;
-	height: 150px;
+	width: 454px;
+	height: 164px;
 	padding: 5px 10px;
 	background-color:#E7E4E0;
 	font-size: 1.1em;
@@ -1016,7 +1016,7 @@ text-shadow:1px 1px 0 #000000;
 }
 .sr-details .col2 {
 	float: left;
-	width: 406px;
+	width: 456px;
 	padding: 5px 10px;
 	font-size: 1.1em;
 	font-weight: bold;
@@ -1052,7 +1052,7 @@ text-shadow:1px 1px 0 #000000;
 	color: red;
 }
 
-.subscriptions-section {
+.console-section {
 	border-bottom: 1px solid #ccc;
     font-size: 0.85em;
     line-height: 1.5em;
@@ -1060,21 +1060,21 @@ text-shadow:1px 1px 0 #000000;
 	margin-bottom: 5px;
 }
 
-.subscriptions-section table {
+.console-section table {
 	border-spacing:0;
 }
 
-.subscriptions-section h2 {
+.console-section h2 {
 	margin-bottom: 5px;
 	font-size: 1.4em;
 	color: #7E7E7E;
 }
 
-.subscriptions-section td {
+.console-section td {
 	padding: 2px 7px;	
 	color: #888889;
 }
-.subscriptions-section th
+.console-section th
 {
 	padding: 2px 7px 0px;
     font-size: 1.1em;
@@ -1097,7 +1097,7 @@ text-shadow:1px 1px 0 #000000;
 	background-color: #E8EDF8;
 }
 .notes {
-	padding: 0 10px;
+/*	padding: 0 10px;*/
 }
 .one-note {
 	margin:  0 0 10px;
@@ -1112,7 +1112,6 @@ li.one-note:hover {
 .one-note .col1 {
 	float: left;
 	width: 300px;
-/*	height: 150px;*/
 	padding: 13px 0 0;
 }
 .one-note .col2 {
@@ -1120,32 +1119,44 @@ li.one-note:hover {
 	width: 500px;
 	padding: 13px 10px;
 }
-.one-note .col2 p {
-	margin: 0;
-}
-.one-note table {
+.one-note table, .new-note table {
 	border-spacing:0;
 }
-.one-note td {
-	padding: 0 5px 13px 10px;
+.one-note td, .new-note td {
+	padding: 0 5px 6px 10px;
 }
-.one-note .note-key {
+.one-note .col1 td {
+	color: #888;
+}
+.one-note .col2 p {
+	color: #383839;
+}
+.one-note .note-key, .new-note .note-key {
 	font-weight: bold;
 }
-.one-note .note-value {
+.one-note .note-value, .new-note .note-value {
 }
 .new-note {
 	font-size: 0.9em;
-	margin: 10px 0 0;
+	margin: 10px 0;
 	background-color: #ECF0F7;
 }
 .new-note .form {
-	margin: 10px;
-	padding: 10px;
+	padding: 10px 10px 2px;
 	text-align: right;
 }
 .new-note p {
 	margin: 5px 0;
+}
+.new-note .col1 {
+	float: left;
+	width: 285px;
+	padding: 13px 0 0 15px;
+}
+.new-note .col2 {
+	float: left;
+	width: 640px;
+	text-align: right;
 }
 .new-note label {
 	font-weight: bold;

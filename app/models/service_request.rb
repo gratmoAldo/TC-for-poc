@@ -25,6 +25,10 @@ class ServiceRequest < ActiveRecord::Base
     } unless keywords.blank?
   }
   
+  def last_note_created_at
+    (self.notes.last || Note.new).created_at
+  end
+      
   def to_param
     sr_number.to_s
   end
@@ -93,7 +97,8 @@ class ServiceRequest < ActiveRecord::Base
     # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
     description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
   end
-  
+
+=begin  
   def notify_watchers
     
     update_watcher
@@ -149,12 +154,13 @@ class ServiceRequest < ActiveRecord::Base
       end
     end
   end
+=end
   
   #       iOS token =~ /^[0-9a-f\-]{71}$/
   #       Android token =~ /^[\-\_0-9a-z]{119}$/i
   
-  def create_ios_notification(payload={})
-    
-  end
+  # def create_ios_notification(payload={})
+  #   
+  # end
     
 end

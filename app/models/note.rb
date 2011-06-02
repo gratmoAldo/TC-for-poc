@@ -1,7 +1,7 @@
 class Note < ActiveRecord::Base
 
   VALID_SYSTEM_NOTE_TYPES = ["Administrative","Problem Description","Live chat","Notification Sent","Web Update"]
-  VALID_USER_NOTE_TYPES = ["Action Plan","Customer Contacted","Consult","Initial Response","Chat","L2 Consult","Research","Sent Email","Webex"]
+  VALID_USER_NOTE_TYPES = ["Chat","Action Plan","Consult","Customer Contacted","Initial Response","L2 Consult","Research","Sent Email","Webex"]
   VALID_VISIBILITY_VALUES = ["Internal","Public"]  
   belongs_to :service_request
   belongs_to :owner, :class_name => 'User', :foreign_key => 'created_by'
@@ -20,4 +20,11 @@ class Note < ActiveRecord::Base
   def valid_user_note_types
     VALID_USER_NOTE_TYPES
   end
+  
+  def clean_body
+    # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
+    body.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
+  end
+  
+  
 end

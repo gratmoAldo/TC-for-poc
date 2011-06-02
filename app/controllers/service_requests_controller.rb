@@ -71,7 +71,6 @@ class ServiceRequestsController < ApplicationController
           if db_type == :datetime then
             #          2007-07-02 14:15:19.0
             value = i.send(a).strftime("%Y-%m-%d %H:%M:%S")
-            # t.strftime("at %I:%M%p") -> "at 12:36PM"        
           else
             value = i.send(a).to_s.gsub(/["]/, '""')
           end
@@ -115,11 +114,13 @@ class ServiceRequestsController < ApplicationController
     else
       @watchers = User.watching_sr @service_request.id
 
-      @inbox_sr = InboxSr.new :service_request_id => @service_request.id, :inbox_id => Inbox.owned_by(current_user).first
-      # <label class='right'><button class="submit" type="submit"><span>Watch</span></button></label>
+      myinbox = Inbox.owned_by(current_user).first
+      sr_id = @service_request.id
+      @inbox_sr = InboxSr.find(:first, :conditions => ["service_request_id=? and inbox_id=?",sr_id,myinbox]) || InboxSr.new(:service_request => @service_request, :inbox => myinbox)
       
       @notes = Note.recent(@service_request.id)
-      @new_note = Note.new :service_request_id => @service_request.id, :created_by => current_user.id
+      @new_note = Note.new :service_request_id => @service_request.id, 
+              :created_by => current_user.id, :effort_minutes => 1, :note_type => "Research"
       respond_to do |format|
         # format.html { render :text => request.user_agent }
         format.html # show.html.erb

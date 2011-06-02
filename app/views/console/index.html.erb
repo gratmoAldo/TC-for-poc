@@ -1,144 +1,160 @@
 <% title "Console" %>
 
 <div class='first-pane'>
-	<div class="subscriptions-section">
+	<div class="console-section">
 		<h2>Subscribers</h2>
-			<table width='100%'>
-			  <tr>
-			    <th>User</th>
-			    <th align='center'>Method</th>
-			    <th width='45%'>Display ID</th>
-			    <th align='center'>Badge</th>
-			    <th align='center'>SR level</th>
-			    <th>Created *</th>
-			    <th>Updated *</th>
-			    <th></th>
-			  </tr>
+		<table width='100%'>
+			<tr>
+				<th>User</th>
+				<th align='center'>Method</th>
+				<th width='33%'>Display ID</th>
+				<th align='center'>Badge</th>
+				<th align='center'>SR level</th>
+				<th>Created *</th>
+				<th>Updated *</th>
+				<th></th>
+			</tr>
 
 			<% @subscriptions.each do |subscription| %>
-			  <tr>
-			    <td><label class='strong'><%=h subscription.user.fullname %></label></td>
-			    <td align='center'><%=h subscription.notification_method %></td>
-			    <td><label class='strong'><%= subscription.device[:id] %></label> / <label class='display_id'><%=  mid_truncate(subscription.display_id, 55) %></label></td>
-			    <td align='center'><%=h subscription.badge %></td>
-			    <td align='center'><%=h subscription.sr_severity %></td>
-			    <td><label class='strong'><%= time_ago_in_words subscription.created_at %> ago</label><br><%=h subscription.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-			    <td><label class='strong'><%= time_ago_in_words subscription.updated_at %> ago</label><br><%=h subscription.updated_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-			    <td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
-			  </tr>
+			<tr>
+				<td><label class='strong'><%=h subscription.user.fullname %></label></td>
+				<td align='center'><%=h subscription.notification_method %></td>
+				<td><label class='strong'><%= subscription.device[:id] %></label> / <label class='display_id'><%=  mid_truncate(subscription.display_id, 41) %></label></td>
+				<td align='center'><%=h subscription.badge %></td>
+				<td align='center'><%=h subscription.sr_severity %></td>
+				<td><label class='strong'><%= time_ago_in_words subscription.created_at %> ago</label><br>
+					<%=full_date subscription.created_at %>
+				</td>
+				<td><label class='strong'><%= time_ago_in_words subscription.updated_at %> ago</label><br />
+					<%=full_date subscription.updated_at %>
+				</td>
+				<td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
+			</tr>
 			<% end %>
-			</table>
+		</table>
 	</div>
-	
+
 </div>
 <div class='pane'>
-	
-	<div class="subscriptions-section">
+
+	<div class="console-section">
 		<h2>Recent APN Notifications (iOS)</h2>
 		<table width='100%'>
-		  <tr>
-		    <th>Message</th>
-		    <th>Custom Data</th>
-		    <th align='center'>Device</th>
-		    <th>Sounds</th>
-		    <th>Created *</th>
-		    <th>Sent *</th>
-		  </tr>
+			<tr>
+				<th>Message</th>
+				<th>Custom Data</th>
+				<th align='center'>Device</th>
+				<th>Sounds</th>
+				<th>Created *</th>
+				<th>Sent *</th>
+			</tr>
 
-		<% @last_apn_notifications.each do |notification| %>
-		  <tr>
-		    <td><label class='strong'><%=h notification.alert.inspect %></label></td>
-		    <td><%=h notification.custom_properties.inspect %></td>
-		    <td align='center'><%=h notification.device_id %></td>
-		    <td><%=h notification.sound %></td>
-		    <td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br><%=h notification.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		    <td>
-<% if !notification.sent_at.nil? %>
-<label class='strong'><%= time_ago_in_words notification.sent_at %> ago</label><br>
-			<%=h notification.sent_at.strftime("%m/%d/%Y %H:%M:%S") %>
-			<% else %>
-			pending...
+			<% @last_apn_notifications.each do |notification| %>
+			<tr>
+				<td><label class='strong'><%=h notification.alert.inspect %></label></td>
+				<td><%=h notification.custom_properties.inspect %></td>
+				<td align='center'><%=h notification.device_id %></td>
+				<td><%=h notification.sound %></td>
+				<td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br>
+					<%=full_date notification.created_at %>
+				</td>
+				<td>
+					<% if !notification.sent_at.nil? %>
+					<label class='strong'><%= time_ago_in_words notification.sent_at %> ago</label><br>
+					<%=full_date notification.sent_at %>
+					<% else %>
+					pending...
+					<% end %>
+				</td>
+			</tr>
 			<% end %>
-			</td>
-		  </tr>
-		<% end %>
 		</table>
 	</div>
 </div>
 
 <div class='pane'>
-	
-	<div class="subscriptions-section">
+
+	<div class="console-section">
 		<h2>Recent C2DM Notifications (Android)</h2>
 		<table width='100%'>
-		  <tr>
-		    <th>Message</th>
-		    <th align='center'>Device</th>
-		    <th>Created *</th>
-		    <th>Sent *</th>
-		  </tr>
+			<tr>
+				<th>Message</th>
+				<th align='center'>Device</th>
+				<th>Created *</th>
+				<th>Sent *</th>
+			</tr>
 
-		<% @last_android_notifications.each do |notification| %>
-		  <tr>
-		    <td><label class='strong'><%=h notification.data.inspect %></label></td>
-		    <td align='center'><%=h notification.device_id %></td>
-		    <td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br><%=h notification.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		    <td>
-<% if !notification.sent_at.nil? %>
-<label class='strong'><%= time_ago_in_words notification.sent_at %> ago</label><br>
-			<%=h notification.sent_at.strftime("%m/%d/%Y %H:%M:%S") %>
-			<% else %>
-			pending...
+			<% @last_android_notifications.each do |notification| %>
+			<tr>
+				<td><label class='strong'><%=h notification.data.inspect %></label></td>
+				<td align='center'><%=h notification.device_id %></td>
+				<td><label class='strong'><%= time_ago_in_words notification.created_at %> ago</label><br>
+					<%=full_date notification.created_at %>
+				</td>
+				<td>
+					<% if !notification.sent_at.nil? %>
+					<label class='strong'><%= time_ago_in_words notification.sent_at %> ago</label><br>
+					<%=full_date notification.sent_at %>
+					<% else %>
+					pending...
+					<% end %>
+				</td>
+			</tr>
 			<% end %>
-			</td>
-		  </tr>
-		<% end %>
 		</table>
 	</div>
 </div>
 
 <div class='pane'>	
-	<div class="subscriptions-section">
+	<div class="console-section">
 		<h2>Recent APN Devices (iOS)</h2>
 		<table width='100%'>
-		  <tr>
-		    <th align='center'>ID</th>
-		    <th>Token</th>
-		    <th>Created *</th>
-		    <th>Updated *</th>
-		  </tr>
+			<tr>
+				<th align='center'>ID</th>
+				<th>Token</th>
+				<th>Created *</th>
+				<th>Updated *</th>
+			</tr>
 
-		<% @last_apn_devices.each do |device| %>
-		  <tr>
-		    <td align='center'><label class='strong'><%=h device.id %></label></td>
-		    <td><label class='display_id'><%=h mid_truncate(device.token, 55) %></label></td>
-		    <td><label class='strong'><%= time_ago_in_words device.created_at %> ago</label><br><%=h device.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		    <td><label class='strong'><%= time_ago_in_words device.updated_at %> ago</label><br><%=h device.updated_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		  </tr>
-		<% end %>
+			<% @last_apn_devices.each do |device| %>
+			<tr>
+				<td align='center'><label class='strong'><%=h device.id %></label></td>
+				<td><label class='display_id'><%=h mid_truncate(device.token, 41) %></label></td>
+				<td><label class='strong'><%= time_ago_in_words device.created_at %> ago</label><br>
+					<%=full_date device.created_at %>
+				</td>
+				<td><label class='strong'><%= time_ago_in_words device.updated_at %> ago</label><br>
+					<%=full_date device.updated_at %>
+				</td>
+			</tr>
+			<% end %>
 		</table>
 	</div>
 </div>
 
 <div class='pane'>	
-	<div class="subscriptions-section">
+	<div class="console-section">
 		<h2>Recent C2DM Devices (Android)</h2>
 		<table width='100%'>
-		  <tr>
-		    <th align='center'>ID</th>
-		    <th>Registration ID</th>
-		    <th>Created *</th>
-		    <th>Last Registered At *</th>
-		  </tr>
+			<tr>
+				<th align='center'>ID</th>
+				<th>Registration ID</th>
+				<th>Created *</th>
+				<th>Last Registered At *</th>
+			</tr>
 
-		<% @last_android_devices.each do |device| %>
-		  <tr>
-		    <td align='center'><label class='strong'><%=h device.id %></label></td>
-		    <td><label class='display_id'><%=h mid_truncate(device.registration_id, 55) %></label></td>
-		    <td><label class='strong'><%= time_ago_in_words device.created_at %> ago</label><br><%=h device.created_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		    <td><label class='strong'><%= time_ago_in_words device.last_registered_at %> ago</label><br><%=h device.last_registered_at.strftime("%m/%d/%Y %H:%M:%S") %></td>
-		  </tr>
-		<% end %>
+			<% @last_android_devices.each do |device| %>
+			<tr>
+				<td align='center'><label class='strong'><%=h device.id %></label></td>
+				<td><label class='display_id'><%=h mid_truncate(device.registration_id, 41) %></label></td>
+				<td><label class='strong'><%= time_ago_in_words device.created_at %> ago</label><br>
+					<%=full_date device.created_at %>
+				</td>
+				<td><label class='strong'><%= time_ago_in_words device.last_registered_at %> ago</label><br>
+					<%=full_date device.last_registered_at %>
+				</td>
+			</tr>
+			<% end %>
 		</table>
 	</div>
 	<p class='small-print'>* <%= Time.zone.name %></p>

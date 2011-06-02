@@ -72,7 +72,7 @@ class MyinboxController < ApplicationController
       :next_action_in_seconds => sr.next_action_in_seconds,
       :last_updated_at => sr.last_updated_at,
       :last_updated_in_seconds => sr.last_updated_in_seconds,
-      :last_updated_in_words => "#{1+rand(12)} hours ago",
+      :last_updated_in_words => short_date(sr.last_note_created_at), #{}"#{1+rand(12)} hours ago",
       :product => sr.product,
       :nb_notes => sr.notes.count
     }
