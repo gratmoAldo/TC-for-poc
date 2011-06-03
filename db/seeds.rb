@@ -371,8 +371,10 @@ def self.load_notes(file)
             puts "** Skipping note for sr_number #{row[i]}: Service Request not found"
             invalid_record = true
           end
-        when "created_at"
-          new_note_attr["updated_at"] = row[i]
+        # when "created_at"
+        #   puts "setting updated_at to #{row[i]}"
+        #   new_note_attr["updated_at"] = row[i]
+        #   new_note_attr["created_at"] = row[i]
         else
           new_note_attr[h.to_sym] = row[i] unless row[i].nil?
         end

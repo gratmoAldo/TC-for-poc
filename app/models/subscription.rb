@@ -3,7 +3,7 @@ class Subscription < ActiveRecord::Base
   VALID_NOTIFICATION_METHODS = ["apn","c2dm"]  
 
   belongs_to :user
-  validates_uniqueness_of :display_id, :token
+  validates_uniqueness_of :display_id #, :token
   belongs_to :service_request
   belongs_to :owner, :class_name => 'User', :foreign_key => 'created_by'
   validates_inclusion_of :notification_method, 

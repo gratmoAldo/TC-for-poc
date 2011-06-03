@@ -68,13 +68,15 @@ class ApplicationController < ActionController::Base
   SEP = ' ... '
   def mid_truncate(txt, truncation=40)
     sep_length = SEP.length
+    txt_length = txt.length
     return txt[0..truncation-1] if truncation < (sep_length + 2)
-    return txt if txt.length <= truncation
-    first_chunk = ((truncation - sep_length) / 2).to_i
-    second_chunk = truncation - sep_length - first_chunk
+    return txt if txt_length <= truncation
+    first_chunk_end = ((truncation - sep_length) / 2).to_i
+    second_chunk_start = txt_length - (truncation - sep_length - first_chunk_end)
     # puts "first_chunk = #{first_chunk}"
     # txt.gsub! /\s/,' '
-    txt.gsub(/^(.{#{first_chunk}})(.*)$/,'\1')+SEP+txt.gsub(/^(.*)(.{#{second_chunk}})$/,'\2')
+    # txt.gsub(/^(.{#{first_chunk}})(.*)$/,'\1')+SEP+txt.gsub(/^(.*)(.{#{second_chunk}})$/,'\2')
+    "#{txt[0..first_chunk_end]}#{SEP}#{txt[second_chunk_start..txt_length]}"
   end  
 
   def short_date(d)    
@@ -82,7 +84,7 @@ class ApplicationController < ActionController::Base
   end
 
   def simple_date(d)    
-    d.nil? ? "" : d.strftime("%m/%d/%Y %r %Z")
+    d.nil? ? "" : d.strftime("%m/%d/%Y %I:%M %p %Z")
   end
 
   def full_date(d)

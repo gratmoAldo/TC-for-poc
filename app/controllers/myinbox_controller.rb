@@ -42,7 +42,7 @@ class MyinboxController < ApplicationController
               :environment => ENV["RAILS_ENV"]
             }
           }
-          logger.info "returning JSON response #{res}"
+          # logger.info "returning JSON response #{res}"
           render :json => res
         }
       end

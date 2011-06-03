@@ -15,7 +15,14 @@ class Note < ActiveRecord::Base
                           :allow_nil => false,
                           :message => "must be #{VALID_VISIBILITY_VALUES.join(' or ')}"
 
+  before_save :sanatize                        
+
   named_scope :recent, lambda { |sr| {:conditions => {"notes.service_request_id" => sr}, :order => "notes.updated_at DESC", :limit => 10}}
+
+  def sanatize
+    self.body = self.body[0..4096] unless body.nil?
+  end
+  
 
   def valid_user_note_types
     VALID_USER_NOTE_TYPES
@@ -23,7 +30,7 @@ class Note < ActiveRecord::Base
   
   def clean_body
     # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
-    body.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
+    body.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').squeeze(' ').strip    
   end
   
   

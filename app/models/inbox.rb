@@ -3,7 +3,7 @@ class Inbox < ActiveRecord::Base
   has_many :inbox_srs, :dependent => :destroy
   has_many :service_requests, 
            :through => :inbox_srs,
-           :order => :sr_number
+           :order => "service_requests.sr_number desc"
 
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
 

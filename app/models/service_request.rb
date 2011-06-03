@@ -12,10 +12,11 @@ class ServiceRequest < ActiveRecord::Base
            :select => "distinct inboxes.owner_id"
 
   belongs_to :site
+  before_save :sanatize
   # belongs_to :escalation
   # after_save :notify_watchers
   
-  named_scope :sort_by_sr_number, {:order => "service_requests.sr_number"}
+  named_scope :sort_by_sr_number, {:order => "service_requests.sr_number desc"}
   
   named_scope :with_fulltext, lambda { |keywords| # keywords is an array of keywords
     {:conditions => [Array.new(keywords.length){"(service_requests.title like ? or service_requests.description like ? or service_requests.product like ?)"}.join(" and ") +
@@ -24,6 +25,10 @@ class ServiceRequest < ActiveRecord::Base
                      [keywords]
     } unless keywords.blank?
   }
+  
+  def sanatize
+    self.description = self.description[0..4096] unless description.nil?
+  end
   
   def last_note_created_at
     (self.notes.last || Note.new).created_at
@@ -62,7 +67,7 @@ class ServiceRequest < ActiveRecord::Base
   end  
   
   def escalation_image
-    return 'sr/1x1.gif' unless escalation > 0
+    return 's.gif' unless escalation > 0
     "sr/E#{escalation}"
   end  
 

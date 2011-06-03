@@ -7,21 +7,20 @@
 	body { color: #383839; background: #E9E9E9 none repeat scroll 0% 0%; font: 13px Arial,Helvetica,Verdana,"Trebuchet MS",sans-serif; padding: 3px; }
 	p { margin: 2px 0px 5px; }
 	.container {background: #fff none repeat scroll 0% 0%; border: 1px solid #9A9A9A; margin: 3px 7px 15px;-moz-border-radius: 10px; -webkit-border-radius: 10px; }
-	.cell {padding: 5px;border-bottom: 1px solid #9A9A9A;}
-	.cell-last {padding: 5px;}
-	.col1 {width:29%;padding: 5px 5px 0 0;float:left;text-align:right;font-weight:bold;}
-	.col2 {width:67%;padding: 5px 0 0 5px;float:left;}
-	.text p {color:#007DC3;} 
+	.cell {padding: 4px 5px 4px 16px;border-bottom: 1px solid #9A9A9A;}
+	.cell-last {padding: 0px 5px 4px 16px;}
+	.col1 {width:26%;padding: 0;float:left;text-align:right;font-weight:bold;}
+	.col2 {width:70%;padding-left: 10px;float:left;}
 	.col1 p, .col2 p { margin:0;}
 	.note p { margin:0;}
-	.m-note p, {color:#007DC3;}
+	.tapit p {color:#007DC3;}
 	.table-header {font-weight: bold; font-size: 1.2em; margin: 0 10px;}
 	.left { float: left; }
 	.hidden { display: none; }
 	.show { display: block; }
 	.details {font-size: .85em;color:#888889;}
-	.closed { background: url("../images/sr/caret_right.png") 6px 8px no-repeat; padding-left: 20px; }
-	.open { background: url("../images/sr/caret_down.png") 6px 8px no-repeat; padding-left: 20px; }
+	.closed { background: url("../images/sr/caret_right.png") 4px 9px no-repeat; padding-left: 16px; }
+	.open { background: url("../images/sr/caret_down.png") 4px 9px no-repeat; padding-left: 16px; }
 	hr { color: #9A9A9A; border-top:0; border-left:0; border-right:0; }
 	</style>
 
@@ -47,52 +46,55 @@
 		<ul>
 			<li class='cell'>
 				<div class='col1'><%= image_tag @service_request.severity_image %><%= image_tag @service_request.escalation_image %></div>
-				<div class='col2 summary'><p><%=h @service_request.title %></p></div>
+				<div class='col2'><p><%=h @service_request.title %></p></div>
 				<div class="clear"></div>
 			</li>
-			<li class='cell text'>
+			<% content_tag_for :li, @service_request, :class=>"cell text closed", :onclick=>'toggle(this)', :style=>"background-image: url('../images/sr/caret_right.png');" do %>	
 				<div class='col1'>Description</div>
-				<div class='col2 summary'><p><%= truncate format_comment(h @service_request.clean_description), 168 %></p></div>
+				<div class='col2'><% content_tag_for :div, @service_request, :closed, :class=>'tapit', :style=>'display: block;' do %><%= truncate format_comment(h @service_request.clean_description), 88 %><% end %>
+				<% content_tag_for :div, @service_request, :open, :class=>'tapit hidden' do %><%= format_comment(h @service_request.description) %><% end %>
+				</div>
 				<div class="clear"></div>
 			</li>
+			<% end %>
 			<li class='cell'>
 				<div class='col1'>Status</div>
-				<div class='col2 summary'><p><%=h @service_request.status %></p></div>
+				<div class='col2'><p><%=h @service_request.status %></p></div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell'>
 				<div class='col1'>Created On</div>
-				<div class='col2 summary'><p><%=simple_date @service_request.created_at  %></p></div>
+				<div class='col2'><p><%=simple_date @service_request.created_at  %></p></div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell'>
 				<div class='col1'>Next Action</div>
-				<div class='col2 summary'><p><%=simple_date @service_request.next_action_at  %></p></div>
+				<div class='col2'><p><%=simple_date @service_request.next_action_at  %></p></div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell'>
 				<div class='col1'>Product</div>
-				<div class='col2 summary'><p><%=h @service_request.product %></p></div>
+				<div class='col2'><p><%=h @service_request.product %></p></div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell'>
 				<div class='col1'>Owner</div>
-				<div class='col2 summary'><p><%=h @service_request.owner.fullname  %></p>
-					<p><%=h @service_request.owner.phone1 %></p>
+				<div class='col2'><p><%=h @service_request.owner.fullname  %></p>
+					<p class='tapit'><%=h @service_request.owner.phone1 %></p>
 					</div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell'>
 				<div class='col1'>Site</div>
-				<div class='col2 summary'><p><%=h @service_request.site.name %> (<%=h @service_request.site.site_id %>)</p>
-					<p><%=h @service_request.site.address %>)</p>
+				<div class='col2'><p><%=h @service_request.site.name %> (<%=h @service_request.site.site_id %>)</p>
+					<p class='tapit'><%=h @service_request.site.address %>)</p>
 					</div>
 				<div class="clear"></div>
 			</li>
 			<li class='cell-last'>
 				<div class='col1'>Contact</div>
-				<div class='col2 summary'><p><%=h @service_request.contact.fullname  %></p>
-					<p><%=h @service_request.contact.phone1 %></p>
+				<div class='col2'><p><%=h @service_request.contact.fullname  %></p>
+					<p class='tapit'><%=h @service_request.contact.phone1 %></p>
 					</div>
 				<div class="clear"></div>
 			</li>

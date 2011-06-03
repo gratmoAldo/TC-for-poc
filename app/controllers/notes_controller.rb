@@ -4,7 +4,7 @@ class NotesController < ApplicationController
   # GET /notes
   # GET /notes.xml
   def index
-    @notes = Note.all
+    @notes = Note.find :all, :order => 'updated_at desc'
 
     respond_to do |format|
       format.html # index.html.erb

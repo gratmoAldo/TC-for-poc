@@ -39,7 +39,7 @@ class SubscriptionsController < ApplicationController
       
       env = params[:env]
       # logger.info "env=[#{env}] vs ENV=[#{ENV["RAILS_ENV"]}], errors=#{errors.inspect}"
-      if errors.nil? && env == ENV["RAILS_ENV"]
+      if errors.nil? && (env == ENV["RAILS_ENV"])
         @subscription = Subscription.find(:first, :conditions => ["display_id = ?", form[:display_id]])
         logger.info "Found subscription #{@subscription.inspect} for display #{form[:display_id]}"
         if @subscription
@@ -50,6 +50,8 @@ class SubscriptionsController < ApplicationController
       else
         errors ||= "Invalid environment"
       end if
+      
+      # TODO: make the sub_token unique in the model once implemented !!!!!!!!!!!!!!!!
 
       # logger.info "Gone fishing..."
       # sleep 5
@@ -68,7 +70,7 @@ class SubscriptionsController < ApplicationController
         }
       else
         errors ||= "unprocessable entity"
-        errors ||= @subscription.errors if @subscription
+        errors += "; #{@subscription.errors}" if @subscription
         format.xml  { render :xml => errors, :status => :unprocessable_entity }
         format.json  { render :json => {:error => "unprocessable entity (#{errors})"}, :status => :unprocessable_entity }
       end

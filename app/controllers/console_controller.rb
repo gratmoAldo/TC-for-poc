@@ -4,7 +4,7 @@ class ConsoleController < ApplicationController
   # skip_before_filter :verify_authenticity_token
 
   def index
-    @subscriptions = Subscription.all
+    @subscriptions = Subscription.find :all, :order => 'subscriptions.updated_at DESC', :limit => 20
     @last_apn_notifications = APN::Notification.find :all, :order => 'apn_notifications.created_at DESC', :limit => 10
     @last_apn_devices = APN::Device.find :all, :order => 'apn_devices.last_registered_at DESC', :limit => 10
     

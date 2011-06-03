@@ -13,8 +13,8 @@
 	</tr></table>
 
 </div>
-<% content_tag_for :div, note, :closed, :class=>'m-note', :style=>'display: block;' do %><%= truncate(format_comment(note.clean_body), :length => 88) %><% end %>
-<% content_tag_for :div, note, :open, :class=>'m-note hidden' do %><%= format_comment(h note.body) %>
+<% content_tag_for :div, note, :closed, :class=>'tapit', :style=>'display: block;' do %><%= truncate(format_comment(note.clean_body), :length => 88) %><% end %>
+<% content_tag_for :div, note, :open, :class=>'tapit hidden' do %><%= format_comment(h note.body) %>
 <% if current_user.is_employee? %>
 <p><strong>Visibility:</strong><%= note.visibility %></p>
 <% end %>

@@ -102,7 +102,7 @@ module Notification
       logger.info "Note added to SR #{opt[:service_request].inspect}"
       note = data[:note]
       sr = note.service_request
-      message = "SR ##{sr.sr_number} has a new note: #{note.body[0..92]}"
+      message = "SR ##{sr.sr_number}: #{note.clean_body[0..92]}"
       logger.info "message = #{message}"
 
       subscriptions = Subscription.for_watchers(opt[:user_ids])
