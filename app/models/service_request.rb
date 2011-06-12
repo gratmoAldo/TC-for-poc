@@ -30,8 +30,8 @@ class ServiceRequest < ActiveRecord::Base
     self.description = self.description[0..4096] unless description.nil?
   end
   
-  def last_note_created_at
-    (self.notes.last || Note.new).created_at
+  def last_note_updated_at
+    (self.notes.last || Note.new).updated_at
   end
       
   def to_param

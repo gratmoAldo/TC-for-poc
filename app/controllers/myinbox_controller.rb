@@ -60,7 +60,7 @@ class MyinboxController < ApplicationController
 
   private
 
-  def service_request_to_hash(sr,options={})
+  def service_request_to_hash(sr,options={})    
     options.reverse_merge! :locale => @locale, :keywords => []
     {
       :sr_number => sr.sr_number,
@@ -69,10 +69,11 @@ class MyinboxController < ApplicationController
       :escalation => sr.escalation,
       :customer => sr.site.name,
       :next_action_at => sr.next_action_at,
-      :next_action_in_seconds => sr.next_action_in_seconds,
-      :last_updated_at => sr.last_updated_at,
-      :last_updated_in_seconds => sr.last_updated_in_seconds,
-      :last_updated_in_words => short_date(sr.last_note_created_at), #{}"#{1+rand(12)} hours ago",
+      :next_action_in_seconds => (Time.now - sr.next_action_at).to_i, #sr.next_action_in_seconds,
+      :next_action_in_words => how_old((Time.now - sr.next_action_at).to_i, :format => :long, :ago => true),
+      :last_updated_at => sr.last_note_updated_at,
+      :last_updated_in_seconds => (Time.now - sr.last_note_updated_at).to_i,
+      :last_updated_in_words => how_old((Time.now - sr.last_note_updated_at).to_i, :format => :long, :ago => true), #{}"#{1+rand(12)} hours ago",
       :product => sr.product,
       :nb_notes => sr.notes.count
     }

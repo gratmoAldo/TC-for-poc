@@ -37,7 +37,6 @@ class ServiceRequestsController < ApplicationController
     if attributes.nil?
       attributes = ["id"] | c.content_columns.collect(&:name) 
     end
-    #    puts "attributes=#{attributes.inspect}"
 
     items = c.find(:all)
     fn = "test/fixtures/" + c.to_s.downcase.pluralize + ".csv"
@@ -81,12 +80,7 @@ class ServiceRequestsController < ApplicationController
       f.write "\"" + line.join("\",\"") + "\"\n"
     end
     f.close
-
   end
-
-
-
-
 
   # GET /service_requests/1
   # GET /service_requests/1.xml

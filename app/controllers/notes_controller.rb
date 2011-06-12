@@ -1,5 +1,8 @@
 class NotesController < ApplicationController
-  before_filter :login_required
+
+  before_filter :login_required, :only => [:update, :create]
+  before_filter :admin_only, :except => [:update, :create]
+
   skip_before_filter :verify_authenticity_token
   # GET /notes
   # GET /notes.xml

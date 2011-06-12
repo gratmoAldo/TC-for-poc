@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(:version => 20110510225250) do
     t.string   "notification_method"
     t.integer  "badge"
     t.integer  "sr_severity"
+    t.datetime "last_subscribed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

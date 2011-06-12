@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  include Authentication, Notification
+  include Authentication, Notification, ActionView::Helpers::TextHelper
 
   before_filter :prepare_for_mobile
   helper :all # include all helpers, all the time
@@ -30,27 +30,21 @@ class ApplicationController < ActionController::Base
 
   # Mobile devices
   def mobile_device?
-    # logger.info "$$$$$$$$$$$$$ inside mobile_device"
-    # logger.info "request = #{request.inspect}"
     if session[:mobile_param]
-      # logger.info "session[:mobile_param] = #{session[:mobile_param]}"
       session[:mobile_param] == "1"
     else
-      # logger.info "request.user_agent = #{request.user_agent} (#{request.user_agent =~ /Mobile|webOS/})"
       request.user_agent =~ /Mobile|webOS/
     end
   end
   helper_method :mobile_device?
 
   def prepare_for_mobile
-    logger.info "params[:mobile]=#{params[:mobile]}"
     case params[:mobile]
     when '-1' # use -1 to clear the session
       session.delete(:mobile_param)
     when '0','1' # forces the view to either desktop or mobile
       session[:mobile_param] = params[:mobile]    
     end
-    logger.info "session[:mobile_param]=#{session[:mobile_param]}"
     request.format = :mobile if mobile_device?
   end  
 
@@ -67,34 +61,61 @@ class ApplicationController < ActionController::Base
 
   SEP = ' ... '
   def mid_truncate(txt, truncation=40)
-    sep_length = SEP.length
-    txt_length = txt.length
-    return txt[0..truncation-1] if truncation < (sep_length + 2)
-    return txt if txt_length <= truncation
-    first_chunk_end = ((truncation - sep_length) / 2).to_i
-    second_chunk_start = txt_length - (truncation - sep_length - first_chunk_end)
-    # puts "first_chunk = #{first_chunk}"
-    # txt.gsub! /\s/,' '
-    # txt.gsub(/^(.{#{first_chunk}})(.*)$/,'\1')+SEP+txt.gsub(/^(.*)(.{#{second_chunk}})$/,'\2')
-    "#{txt[0..first_chunk_end]}#{SEP}#{txt[second_chunk_start..txt_length]}"
+    txt = txt.to_s
+    return txt[0..truncation-1] if truncation < (SEP.length + 2)
+    return txt if txt.length <= truncation
+    first_chunk_end = ((truncation - SEP.length) / 2).to_i
+    second_chunk_start = txt.length - (truncation - SEP.length - first_chunk_end)
+    "#{txt[0..first_chunk_end]}#{SEP}#{txt[second_chunk_start..txt.length]}"
   end  
 
+  def how_old(seconds=0, options={})
+    options.reverse_merge! :format => :long, :ago => false
+    # logger.info "seconds=#{seconds.inspect}"
+    seconds = seconds.to_i
+    ago = options[:ago] ? " ago" : ""
+    if options[:format] == :short
+      format = { :minute => "min", :hour => "hr", :hours => "hrs", :day => "day", :month => "mo", :months => "mos"}
+    else
+      format = { :minute => "minutes", :hour => "hour", :hours => "hours", :day => "day", :month => "month", :months => "months"}
+    end
+
+    if seconds < 60 then # 1 minute
+      "just now"
+    else
+      if seconds < 3600 then # 1 hour
+        pluralize((seconds / 60), format[:minute]) + ago
+      elsif seconds < 86400 then # 2 days
+        pluralize((seconds / 3600), format[:hour], format[:hours]) + ago
+      elsif seconds < 2635200 then # 30 days
+        pluralize((seconds / 86400), format[:day]) + ago
+      else
+        pluralize((seconds / 2635200), format[:month], format[:months]) + ago
+      end
+    end
+  end
+  
   def short_date(d)    
-    d.nil? ? "" : d.strftime("%D %l:%M%p")
+    do_date(d,"%D %l:%M%p")
   end
 
   def simple_date(d)    
-    d.nil? ? "" : d.strftime("%m/%d/%Y %I:%M %p %Z")
+    do_date(d,"%m/%d/%Y %I:%M %p %Z")
   end
 
   def full_date(d)
-    d.nil? ? "" : d.strftime("%m/%d/%Y %r %Z")
+    do_date(d,"%m/%d/%Y %r %Z")
   end
 
   def json_date(d)
-    d.nil? ? "" : d.strftime("%m/%d/%Y %H:%M:%S %Z")
+    do_date(d,"%m/%d/%Y %H:%M:%S %Z")
   end
-  helper_method :url_friendly, :highlight, :mid_truncate, :simple_date, :short_date, :full_date, :json_date
 
+  def do_date(d,f)
+    d.nil? ? "" : d.strftime(f)
+  end
+  
 
+  
+  helper_method :url_friendly, :highlight, :mid_truncate, :how_old, :short_date, :simple_date, :full_date, :json_date
 end

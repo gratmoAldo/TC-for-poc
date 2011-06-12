@@ -1,13 +1,7 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-body {
-	color: #484849;
-	background: #fff;
-	font: 13px Arial,Helvetica,Verdana,"Trebuchet MS",sans-serif;
-	padding: 3px;
-}
+* {	margin: 0; padding: 0; }
+body { color: #383839; background: #E9E9E9 none repeat scroll 0% 0%; font: 13px Arial,Helvetica,Verdana,"Trebuchet MS",sans-serif; padding: 3px; }
+p { margin: 2px 0px 5px; }
+hr { color: #9A9A9A; border-top:0; border-left:0; border-right:0; }
 
 a {
   color: #007FC0;
@@ -27,9 +21,6 @@ a:active {
   clear: both;
   height: 0;
   overflow: hidden;
-}
-p {
-	margin: 2px 0px 5px;
 }
 h1 {
 	font-size: 18px;
@@ -72,3 +63,22 @@ td {
 	white-space: nowrap;
 	color: #404040;
 }
+
+/* ::::: http://137.69.32.151/content_hub_v2/stylesheets/mobile.css?1303792195 ::::: */
+.container {background: #fff none repeat scroll 0% 0%; border: 1px solid #9A9A9A; margin: 3px 7px 15px;-moz-border-radius: 10px; -webkit-border-radius: 10px; }
+.cell {padding: 4px 5px 4px 16px;border-bottom: 1px solid #9A9A9A;}
+.cell-last {padding: 0px 5px 4px 16px;}
+.col1 {width:26%;padding: 0;float:left;text-align:right;font-weight:bold;}
+.col2 {width:70%;padding-left: 10px;float:left;}
+.col1 p, .col2 p { margin:0;}
+.note p { margin:0;}
+.tapit {color:#007DC3;}
+.table-header {font-weight: bold; font-size: 1.2em; margin: 0 10px;}
+.left { float: left; }
+.hidden { display: none; }
+.show { display: block; }
+.details {font-size: .85em;color:#888889;}
+.closed { background: url("../images/sr/caret_right.png") 4px 9px no-repeat; padding-left: 16px; }
+.open { background: url("../images/sr/caret_down.png") 4px 9px no-repeat; padding-left: 16px; }
+.subscription p, .apn_notification p, c2dm_notification p { margin:0;}
+.display_id {font: 12px "courier new",courier;font-weight:bold;}

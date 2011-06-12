@@ -1,107 +1,90 @@
 class SubscriptionsController < ApplicationController
-  
+
   before_filter :login_required, :only => :update
   before_filter :admin_only, :except => :update
 
   skip_before_filter :verify_authenticity_token
 
-  # PUT /subscriptions/1
-  # PUT /subscriptions/1.xml
+  # PUT /subscriptions/1.json
   def update
-    
-    # logger.info "=============================================================="
-    # logger.info "#{request.inspect}"
-    if current_user
 
-      errors = nil
-      
-      # Sanitize the form
-      form = (params[:subscription] || {}).reverse_merge!(:sr_severity => 1)
+    errors = nil
 
-      form[:user_id] = current_user.id
-      # form[:url_token] = params[:id] || ""
+    # Set default values
+    form = (params[:subscription] || {}).reverse_merge!(:sr_severity => 1)
 
-      sub_token, display_id = parse_display_id(params[:id] || "")
-      
-      logger.info "sub_token=#{sub_token}, display_id=#{display_id}"
-      
-      if display_id =~ /^[0-9a-f\-]{71}$/
-        display_id = display_id.gsub('-', ' ')
-        form[:notification_method] = 'apn'
-      elsif display_id =~ /^[\-\_0-9a-z]{119}$/i
-        form[:notification_method] = 'c2dm'
-      else
-        errors = "Invalid display ID #{display_id}"
+    form[:badge] = 0 # initially, there is no badge
+    form[:user_id] = current_user.id
+
+    token, display_id = parse_id(params[:id] || "")
+    form[:notification_method], form[:display_id] = parse_display_id(display_id)
+    errors ||= "Invalid display ID #{display_id}" if form[:notification_method].nil?
+    errors ||= "Invalid environment" unless params[:env] == ENV["RAILS_ENV"]
+
+    if errors.nil? # so far so good?
+      if token.blank? # new device, see if display_id exists
+        conditions = ["display_id = ?", form[:display_id]]
+      else # else, lookup by token only
+        conditions = ["token = ?", token]
       end
-      form[:display_id] = display_id
-      
-      form[:badge] = 0 # initially, there is no notification
-      
-      env = params[:env]
-      # logger.info "env=[#{env}] vs ENV=[#{ENV["RAILS_ENV"]}], errors=#{errors.inspect}"
-      if errors.nil? && (env == ENV["RAILS_ENV"])
-        @subscription = Subscription.find(:first, :conditions => ["display_id = ?", form[:display_id]])
-        logger.info "Found subscription #{@subscription.inspect} for display #{form[:display_id]}"
-        if @subscription
-          @subscription.update_attributes(form)
-        else
-          @subscription = Subscription.new(form)
-        end
+      logger.info "conditions=#{conditions.inspect}"
+
+      @subscription = Subscription.find(:first, :conditions => conditions)
+      logger.info "Found subscription #{@subscription.inspect} for token=#{token} / display=#{form[:display_id]}"
+
+      if @subscription
+        @subscription.update_attributes(form)
       else
-        errors ||= "Invalid environment"
-      end if
-      
-      # TODO: make the sub_token unique in the model once implemented !!!!!!!!!!!!!!!!
+        if token.blank? # no existing subscription and no token, that's a new one
+          @subscription = Subscription.new(form)
+        else # else, that's an error
+          errors ||= "Invalid token "
+        end
+      end
+    end if
 
-      # logger.info "Gone fishing..."
-      # sleep 5
-      # logger.info "I'm back!"
+    logger.info ">>>>>>> Subscription before save = #{@subscription.inspect} / errors = #{errors.inspect}"
 
-      logger.info "Subscription before save = #{@subscription.inspect} / errors = #{errors}"
-    end
-  
     respond_to do |format|
       if errors.nil? && @subscription && @subscription.save
-        flash[:notice] = 'Subscription was successfully created.'
-        format.xml  { head :ok }
         format.json  { 
-          # logger.info "format = #{request.inspect}"
-          render :json => {:last_subscribed_at => json_date(Time.now)}
+          render :json => {:last_subscribed_at => json_date(@subscription.last_subscribed_at), :token => @subscription.token}
         }
       else
         errors ||= "unprocessable entity"
-        errors += "; #{@subscription.errors}" if @subscription
-        format.xml  { render :xml => errors, :status => :unprocessable_entity }
-        format.json  { render :json => {:error => "unprocessable entity (#{errors})"}, :status => :unprocessable_entity }
+        errors += ";" + @subscription.errors.full_messages.join('; ') if @subscription
+        format.json  { render :json => {:error => errors, :status => :unprocessable_entity }, :status => :unprocessable_entity }
       end
     end
-
-
   end
 
   # DELETE /subscriptions/1
-  # DELETE /subscriptions/1.xml
   def destroy
     @subscription = Subscription.find(params[:id])
     @subscription.destroy
 
     respond_to do |format|
       format.html { redirect_to(console_url) }
-      format.xml  { head :ok }
     end
   end  
-  
+
   private
-  
-  def parse_display_id(id)
-      id =~ /^([0-9A-Fa-f]{40})\$(.+)$/
-      $1.nil? ? ["",id] : [$1,$2]
+
+  def parse_id(id)
+    id =~ /^([0-9A-Fa-f]{40})=(.+)$/
+    logger.info "token=#{$1}, display_id=#{$2}"
+    $1.nil? ? ["",id] : [$1,$2]
   end
-  
-  def make_subscription_token
-    while 1
-      sub_token = Digest::SHA1.hexdigest([Time.now, rand].join)
-      return sub_token unless Subscription.find_by_token(sub_token) # make sure it is unique
+
+  def parse_display_id(display_id)
+    if display_id =~ /^[0-9a-f\-]{71}$/ # APN format
+      notification_method = 'apn'
+      display_id = display_id.gsub('-', ' ') # massage the id a bit
+    elsif display_id =~ /^[\-\_0-9a-z]{119}$/i # C2DM format
+      notification_method = 'c2dm'
+    else
+      notification_method = nil # that's an invalid display_id
     end
+    [notification_method, display_id]
   end
 end

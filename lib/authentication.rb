@@ -25,7 +25,6 @@ module Authentication
   end
 
   def set_session_for_user(user)
-    # logger.info "inside set_session_for_user with user=#{user.inspect}"
     if user
       session[:locale] = user.locale
       session[:access_level] = user.access_level
@@ -39,7 +38,6 @@ module Authentication
     end
     user
   end
-
 
   def authenticate_from_request!
     # logger.info "inside authenticate_from_request! with request=#{request.inspect}"

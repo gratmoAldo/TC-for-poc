@@ -7,7 +7,7 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.string  :notification_method # method values are: c2dm, apn, email, sms, bps
       t.integer :badge
       t.integer :sr_severity
-
+      t.datetime  :last_subscribed_at
       t.timestamps
     end
   end

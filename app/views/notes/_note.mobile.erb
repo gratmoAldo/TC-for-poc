@@ -7,7 +7,7 @@
 			<p class='details'><%=h note.owner.fullname %></p>
 		</td>
 		<td width='50%' align='right' valign='top'>
-			<p><strong><%= time_ago_in_words note.created_at %></strong></p>
+			<p><strong><%= how_old((Time.now - note.created_at), :format => :long, :ago => true) %></strong></p>
 			<p class='details'><%=short_date note.created_at %></p>
 		</td>
 	</tr></table>

@@ -766,7 +766,15 @@ end
   end
 end
 
+# Thorough DB clean up
+Subscription.destroy_all
+InboxSr.destroy_all
+APN::Notification.destroy_all
+APN::Device.destroy_all
+C2dm::Notification.destroy_all
+C2dm::Device.destroy_all
 
+# Then clean up data that we will reload
 User.destroy_all
 Tag.destroy_all
 Asset.destroy_all
@@ -776,6 +784,7 @@ Site.destroy_all
 ServiceRequest.destroy_all
 Note.destroy_all
 
+# reload all data
 Seeding.load_users "db/data/users.csv"
 Seeding.load_tags "db/data/tags.csv"
 Seeding.load_assets "db/data/assets.csv"

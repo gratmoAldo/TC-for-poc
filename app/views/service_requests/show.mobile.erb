@@ -1,46 +1,6 @@
 <% title "SR #{@service_request.sr_number} - #{@service_request.title}" %>
 <% in_page_title "Service Request Management ##{@service_request.sr_number}" %>
 
-	<style>
-	/* ::::: http://137.69.32.151/content_hub_v2/stylesheets/mobile.css?1303792195 ::::: */
-	* { margin: 0pt; padding: 0pt; }
-	body { color: #383839; background: #E9E9E9 none repeat scroll 0% 0%; font: 13px Arial,Helvetica,Verdana,"Trebuchet MS",sans-serif; padding: 3px; }
-	p { margin: 2px 0px 5px; }
-	.container {background: #fff none repeat scroll 0% 0%; border: 1px solid #9A9A9A; margin: 3px 7px 15px;-moz-border-radius: 10px; -webkit-border-radius: 10px; }
-	.cell {padding: 4px 5px 4px 16px;border-bottom: 1px solid #9A9A9A;}
-	.cell-last {padding: 0px 5px 4px 16px;}
-	.col1 {width:26%;padding: 0;float:left;text-align:right;font-weight:bold;}
-	.col2 {width:70%;padding-left: 10px;float:left;}
-	.col1 p, .col2 p { margin:0;}
-	.note p { margin:0;}
-	.tapit p {color:#007DC3;}
-	.table-header {font-weight: bold; font-size: 1.2em; margin: 0 10px;}
-	.left { float: left; }
-	.hidden { display: none; }
-	.show { display: block; }
-	.details {font-size: .85em;color:#888889;}
-	.closed { background: url("../images/sr/caret_right.png") 4px 9px no-repeat; padding-left: 16px; }
-	.open { background: url("../images/sr/caret_down.png") 4px 9px no-repeat; padding-left: 16px; }
-	hr { color: #9A9A9A; border-top:0; border-left:0; border-right:0; }
-	</style>
-
-
-	<script type="text/javascript">
-	function toggle(obj) {
-		objA = document.getElementById('closed_'+obj.id);
-		objB = document.getElementById('open_'+obj.id);
-		if (objA.style.display == "block") {
-			obj.style.backgroundImage = "url('../images/sr/caret_down.png')";
-			objA.style.display = "none";
-			objB.style.display = "block"
-		} else {
-			obj.style.backgroundImage = "url('../images/sr/caret_right.png')";
-			objA.style.display = "block";
-			objB.style.display = "none"
-		}
-	}
-	</script>
-
 	<div class='table-header'>Summary</div>
 	<div class="container">
 		<ul>
@@ -108,6 +68,7 @@
 
 <% if development? || admin? %>
 <div class='right'>
+<%= link_to 'View console', console_url(:mobile=>1) %> |
 <%= link_to 'View desktop', service_request_url(@service_request,:mobile=>0) %> |
 <%= link_to 'Default view', service_request_url(@service_request,:mobile=>-1) %>&nbsp;&nbsp;<br><br>
 </div>
@@ -115,5 +76,20 @@
 <% end %>
 
 
+<script type="text/javascript">
+function toggle(obj) {
+	objA = document.getElementById('closed_'+obj.id);
+	objB = document.getElementById('open_'+obj.id);
+	if (objA.style.display == "block") {
+		obj.style.backgroundImage = "url('../images/sr/caret_down.png')";
+		objA.style.display = "none";
+		objB.style.display = "block"
+	} else {
+		obj.style.backgroundImage = "url('../images/sr/caret_right.png')";
+		objA.style.display = "block";
+		objB.style.display = "none"
+	}
+}
+</script>
 
 
