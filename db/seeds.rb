@@ -793,6 +793,7 @@ Seeding.load_sites "db/data/sites.csv"
 Seeding.load_service_requests "db/data/service_requests.csv"
 Seeding.load_notes "db/data/notes.csv"
 
+
 # BEFORE DROPPING TABLES, RETAIN APP DEFINITION
 # -- open ./script/console
 # a=APN::App.first

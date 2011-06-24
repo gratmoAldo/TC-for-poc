@@ -18,6 +18,11 @@ class Note < ActiveRecord::Base
   before_save :sanatize                        
 
   named_scope :recent, lambda { |sr| {:conditions => {"notes.service_request_id" => sr}, :order => "notes.updated_at DESC", :limit => 10}}
+  named_scope :with_fulltext, lambda { |keywords| # keywords is an array of keywords
+    {:conditions => [Array.new(keywords.length){"(notes.body like ?)"}.join(" and ")] +
+                     keywords.collect{|k| ["%#{k}%"]}
+    } unless keywords.blank?
+  }
 
   def sanatize
     self.body = self.body[0..4096] unless body.nil?

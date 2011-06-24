@@ -135,14 +135,16 @@
 	<div class='left' style='margin: 5px 0;'>
 		<p><%= @watchers.collect { |user| link_to_if admin?, user.fullname, inbox_path(user.inbox) }.join(' / ') %></p>
 	</div>
-	<% unless @watchers.collect {|u| u.id }.include? current_user.id %>
-		<% form_for(@inbox_sr) do |f| %>
-			<%= f.hidden_field :service_request_id %>
-			<div class='right' style='margin: 5px 0;'><button class="submit" type="submit"><span>Watch</span></button></div>
+	<% unless @service_request.worked_by current_user %>
+		<% if @inbox_sr.new_record? %>
+			<% form_for(@inbox_sr) do |f| %>
+				<%= f.hidden_field :service_request_id %>
+				<div class='right' style='margin: 5px 0;'><button class="submit" type="submit"><span>Watch</span></button></div>
+			<% end %>
+		<% else %>
+			<div class='right' style='margin: 5px 0;'><%= link_to 'Unwatch', @inbox_sr, :confirm => 'Are you sure?', :method => :delete %></div>
 		<% end %>
-	<% else %>
-		<div class='right' style='margin: 5px 0;'><%= link_to 'Unwatch', @inbox_sr, :confirm => 'Are you sure?', :method => :delete %></div>
-	<% end %>
+	<% end %>		
 	<div class='clear'></div>	
 
 </div>

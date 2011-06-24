@@ -68,14 +68,19 @@ class MyinboxController < ApplicationController
       :severity => sr.severity,
       :escalation => sr.escalation,
       :customer => sr.site.name,
-      :next_action_at => sr.next_action_at,
-      :next_action_in_seconds => (Time.now - sr.next_action_at).to_i, #sr.next_action_in_seconds,
-      :next_action_in_words => how_old((Time.now - sr.next_action_at).to_i, :format => :long, :ago => true),
-      :last_updated_at => sr.last_note_updated_at,
-      :last_updated_in_seconds => (Time.now - sr.last_note_updated_at).to_i,
-      :last_updated_in_words => how_old((Time.now - sr.last_note_updated_at).to_i, :format => :long, :ago => true), #{}"#{1+rand(12)} hours ago",
       :product => sr.product,
-      :nb_notes => sr.notes.count
+      :nb_notes => sr.notes.count,
+      :next_action_at => sr.next_action_at.to_i,
+      :last_updated_at => sr.last_updated_at.to_i,
+
+      # Deprecated
+      :last_updated_in_words => how_old((Time.now - sr.last_updated_at).to_i, :format => :long, :ago => true), #{}"#{1+rand(12)} hours ago",
+      :next_action_in_words => how_old((Time.now - sr.next_action_at).to_i, :format => :long, :ago => true),
+
+      # Removed
+      # :next_action_in_seconds => (Time.now - sr.next_action_at).to_i,
+      # :last_updated_in_seconds => (Time.now - sr.last_updated_at).to_i
+
     }
   end
 

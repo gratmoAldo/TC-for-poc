@@ -75,16 +75,16 @@ class ApplicationController < ActionController::Base
     seconds = seconds.to_i
     ago = options[:ago] ? " ago" : ""
     if options[:format] == :short
-      format = { :minute => "min", :hour => "hr", :hours => "hrs", :day => "day", :month => "mo", :months => "mos"}
+      format = { :minute => "min", :minute => "mns", :hour => "hr", :hours => "hrs", :day => "day", :month => "mo", :months => "mos"}
     else
-      format = { :minute => "minutes", :hour => "hour", :hours => "hours", :day => "day", :month => "month", :months => "months"}
+      format = { :minute => "minute", :hour => "hour", :hours => "hours", :day => "day", :month => "month", :months => "months"}
     end
 
     if seconds < 60 then # 1 minute
       "just now"
     else
       if seconds < 3600 then # 1 hour
-        pluralize((seconds / 60), format[:minute]) + ago
+        pluralize((seconds / 60).to_i, format[:minute]) + ago
       elsif seconds < 86400 then # 2 days
         pluralize((seconds / 3600), format[:hour], format[:hours]) + ago
       elsif seconds < 2635200 then # 30 days
@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
   def do_date(d,f)
     d.nil? ? "" : d.strftime(f)
   end
-  
+
 
   
   helper_method :url_friendly, :highlight, :mid_truncate, :how_old, :short_date, :simple_date, :full_date, :json_date

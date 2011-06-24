@@ -30,9 +30,9 @@ class ServiceRequest < ActiveRecord::Base
     self.description = self.description[0..4096] unless description.nil?
   end
   
-  def last_note_updated_at
-    (self.notes.last || Note.new).updated_at
-  end
+  # def last_updated_at
+  #   (self.notes.last || Note.new).created_at
+  # end
       
   def to_param
     sr_number.to_s
@@ -45,8 +45,7 @@ class ServiceRequest < ActiveRecord::Base
 
   def last_updated_at
     last_note = self.notes.last
-    return self.updated_at if last_note.nil?
-    return last_note.created_at
+    return last_note.nil? ? self.updated_at : last_note.created_at
   end
   
   def last_updated_in_seconds
@@ -101,6 +100,15 @@ class ServiceRequest < ActiveRecord::Base
   def clean_description
     # 'PROBLEM DESCRIPTION: ------------------------------------ When users in our Tokyo'
     description.gsub(/[ ]*PROBLEM DESCRIPTION[:\-\s]*|BUSINESS IMPACT[:\-\s]*|ENVIRONMENT INFORMATION[:\-\s]*|(\s)/i,' ').strip    
+  end
+  
+  def worked_by(user)
+     if user.class.name == "User"
+       user_id = user.id 
+     else
+       user_id = user.to_i
+     end
+     [self.owner_id, self.contact_id].include? user_id
   end
 
 =begin  

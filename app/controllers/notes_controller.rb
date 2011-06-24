@@ -1,13 +1,16 @@
 class NotesController < ApplicationController
 
-  before_filter :login_required, :only => [:update, :create]
+  before_filter :login_required, :only => [:create]
   before_filter :admin_only, :except => [:update, :create]
 
   skip_before_filter :verify_authenticity_token
   # GET /notes
   # GET /notes.xml
   def index
-    @notes = Note.find :all, :order => 'updated_at desc'
+    @notes = nil
+    @keywords = (params[:search]||'').split(' ')
+
+    @notes = Note.with_fulltext(@keywords).paginate :page => params[:page], :per_page => 5, :order => 'updated_at desc'
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,21 +18,13 @@ class NotesController < ApplicationController
     end
   end
 
-  # GET /notes/1
-  # GET /notes/1.xml
-  def show
-    @note = Note.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @note }
-    end
-  end
-
   # GET /notes/new
   # GET /notes/new.xml
   def new
-    @note = Note.new
+    @new_note = Note.new :created_by => current_user.id, :effort_minutes => 1, :note_type => "Research",
+    :service_request_id => ServiceRequest.last.id
+    
+    logger.info "new_note=#{@new_note.inspect}" 
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +41,8 @@ class NotesController < ApplicationController
   # POST /notes.xml
   def create
     @note = Note.new(params[:note])
-
+    @note.created_by = current_user.id
+    
     respond_to do |format|
       if @note.save
 

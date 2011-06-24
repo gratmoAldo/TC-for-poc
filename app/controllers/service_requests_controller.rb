@@ -9,10 +9,7 @@ class ServiceRequestsController < ApplicationController
     @service_requests = nil
     @keywords = (params[:search]||'').split(' ')
 
-    conditions = {}
-    # conditions[:sid]=params[:i].split(',') if params[:i]
-
-    @service_requests = ServiceRequest.with_fulltext(@keywords).sort_by_sr_number.paginate :conditions => conditions, :page => params[:page], :per_page=>5#, :include => :tags
+    @service_requests = ServiceRequest.with_fulltext(@keywords).sort_by_sr_number.paginate :page => params[:page], :per_page=>5#, :include => :tags
 
     logger.info "Found #{@service_requests.count} service_requests"
 
@@ -115,6 +112,7 @@ class ServiceRequestsController < ApplicationController
       @notes = Note.recent(@service_request.id)
       @new_note = Note.new :service_request_id => @service_request.id, 
               :created_by => current_user.id, :effort_minutes => 1, :note_type => "Research"
+              
       respond_to do |format|
         # format.html { render :text => request.user_agent }
         format.html # show.html.erb

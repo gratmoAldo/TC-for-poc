@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ServiceRequestsControllerTest < ActionController::TestCase
   test "should get index" do
+    puts "getting SR index ######################################################"
     get :index
     assert_response :success
     assert_not_nil assigns(:service_requests)

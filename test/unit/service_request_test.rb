@@ -5,4 +5,8 @@ class ServiceRequestTest < ActiveSupport::TestCase
   test "the truth" do
     assert true
   end
+  
+  test "createSR" do
+    assert true
+  end
 end
