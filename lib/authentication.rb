@@ -24,15 +24,18 @@ module Authentication
     return username && session[:username]==username
   end
 
-  def set_session_for_user(user)
+  def set_session_for_user(user, identifier=nil)
     if user
       session[:locale] = user.locale
       session[:access_level] = user.access_level
+      session[:role] = user.role
       session[:user_id] = user.id
-      session[:username] = user.username
+      session[:username] = identifier.nil? ? user.username : identifier
+      logger.info "session[:username] is now #{session[:username]}"
     else
       session[:locale] = nil
       session[:access_level] = nil
+      session[:role] = nil
       session[:user_id] = nil
       session[:username] = nil
     end
@@ -43,17 +46,20 @@ module Authentication
     # logger.info "inside authenticate_from_request! with request=#{request.inspect}"
     case request.format
     when Mime::XML, Mime::JSON
-      # logger.info "format is xml or json"
+      logger.info "format is xml or json"
       # logger.info "current user is #{current_user.inspect}"
-        username, passwd = authenticate_with_http_basic { |u, p| 
+        identifier, passwd = authenticate_with_http_basic { |i, p| 
           # logger.info "u=#{u} / p=#{p}"
           # User.authenticate(u,p)
-          [u,p]
+          [i,p]
         }
-        if !same_username(username)
+        logger.info "identifier=#{identifier} vs session[:username]=#{session[:username]}"
+        
+        if !same_username(identifier)
         # Validate and set new user if you find new credentials
         # invalid credentials will clear the current user
-          set_session_for_user User.authenticate(username,passwd) unless username.nil?
+        logger.info "user changed to [#{identifier}], need to re-authenticate"
+          set_session_for_user(User.authenticate(identifier,passwd), identifier) unless identifier.nil?
         end
     else      
       # logger.info "format is something else"
@@ -69,7 +75,7 @@ module Authentication
   end
   
   def login(id, password)
-    set_session_for_user User.authenticate(id, password)    
+    set_session_for_user(User.authenticate(id, password), id)
   end
   
   def logout
@@ -106,7 +112,10 @@ module Authentication
   end
   
   def login_required
+    logger.info "$$$$$$$$$$$$$$$$$$$$$ session = #{session.inspect}"
     authenticate_from_request!
+    logger.info "After authenticate_from_request!. Session = #{session.inspect}"
+    
     unless logged_in?
       logger.info "login_required() - 401 Unauthorized"
       logout # clears current user credentials if any since they are incorrect

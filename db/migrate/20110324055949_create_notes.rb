@@ -4,7 +4,7 @@ class CreateNotes < ActiveRecord::Migration
       t.integer :service_request_id
       t.integer :created_by
       t.string :visibility
-      t.integer :effort_minutes
+      t.integer :effort_minutes, :default => 1
       t.string :note_type
       t.text :body
 

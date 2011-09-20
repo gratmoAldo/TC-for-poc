@@ -28,7 +28,7 @@
 				<td><label class='strong'><%= how_old((Time.now - subscription.last_subscribed_at), :format => :long, :ago => true) %></label><br />
 					<%=full_date subscription.last_subscribed_at %>
 				</td>
-				<td><%= link_to 'Destroy', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
+				<td><%= link_to 'Delete', subscription, :confirm => 'Are you sure?', :method => :delete %></td>
 			</tr>
 			<% end %>
 		</table>

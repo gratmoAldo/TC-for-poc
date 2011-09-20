@@ -322,7 +322,9 @@ module Seeding
           end
         end
 
+        # puts "before creating service_request #{new_service_request_attr.inspect}"
         service_request = ServiceRequest.create! new_service_request_attr unless invalid_record
+        # puts "after creating service_request #{service_request.inspect}"
 
         # handle attributes blocked from mass-assignment
         # %w( reputation is_admin access_level is_deleted ).each do |attr|
@@ -345,6 +347,7 @@ def self.load_notes(file)
   puts "Loading Notes..."
 
   header=nil
+  created_at = 1.hour.ago
   FasterCSV.foreach(file) do |row|
     if header.nil?
       header = row 
@@ -371,16 +374,22 @@ def self.load_notes(file)
             puts "** Skipping note for sr_number #{row[i]}: Service Request not found"
             invalid_record = true
           end
-        # when "created_at"
-        #   puts "setting updated_at to #{row[i]}"
-        #   new_note_attr["updated_at"] = row[i]
-        #   new_note_attr["created_at"] = row[i]
+        when "created_at"
+          # puts "setting updated_at to #{row[i]}"
+          # new_note_attr["updated_at"] = row[i]
+          created_at = row[i]
+          # new_note_attr["created_at"] = row[i]
         else
           new_note_attr[h.to_sym] = row[i] unless row[i].nil?
         end
       end
 
+      # puts "before creating note #{new_note_attr.inspect}"
       note = Note.create! new_note_attr unless invalid_record
+      
+      note[:created_at] = created_at
+      note[:updated_at] = created_at
+      # puts "after creating note #{note.inspect}"
       
       # handle attributes blocked from mass-assignment
       # %w( reputation is_admin access_level is_deleted ).each do |attr|
@@ -792,6 +801,10 @@ Seeding.load_bookmarks "db/data/bookmarks.csv"
 Seeding.load_sites "db/data/sites.csv"
 Seeding.load_service_requests "db/data/service_requests.csv"
 Seeding.load_notes "db/data/notes.csv"
+
+
+
+
 
 
 # BEFORE DROPPING TABLES, RETAIN APP DEFINITION

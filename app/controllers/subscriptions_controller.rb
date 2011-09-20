@@ -48,6 +48,7 @@ class SubscriptionsController < ApplicationController
     respond_to do |format|
       if errors.nil? && @subscription && @subscription.save
         format.json  { 
+          logger.info "Subscription successful. Session = #{session.inspect}"
           render :json => {:last_subscribed_at => json_date(@subscription.last_subscribed_at), :token => @subscription.token}
         }
       else

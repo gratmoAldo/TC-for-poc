@@ -16,9 +16,13 @@ class ServiceRequestsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { 
-        dump_model_csv :class => Site, :attribute_list => ["id", "name", "address", "country", "site_id", "account_number", "created_at", "updated_at"]
+        # FOR TESTING ONLY
+        # dump_model_csv :class => Site, :attribute_list => ["id", "name", "address", "country", "site_id", "account_number", "created_at", "updated_at"]
 
         render :xml => @service_requests 
+      }
+      format.json  { 
+        render :json => @service_requests 
       }
     end
   end
@@ -84,6 +88,10 @@ class ServiceRequestsController < ApplicationController
   def show
     @service_request = ServiceRequest.lookup(params[:id])
 
+    logger.info "Gone fishing..."
+    sleep 3
+    logger.info "Back"
+
     if @service_request.nil? then
       respond_to do |format|
         # format.html { render :text => request.user_agent }
@@ -104,20 +112,34 @@ class ServiceRequestsController < ApplicationController
       end
     else
       @watchers = User.watching_sr @service_request.id
-
       myinbox = Inbox.owned_by(current_user).first
       sr_id = @service_request.id
-      @inbox_sr = InboxSr.find(:first, :conditions => ["service_request_id=? and inbox_id=?",sr_id,myinbox]) || InboxSr.new(:service_request => @service_request, :inbox => myinbox)
+      @inbox_sr = InboxSr.find(:first, :conditions => ["service_request_id=? and inbox_id=?",sr_id,myinbox]) || @service_request.inbox_srs.new(:inbox => myinbox)
       
-      @notes = Note.recent(@service_request.id)
-      @new_note = Note.new :service_request_id => @service_request.id, 
-              :created_by => current_user.id, :effort_minutes => 1, :note_type => "Research"
+      @notes = Note.recent(@service_request.id, session[:role])
+      @new_note = @service_request.notes.new :created_by => current_user.id, :effort_minutes => 1, :note_type => "Research"
               
       respond_to do |format|
         # format.html { render :text => request.user_agent }
         format.html # show.html.erb
         format.mobile #{ render :text => request.user_agent }
         format.xml  { render :xml => @service_request }
+        format.json { 
+          res = {
+            :service_request => service_request_to_hash(@service_request, :role => session[:role]), 
+            :meta => {
+              :created_at => Time.now,
+              :server_name => request.server_name,
+              :user => current_user.fullname,
+              :environment => ENV["RAILS_ENV"]
+            }
+          }
+          
+          
+          # logger.info "returning JSON response #{res.inspect}"
+          render :json => res
+          
+          }
       end
     end
   end
@@ -206,5 +228,59 @@ class ServiceRequestsController < ApplicationController
       format.html { redirect_to(service_requests_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def service_request_to_hash(sr,options={})    
+    options.reverse_merge! :locale => @locale, :keywords => [], :role => User::ROLE_FRIEND
+    {
+      :sr_number => sr.sr_number,
+      :sr_status => sr.status,
+      :title => sr.title,
+      :problem_description => sr.limited_description,
+      :severity => sr.severity,
+      :escalation => sr.escalation,
+      :product => sr.product,
+
+      :site_name => sr.site.name,
+      :site_address => sr.site.address,
+      :site_id => sr.site.site_id,
+
+      :contact_name => sr.contact.fullname,
+      :contact_email => sr.contact.email,
+      :contact_phone1 => sr.contact.phone1,
+      :contact_phone2 => sr.contact.phone2,
+      :is_contact => sr.contact_id == session[:user_id],
+
+      :owner_name => sr.owner.fullname,
+      :owner_email => sr.owner.email,
+      :owner_phone1 => sr.owner.phone1,
+      :owner_phone2 => sr.owner.phone2,
+      :is_owner => sr.owner_id == session[:user_id],
+
+      :nb_notes => sr.notes_count_per_role(options[:role]),
+      
+      :next_action_at => sr.next_action_at.to_i,
+      :last_updated_at => sr.last_updated_at.to_i,
+      :created_at => sr.created_at.to_i,
+      :closed_at => sr.closed_at.to_i,
+
+      :recent_notes => @notes.collect { |note|
+        note_to_hash(note)
+      }
+    }
+  end
+  
+  def note_to_hash(note,options={})    
+    options.reverse_merge! :locale => @locale, :keywords => []
+    {      
+      :created_at => note.created_at,
+      :updated_at => note.updated_at,
+      :created_by_name => note.owner.fullname,
+      :visibility => note.visibility,
+      :effort => note.effort_minutes,
+      :note_type => note.note_type,
+      :body => note.body
+      
+    }
   end
 end

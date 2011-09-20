@@ -10,11 +10,21 @@ class InboxSrsController < ApplicationController
     
     logger.info "Found inbox_sr #{inbox_sr.inspect} for sr id#{sr.inspect} and myinbox #{myinbox.inspect}"
     unless inbox_sr
-      @subscription = InboxSr.create(:service_request => sr, :inbox => myinbox)
+      inbox_sr = InboxSr.create(:service_request => sr, :inbox => myinbox)
     end
-    
-    redirect_to service_request_path(sr)    
+        
+    respond_to do |format|
+      if inbox_sr.valid?
+        flash[:notice] = 'You are now watching this Service Request.'
+        format.html { redirect_to sr }
+      else
+        flash[:error] = 'You are now watching this Service Request.'
+        format.html { redirect_to sr }
+      end
+    end
   end
+  
+  
   
   def destroy
     myinbox = Inbox.owned_by(current_user).first

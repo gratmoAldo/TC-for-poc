@@ -26,8 +26,22 @@ class ServiceRequest < ActiveRecord::Base
     } unless keywords.blank?
   }
   
+  
+  def notes_count_per_role(role=User::ROLE_FRIEND)
+    if role == User::ROLE_EMPLOYEE
+      Note.count :conditions => ["notes.service_request_id = ?", self]
+    else
+      Note.count :conditions => ["notes.service_request_id = ? and notes.visibility = ?", self, Note::VISIBILITY_PUBLIC]
+    end
+  end
+
   def sanatize
     self.description = self.description[0..4096] unless description.nil?
+  end
+
+
+  def limited_description
+    (description||"")[0..16384]
   end
   
   # def last_updated_at

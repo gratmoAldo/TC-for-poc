@@ -29,14 +29,18 @@
 		<% @notes.each do |note| %>
 		<tr>
 			<td><strong><%= how_old Time.now - note.created_at %></strong></td>
-			<td><%=link_to note.service_request.sr_number, note.service_request, :title => note.service_request.title %></td>
+			<td>
+			<% if note.service_request.nil? %>N/A
+			<% else %><%= link_to note.service_request.sr_number, note.service_request, :title => note.service_request.title %>
+			<% end %>
+			</td>
 			<td><%=h note.owner.fullname %></td>
 			<td><%=h note.visibility %></td>
 			<td><%=h note.effort_minutes %> min</td>
 			<td><%=h note.note_type %></td>
 			<td><%=highlight(note.body, @keywords) %></td>
 			<td NOWRAP><%= link_to 'Edit', edit_note_path(note) %> |
-			<%= link_to 'Destroy', note, :confirm => 'Are you sure?', :method => :delete %></td>
+			<%= link_to 'Delete', note, :confirm => 'Are you sure?', :method => :delete %></td>
 		</tr>
 		<% end %>
 	</table>

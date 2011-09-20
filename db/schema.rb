@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110510225250) do
+ActiveRecord::Schema.define(:version => 20110919184331) do
 
   create_table "admins", :force => true do |t|
     t.string   "key"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(:version => 20110510225250) do
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "closed_at"
   end
 
   create_table "site_messages", :force => true do |t|

@@ -27,7 +27,7 @@ class Subscription < ActiveRecord::Base
     case notification_method.to_sym
     when :apn
       APN::Device.find(:first, :conditions => {"token" => self.display_id})||default_device
-    when :c2dm
+    when :c2dm 
       C2dm::Device.find(:first, :conditions => {"registration_id" => self.display_id})||default_device
     else
       default_device
@@ -44,10 +44,9 @@ class Subscription < ActiveRecord::Base
   def set_token
     self.last_subscribed_at = Time.now
     return true unless self.token.nil? # TODO: could verify valid token format
-    while true
+    begin
       self[:token] = Digest::SHA1.hexdigest([self.last_subscribed_at, rand].join)
-      return true unless Subscription.find_by_token(self.token) # make sure it is unique
-    end
+    end while Subscription.exists? :token => self.token # make sure it is unique
   end
   
 end

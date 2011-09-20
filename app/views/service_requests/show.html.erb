@@ -19,7 +19,7 @@
 			<div class='col1'>
 				<table>
 					<tr>
-						<td align='right' width='120px'><%= f.label :severity %>:</td>
+						<td align='right' width='120px'><%= f.label :severity %></td>
 						<td>
 							<div class='sr-col1-select'><%= f.select :severity, [['S1 - Critical',1],['S2 - High Priority',2],['S3 - Standard',3],['S4 - Question',4]], :width => '60' %></div>
 						</td>
@@ -31,7 +31,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align='right' width='120px'>Status:</td>
+						<td align='right' width='120px'>Status</td>
 						<td>
 							<div class='sr-col1-value'><%= @service_request.status %></div>
 						</td>
